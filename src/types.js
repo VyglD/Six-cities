@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import {HOUSING_TYPE} from "./const";
 
-export const offer = PropTypes.exact({
+export const offerType = PropTypes.exact({
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   description: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   isPremium: PropTypes.bool.isRequired,
   housingType: PropTypes.oneOf(Object.values(HOUSING_TYPE)),
@@ -19,10 +20,20 @@ export const offer = PropTypes.exact({
   }).isRequired,
 });
 
-export const reviews = PropTypes.exact({
+export const offersType = PropTypes.arrayOf(offerType).isRequired;
+
+export const reviewType = PropTypes.exact({
   offerId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   rate: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired
 });
+
+export const reviewsType = PropTypes.arrayOf(reviewType).isRequired;
+
+export const placesCountType = PropTypes.number.isRequired;
+
+export const rateCoefficientType = PropTypes.number.isRequired;
+
+export const onMouseEnterType = PropTypes.func.isRequired;

@@ -1,10 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app/app";
-
-const PLACES_COUNT = 312;
+import offers from "./mocks/offers";
+import {RATE_COEFFICIENT, PLACES_COUNT} from "./const";
 
 ReactDOM.render(
-    <App placesCount={PLACES_COUNT}/>,
+    <App
+      offers={offers}
+      rateCoefficient={RATE_COEFFICIENT}
+      placesCount={PLACES_COUNT}
+    />,
     document.querySelector(`#root`)
 );

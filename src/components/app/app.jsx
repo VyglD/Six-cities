@@ -1,19 +1,23 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import Main from "../main/main";
 import Login from "../login/login";
 import Favorites from "../favorites/favorites";
 import Offer from "../offer/offer";
+import {offersType, rateCoefficientType, placesCountType} from "../../types";
 
 const App = (props) => {
-  const {placesCount} = props;
+  const {offers, rateCoefficient, placesCount} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Main placesCount={placesCount}/>
+          <Main
+            offers={offers}
+            rateCoefficient={rateCoefficient}
+            placesCount={placesCount}
+          />
         </Route>
         <Route exact path="/login">
           <Login />
@@ -30,7 +34,9 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  placesCount: PropTypes.number.isRequired,
+  placesCount: placesCountType,
+  offers: offersType,
+  rateCoefficient: rateCoefficientType,
 };
 
 export default App;
