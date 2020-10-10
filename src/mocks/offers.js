@@ -54,6 +54,7 @@ const getRandomSubArray = (array) => {
 export default [
   {
     id: `1`,
+    city: `Amsterdam`,
     title: `Beautiful & luxurious apartment at great location`,
     photos: [`/img/apartment-01.jpg`, ...generatePhotos()],
     description: [
@@ -75,6 +76,7 @@ export default [
   },
   {
     id: `2`,
+    city: `Amsterdam`,
     title: `Wood and stone place`,
     photos: [`/img/room.jpg`, ...generatePhotos()],
     description: [
@@ -99,6 +101,7 @@ export default [
   },
   {
     id: `3`,
+    city: `Amsterdam`,
     title: `Canal View Prinsengracht`,
     photos: [`/img/apartment-02.jpg`, ...generatePhotos()],
     description: [
@@ -123,6 +126,7 @@ export default [
   },
   {
     id: `4`,
+    city: `Amsterdam`,
     title: `Nice, cozy, warm big bed apartment`,
     photos: [`/img/apartment-03.jpg`, ...generatePhotos()],
     description: [

@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
-import {HOUSING_TYPE} from "./const";
+import {HOUSING_TYPE, CITIES} from "./const";
 
 export const offerType = PropTypes.exact({
   id: PropTypes.string.isRequired,
+  city: PropTypes.oneOf(Object.values(CITIES)),
   title: PropTypes.string.isRequired,
   photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   description: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
