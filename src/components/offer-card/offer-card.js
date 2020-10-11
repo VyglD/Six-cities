@@ -1,5 +1,5 @@
 import React from "react";
-import {offerType, rateCoefficientType, onMouseEnterType} from "../../types";
+import {offerType, rateCoefficientType, functionType} from "../../types";
 
 class OfferCard extends React.PureComponent {
   render() {
@@ -60,7 +60,7 @@ class OfferCard extends React.PureComponent {
 OfferCard.propTypes = {
   offer: offerType,
   rateCoefficient: rateCoefficientType,
-  onMouseEnter: onMouseEnterType,
+  onMouseEnter: functionType,
 };
 
 export default OfferCard;

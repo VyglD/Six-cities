@@ -19,3 +19,10 @@ export const CITIES = [
   `Hamburg`,
   `Dusseldorf`
 ];
+
+export const PATHS = {
+  MAIN: `/`,
+  LOGIN: `/login`,
+  FAVORITES: `/favorites`,
+  OFFER: `/offer/:id`,
+};
