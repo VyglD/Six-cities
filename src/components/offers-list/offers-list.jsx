@@ -1,6 +1,6 @@
 import React from "react";
 import OfferCard from "../offer-card/offer-card";
-import {offersType, rateCoefficientType} from "../../types";
+import {historyType, offersType, pathsType, rateCoefficientType} from "../../types";
 
 class OffersList extends React.PureComponent {
   constructor(props) {
@@ -11,10 +11,19 @@ class OffersList extends React.PureComponent {
     };
 
     this.handleOfferCardHover = this.handleOfferCardHover.bind(this);
+    this.handleOfferCardClick = this.handleOfferCardClick.bind(this);
   }
 
   handleOfferCardHover(offer) {
     this.setState({activeOffer: offer});
+  }
+
+  handleOfferCardClick(evt) {
+    const {history, paths} = this.props;
+
+    evt.preventDefault();
+
+    history.push(`${paths.OFFER}${this.state.activeOffer.id}`);
   }
 
   render() {
@@ -28,6 +37,7 @@ class OffersList extends React.PureComponent {
             offer={offer}
             rateCoefficient={rateCoefficient}
             onMouseEnter={this.handleOfferCardHover}
+            onClick={this.handleOfferCardClick}
             key={offer.id}
           />
         ))}
@@ -39,7 +49,9 @@ class OffersList extends React.PureComponent {
 
 OffersList.propTypes = {
   offers: offersType,
-  rateCoefficient: rateCoefficientType
+  rateCoefficient: rateCoefficientType,
+  history: historyType,
+  paths: pathsType,
 };
 
 export default OffersList;

@@ -6,8 +6,10 @@ class OfferCard extends React.PureComponent {
     const {
       offer,
       rateCoefficient: ratecoefficient,
-      onMouseEnter
+      onMouseEnter,
+      onClick
     } = this.props;
+
     const style = {
       width: `${offer.rate * ratecoefficient}%`
     };
@@ -16,6 +18,7 @@ class OfferCard extends React.PureComponent {
       <article
         className="cities__place-card place-card"
         onMouseEnter={onMouseEnter.bind(this, offer)}
+        onClick={onClick}
       >
         {offer.isPremium
           ?
@@ -61,6 +64,7 @@ OfferCard.propTypes = {
   offer: offerType,
   rateCoefficient: rateCoefficientType,
   onMouseEnter: functionType,
+  onClick: functionType,
 };
 
 export default OfferCard;

@@ -23,6 +23,16 @@ class App extends React.PureComponent {
     this.handleSignIn = this.handleSignIn.bind(this);
   }
 
+  getHeaderComponent(history) {
+    return (
+      <Header
+        history={history}
+        paths={this.props.paths}
+        email={this.state.email}
+      />
+    );
+  }
+
   handleSignIn(history, email) {
     this.setState({email});
     history.replace(this.props.paths.MAIN);
@@ -30,14 +40,6 @@ class App extends React.PureComponent {
 
   render() {
     const {offers, rateCoefficient, placesCount, paths} = this.props;
-
-    const getHeader = (history) => (
-      <Header
-        history={history}
-        paths={paths}
-        email={this.state.email}
-      />
-    );
 
     return (
       <BrowserRouter>
@@ -47,10 +49,12 @@ class App extends React.PureComponent {
             render={({history})=> {
               return (
                 <Main
-                  header={getHeader(history)}
+                  header={this.getHeaderComponent(history)}
                   offers={offers}
                   rateCoefficient={rateCoefficient}
                   placesCount={placesCount}
+                  history={history}
+                  paths={paths}
                 />
               );
             }}
@@ -60,7 +64,7 @@ class App extends React.PureComponent {
             render={({history})=> {
               return (
                 <Login
-                  header={getHeader(history)}
+                  header={this.getHeaderComponent(history)}
                   onSignIn={this.handleSignIn.bind(this, history)}
                 />
               );
@@ -71,7 +75,7 @@ class App extends React.PureComponent {
             render={({history})=> {
               return (
                 <Favorites
-                  header={getHeader(history)}
+                  header={this.getHeaderComponent(history)}
                   offers={offers}
                   rateCoefficient={rateCoefficient}
                 />
@@ -79,11 +83,12 @@ class App extends React.PureComponent {
             }}
           />
           <Route exact
-            path={paths.OFFER}
+            path={paths.OFFER_ID}
             render={({history})=> {
               return (
                 <Offer
-                  header={getHeader(history)}
+                  header={this.getHeaderComponent(history)}
+                  offers={this.props.offers}
                 />
               );
             }}

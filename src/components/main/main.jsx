@@ -1,9 +1,9 @@
 import React from "react";
 import OffersList from "../offers-list/offers-list";
-import {offersType, rateCoefficientType, placesCountType, componentType} from "../../types";
+import {offersType, rateCoefficientType, placesCountType, componentType, historyType, pathsType} from "../../types";
 
 const Main = (props) => {
-  const {header, offers, rateCoefficient, placesCount} = props;
+  const {header, offers, rateCoefficient, placesCount, history, paths} = props;
 
   return (
     <React.Fragment>
@@ -72,6 +72,8 @@ const Main = (props) => {
                 <OffersList
                   offers={offers}
                   rateCoefficient={rateCoefficient}
+                  history={history}
+                  paths={paths}
                 />
 
               </section>
@@ -91,6 +93,8 @@ Main.propTypes = {
   rateCoefficient: rateCoefficientType,
   placesCount: placesCountType,
   header: componentType,
+  history: historyType,
+  paths: pathsType,
 };
 
 export default Main;
