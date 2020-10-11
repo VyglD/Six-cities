@@ -12,81 +12,87 @@ import {
 } from "../../types";
 import Header from "../header/header";
 
-const App = (props) => {
-  const {offers, rateCoefficient, placesCount, paths} = props;
+class App extends React.PureComponent {
+  constructor(props) {
+    super(props);
 
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact
-          path={paths.MAIN}
-          render={({history})=> {
-            return (
-              <Main
-                offers={offers}
-                rateCoefficient={rateCoefficient}
-                placesCount={placesCount}
-                header={
-                  <Header
-                    history={history}
-                    paths={paths}
-                  />
-                }
-              />
-            );
-          }}
-        />
-        <Route exact
-          path={paths.LOGIN}
-          render={({history})=> {
-            return (
-              <Login
-                header={
-                  <Header
-                    history={history}
-                    paths={paths}
-                  />
-                }
-              />
-            );
-          }}
-        />
-        <Route exact
-          path={paths.FAVORITES}
-          render={({history})=> {
-            return (
-              <Favorites
-                offers={offers}
-                rateCoefficient={rateCoefficient}
-                header={
-                  <Header
-                    history={history}
-                    paths={paths}
-                  />
-                }
-              />
-            );
-          }}
-        />
-        <Route exact
-          path={paths.OFFER}
-          render={({history})=> {
-            return (
-              <Offer
-                header={
-                  <Header
-                    history={history}
-                    paths={paths}
-                  />
-                }
-              />
-            );
-          }}
-        />
-      </Switch>
-    </BrowserRouter>
-  );
-};
+    this.state = {
+      email: ``,
+    };
+
+    this.handleSignIn = this.handleSignIn.bind(this);
+  }
+
+  handleSignIn(history, email) {
+    this.setState({email});
+    history.replace(this.props.paths.MAIN);
+  }
+
+  render() {
+    const {offers, rateCoefficient, placesCount, paths} = this.props;
+
+    const getHeader = (history) => (
+      <Header
+        history={history}
+        paths={paths}
+        email={this.state.email}
+      />
+    );
+
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact
+            path={paths.MAIN}
+            render={({history})=> {
+              return (
+                <Main
+                  header={getHeader(history)}
+                  offers={offers}
+                  rateCoefficient={rateCoefficient}
+                  placesCount={placesCount}
+                />
+              );
+            }}
+          />
+          <Route exact
+            path={paths.LOGIN}
+            render={({history})=> {
+              return (
+                <Login
+                  header={getHeader(history)}
+                  onSignIn={this.handleSignIn.bind(this, history)}
+                />
+              );
+            }}
+          />
+          <Route exact
+            path={paths.FAVORITES}
+            render={({history})=> {
+              return (
+                <Favorites
+                  header={getHeader(history)}
+                  offers={offers}
+                  rateCoefficient={rateCoefficient}
+                />
+              );
+            }}
+          />
+          <Route exact
+            path={paths.OFFER}
+            render={({history})=> {
+              return (
+                <Offer
+                  header={getHeader(history)}
+                />
+              );
+            }}
+          />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
+}
 
 App.propTypes = {
   placesCount: placesCountType,

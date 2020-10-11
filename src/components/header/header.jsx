@@ -18,11 +18,15 @@ class Header extends React.PureComponent {
   }
 
   handleSignInClick(evt) {
-    const {history, paths} = this.props;
+    const {history, paths, email} = this.props;
 
     evt.preventDefault();
 
-    history.push(paths.LOGIN);
+    if (email) {
+      history.push(paths.FAVORITES);
+    } else {
+      history.push(paths.LOGIN);
+    }
   }
 
   render() {

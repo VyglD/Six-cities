@@ -39,7 +39,7 @@ export const rateCoefficientType = PropTypes.number.isRequired;
 
 export const functionType = PropTypes.func.isRequired;
 
-export const emailType = PropTypes.string;
+export const emailType = PropTypes.string.isRequired;
 
 export const pathsType = PropTypes.shape().isRequired;
 
