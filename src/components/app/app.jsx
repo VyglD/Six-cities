@@ -8,7 +8,8 @@ import {
   offersType,
   rateCoefficientType,
   placesCountType,
-  pathsType
+  pathsType,
+  reviewsType
 } from "../../types";
 import Header from "../header/header";
 
@@ -39,7 +40,7 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const {offers, rateCoefficient, placesCount, paths} = this.props;
+    const {offers, reviews, rateCoefficient, placesCount, paths} = this.props;
 
     return (
       <BrowserRouter>
@@ -89,6 +90,10 @@ class App extends React.PureComponent {
                 <Offer
                   header={this.getHeaderComponent(history)}
                   offers={this.props.offers}
+                  reviews={reviews}
+                  rateCoefficient={rateCoefficient}
+                  history={history}
+                  paths={paths}
                 />
               );
             }}
@@ -104,6 +109,7 @@ App.propTypes = {
   offers: offersType,
   rateCoefficient: rateCoefficientType,
   paths: pathsType,
+  reviews: reviewsType,
 };
 
 export default App;

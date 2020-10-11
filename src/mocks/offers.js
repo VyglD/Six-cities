@@ -1,6 +1,7 @@
 import {HOUSING_TYPE} from "../const";
 
 const AVATAR_URL = `https://api.adorable.io/avatars/74`;
+const BIG_NUMBER = 999;
 
 const MAX_PHOTOS = 5;
 const MAX_RATE = 5;
@@ -29,7 +30,10 @@ const getRandomInteger = (a = 0, b = 1) => {
 
 const generatePhotos = () => {
   return new Array(getRandomInteger(MAX_PHOTOS))
-    .fill(`https://picsum.photos/260/200`);
+    .fill()
+    .map(() => {
+      return `https://picsum.photos/id/${getRandomInteger(BIG_NUMBER)}/260/200`;
+    });
 };
 
 const getRandomElement = (array) => {
