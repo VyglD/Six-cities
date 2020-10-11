@@ -5,7 +5,8 @@ import {
   offersType,
   reviewsType,
   pathsType,
-  rateCoefficientType
+  rateCoefficientType,
+  functionType
 } from "../../types";
 
 class Offer extends React.PureComponent {
@@ -42,6 +43,8 @@ class Offer extends React.PureComponent {
       history,
       paths,
       rateCoefficient: ratecoefficient,
+      getSystemFormattedDate,
+      getHumanFormattedDate
     } = this.props;
 
     if (this.state.offerValidity) {
@@ -203,8 +206,11 @@ class Offer extends React.PureComponent {
                               <p className="reviews__text">
                                 {review.text}
                               </p>
-                              <time className="reviews__time" dateTime="2019-04-24">
-                                {review.date}
+                              <time
+                                className="reviews__time"
+                                dateTime={getSystemFormattedDate(review.date)}
+                              >
+                                {getHumanFormattedDate(review.date)}
                               </time>
                             </div>
                           </li>
@@ -382,6 +388,8 @@ Offer.propTypes = {
   history: historyType,
   paths: pathsType,
   rateCoefficient: rateCoefficientType,
+  getSystemFormattedDate: functionType,
+  getHumanFormattedDate: functionType,
 };
 
 export default Offer;

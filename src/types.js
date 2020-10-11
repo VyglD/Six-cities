@@ -23,12 +23,14 @@ export const offerType = PropTypes.exact({
 
 export const offersType = PropTypes.arrayOf(offerType).isRequired;
 
+export const favoriteOffersType = PropTypes.arrayOf(PropTypes.string.isRequired).isRequired;
+
 export const reviewType = PropTypes.exact({
   offerId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   photo: PropTypes.string.isRequired,
   rate: PropTypes.number.isRequired,
-  date: PropTypes.string.isRequired,
+  date: PropTypes.instanceOf(Date).isRequired,
   text: PropTypes.string.isRequired
 });
 

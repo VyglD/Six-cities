@@ -9,7 +9,9 @@ import {
   rateCoefficientType,
   placesCountType,
   pathsType,
-  reviewsType
+  reviewsType,
+  functionType,
+  favoriteOffersType
 } from "../../types";
 import Header from "../header/header";
 
@@ -40,7 +42,16 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const {offers, reviews, rateCoefficient, placesCount, paths} = this.props;
+    const {
+      offers,
+      favoriteOffers,
+      reviews,
+      rateCoefficient,
+      placesCount,
+      paths,
+      getSystemFormattedDate,
+      getHumanFormattedDate
+    } = this.props;
 
     return (
       <BrowserRouter>
@@ -78,6 +89,7 @@ class App extends React.PureComponent {
                 <Favorites
                   header={this.getHeaderComponent(history)}
                   offers={offers}
+                  favoriteOffers={favoriteOffers}
                   rateCoefficient={rateCoefficient}
                 />
               );
@@ -94,6 +106,8 @@ class App extends React.PureComponent {
                   rateCoefficient={rateCoefficient}
                   history={history}
                   paths={paths}
+                  getSystemFormattedDate={getSystemFormattedDate}
+                  getHumanFormattedDate={getHumanFormattedDate}
                 />
               );
             }}
@@ -107,9 +121,12 @@ class App extends React.PureComponent {
 App.propTypes = {
   placesCount: placesCountType,
   offers: offersType,
+  favoriteOffers: favoriteOffersType,
   rateCoefficient: rateCoefficientType,
   paths: pathsType,
   reviews: reviewsType,
+  getSystemFormattedDate: functionType,
+  getHumanFormattedDate: functionType,
 };
 
 export default App;
