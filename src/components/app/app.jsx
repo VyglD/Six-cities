@@ -1,19 +1,19 @@
 import React from "react";
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import Main from "../main/main";
 import Login from "../login/login";
 import Favorites from "../favorites/favorites";
 import Offer from "../offer/offer";
 import {
   offersType,
-  pathsType,
   reviewsType,
+  pathsType,
+  citiesType,
+  numberConstantType,
+  cardStyleEnumType,
   functionType,
   favoriteOffersType,
-  citiesType,
-  customOfferCardPropertiesEmumType
 } from "../../types";
-import Header from "../header/header";
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -23,36 +23,27 @@ class App extends React.PureComponent {
       email: ``,
     };
 
-    this.handleSignIn = this.handleSignIn.bind(this);
+    this.allOffersByCities = props.getOffersByCities(props.allOffers);
+
+    this.handleLogIn = this.handleLogIn.bind(this);
   }
 
-  getHeaderComponent(history) {
-    return (
-      <Header
-        history={history}
-        paths={this.props.paths}
-        email={this.state.email}
-      />
-    );
-  }
-
-  handleSignIn(history, email) {
+  handleLogIn(email) {
     this.setState({email});
-    history.replace(this.props.paths.MAIN);
   }
 
   render() {
     const {
-      offers,
+      allOffers,
       favoriteOffers,
-      reviews,
+      allReviews,
       paths,
       cities,
+      maxNearOffers,
+      cardStyleEnum,
       getSystemFormattedDate,
       getHumanFormattedDate,
       getRateVisualisation,
-      getOffersByCities,
-      customOfferCardPropertiesEmum
     } = this.props;
 
     return (
@@ -60,67 +51,80 @@ class App extends React.PureComponent {
         <Switch>
           <Route exact
             path={paths.MAIN}
-            render={({history})=> {
-              return (
-                <Main
-                  header={this.getHeaderComponent(history)}
-                  offers={offers}
-                  getRateVisualisation={getRateVisualisation}
-                  getOffersByCities={getOffersByCities}
-                  history={history}
-                  paths={paths}
-                  cities={cities}
-                  customOfferCardProperties={customOfferCardPropertiesEmum.CITIES}
-                />
-              );
-            }}
+            render={() => (
+              <Main
+                allOffers={allOffers}
+                paths={paths}
+                cities={cities}
+                cardStyle={cardStyleEnum.CITIES}
+                getRateVisualisation={getRateVisualisation}
+                allOffersByCities={this.allOffersByCities}
+                email={this.state.email}
+              />
+            )}
           />
           <Route exact
             path={paths.LOGIN}
-            render={({history})=> {
-              return (
-                <Login
-                  header={this.getHeaderComponent(history)}
-                  onSignIn={this.handleSignIn.bind(this, history)}
-                />
-              );
+            render={()=> {
+              return this.state.email
+                ? (
+                  <Redirect to={paths.MAIN} />
+                )
+                : (
+                  <Login
+                    paths={paths}
+                    email={this.state.email}
+                    onLogIn={this.handleLogIn}
+                  />
+                );
             }}
           />
           <Route exact
             path={paths.FAVORITES}
-            render={({history})=> {
-              return (
-                <Favorites
-                  header={this.getHeaderComponent(history)}
-                  offers={offers}
-                  favoriteOffers={favoriteOffers}
-                  getRateVisualisation={getRateVisualisation}
-                  getOffersByCities={getOffersByCities}
-                  customOfferCardProperties={customOfferCardPropertiesEmum.FAVORITES}
-                />
-              );
+            render={() => {
+              return this.state.email
+                ? (
+                  <Favorites
+                    favoriteOffers={favoriteOffers}
+                    paths={paths}
+                    cardStyle={cardStyleEnum.FAVORITES}
+                    getRateVisualisation={getRateVisualisation}
+                    allOffersByCities={this.allOffersByCities}
+                    email={this.state.email}
+                  />
+                )
+                : (
+                  <Redirect to={paths.LOGIN} />
+                );
             }}
           />
           <Route exact
-            path={paths.OFFER_ID}
-            render={({history})=> {
-              return (
-                <Offer
-                  header={this.getHeaderComponent(history)}
-                  offers={offers}
-                  reviews={reviews}
-                  getRateVisualisation={getRateVisualisation}
-                  history={history}
-                  paths={paths}
-                  getSystemFormattedDate={getSystemFormattedDate}
-                  getHumanFormattedDate={getHumanFormattedDate}
-                  email={this.state.email}
-                  customOfferCardProperties={customOfferCardPropertiesEmum.NEAR_PLACES}
-                  getOffersByCities={getOffersByCities}
-                />
-              );
+            path={`${paths.OFFER}/:${paths.OFFER_ID}`}
+            render={({match}) => {
+              const chosenOfferId = match.params[paths.OFFER_ID];
+              const chosenOffer = allOffers.find((offer) => offer.id === chosenOfferId);
+
+              return chosenOffer
+                ? (
+                  <Offer
+                    chosenOffer={chosenOffer}
+                    allReviews={allReviews}
+                    paths={paths}
+                    maxNearOffers={maxNearOffers}
+                    cardStyle={cardStyleEnum.NEAR_PLACES}
+                    getSystemFormattedDate={getSystemFormattedDate}
+                    getHumanFormattedDate={getHumanFormattedDate}
+                    getRateVisualisation={getRateVisualisation}
+                    allOffersByCities={this.allOffersByCities}
+                    email={this.state.email}
+                  />
+                )
+                : (
+                  <Redirect to={paths.MAIN} />
+                );
             }}
           />
+          <Redirect to={paths.MAIN} />
         </Switch>
       </BrowserRouter>
     );
@@ -128,16 +132,17 @@ class App extends React.PureComponent {
 }
 
 App.propTypes = {
-  offers: offersType,
+  allOffers: offersType,
   favoriteOffers: favoriteOffersType,
+  allReviews: reviewsType,
   paths: pathsType,
   cities: citiesType,
-  reviews: reviewsType,
+  maxNearOffers: numberConstantType,
+  cardStyleEnum: cardStyleEnumType,
   getSystemFormattedDate: functionType,
   getHumanFormattedDate: functionType,
   getRateVisualisation: functionType,
   getOffersByCities: functionType,
-  customOfferCardPropertiesEmum: customOfferCardPropertiesEmumType,
 };
 
 export default App;

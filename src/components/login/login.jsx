@@ -1,5 +1,6 @@
 import React from "react";
-import {componentType, functionType} from "../../types";
+import Header from "../header/header";
+import {pathsType, functionType, emailType} from "../../types";
 
 class Login extends React.PureComponent {
   constructor(props) {
@@ -10,14 +11,8 @@ class Login extends React.PureComponent {
       password: ``,
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
-  }
-
-  handleSubmit(evt) {
-    evt.preventDefault();
-
-    this.props.onSignIn(this.state.email);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleFieldChange(evt) {
@@ -25,12 +20,21 @@ class Login extends React.PureComponent {
     this.setState({[name]: value});
   }
 
+  handleSubmit(evt) {
+    evt.preventDefault();
+
+    this.props.onLogIn(this.state.email);
+  }
+
   render() {
-    const {header} = this.props;
+    const {paths, email} = this.props;
 
     return (
       <div className="page page--gray page--login">
-        {header}
+        <Header
+          paths={paths}
+          email={email}
+        />
 
         <main className="page__main page__main--login">
           <div className="page__login-container container">
@@ -81,8 +85,9 @@ class Login extends React.PureComponent {
 }
 
 Login.propTypes = {
-  header: componentType,
-  onSignIn: functionType,
+  paths: pathsType,
+  email: emailType,
+  onLogIn: functionType,
 };
 
 export default Login;

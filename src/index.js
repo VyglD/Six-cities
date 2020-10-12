@@ -1,25 +1,31 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app/app";
-import offers from "./mocks/offers";
-import reviews from "./mocks/reviews";
+import mockOffers from "./mocks/offers";
+import mockReviews from "./mocks/reviews";
 import favoriteOffers from "./mocks/favorite-offers";
 import {
   getSystemFormattedDate,
   getHumanFormattedDate,
   getRateVisualisation,
-  getOffersByCities
+  getOffersByCities,
 } from "./util";
-import {PATHS, CITIES, CUSTOM_OFFER_CARD_PROPERTIES_ENUM} from "./const";
+import {
+  Paths,
+  CITIES,
+  CardStyle as cardStyleEnum,
+  MAX_NEAR_OFFERS,
+} from "./const";
 
 ReactDOM.render(
     <App
-      offers={offers}
-      reviews={reviews}
+      allOffers={mockOffers}
       favoriteOffers={favoriteOffers}
-      paths={PATHS}
+      allReviews={mockReviews}
+      paths={Paths}
       cities={CITIES}
-      customOfferCardPropertiesEmum={CUSTOM_OFFER_CARD_PROPERTIES_ENUM}
+      maxNearOffers={MAX_NEAR_OFFERS}
+      cardStyleEnum={cardStyleEnum}
       getSystemFormattedDate={getSystemFormattedDate}
       getHumanFormattedDate={getHumanFormattedDate}
       getRateVisualisation={getRateVisualisation}

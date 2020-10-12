@@ -4,9 +4,9 @@ import {functionType, reviewType} from "../../types";
 const Review = (props) => {
   const {
     review,
-    getRateVisualisation,
     getSystemFormattedDate,
-    getHumanFormattedDate
+    getHumanFormattedDate,
+    getRateVisualisation,
   } = props;
 
   return (
@@ -48,9 +48,9 @@ const Review = (props) => {
 
 Review.propTypes = {
   review: reviewType,
-  getRateVisualisation: functionType,
   getSystemFormattedDate: functionType,
   getHumanFormattedDate: functionType,
+  getRateVisualisation: functionType,
 };
 
 export default Review;

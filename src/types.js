@@ -1,14 +1,16 @@
 import PropTypes from "prop-types";
-import {HOUSING_TYPE, CITIES} from "./const";
+import {HousingType, CITIES} from "./const";
+
+export const offerIdType = PropTypes.string.isRequired;
 
 export const offerType = PropTypes.exact({
-  id: PropTypes.string.isRequired,
+  id: offerIdType,
   city: PropTypes.oneOf(Object.values(CITIES)).isRequired,
   title: PropTypes.string.isRequired,
   photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   description: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   isPremium: PropTypes.bool.isRequired,
-  housingType: PropTypes.oneOf(Object.values(HOUSING_TYPE)).isRequired,
+  housingType: PropTypes.oneOf(Object.values(HousingType)).isRequired,
   rate: PropTypes.number.isRequired,
   rooms: PropTypes.number.isRequired,
   guests: PropTypes.number.isRequired,
@@ -23,12 +25,10 @@ export const offerType = PropTypes.exact({
 
 export const offersType = PropTypes.arrayOf(offerType).isRequired;
 
-export const favoriteOffersType = PropTypes.arrayOf(
-    PropTypes.string.isRequired
-).isRequired;
+export const favoriteOffersType = PropTypes.arrayOf(offerIdType).isRequired;
 
 export const reviewType = PropTypes.exact({
-  offerId: PropTypes.string.isRequired,
+  offerId: offerIdType,
   name: PropTypes.string.isRequired,
   photo: PropTypes.string.isRequired,
   rate: PropTypes.number.isRequired,
@@ -38,34 +38,30 @@ export const reviewType = PropTypes.exact({
 
 export const reviewsType = PropTypes.arrayOf(reviewType).isRequired;
 
-export const functionType = PropTypes.func.isRequired;
-
-export const emailType = PropTypes.string.isRequired;
-
 export const pathsType = PropTypes.shape().isRequired;
 
 export const citiesType = PropTypes.arrayOf(
     PropTypes.oneOf(CITIES).isRequired
 ).isRequired;
 
-export const historyType = PropTypes.shape({
-  push: PropTypes.func.isRequired,
-}).isRequired;
+export const numberConstantType = PropTypes.number.isRequired;
 
-export const componentType = PropTypes.element.isRequired;
-
-export const activeCityType = PropTypes.oneOf(CITIES);
-
-export const offersByCityEntriesType = PropTypes.arrayOf(
-    PropTypes.array.isRequired
-).isRequired;
-
-export const customOfferCardPropertiesEmumType = PropTypes.shape().isRequired;
-
-export const customOfferCardPropertiesType = PropTypes.shape({
+export const cardStyleType = PropTypes.shape({
   article: PropTypes.string.isRequired,
   imgWrapper: PropTypes.string.isRequired,
   imgWidth: PropTypes.number.isRequired,
   imgHeight: PropTypes.number.isRequired,
   info: PropTypes.string.isRequired,
 }).isRequired;
+
+export const cardStyleEnumType = PropTypes.shape().isRequired;
+
+export const functionType = PropTypes.func.isRequired;
+export const notRequiredFunctionType = PropTypes.func;
+
+export const mapType = PropTypes.instanceOf(Map).isRequired;
+
+export const emailType = PropTypes.string.isRequired;
+
+export const activeCityType = PropTypes.oneOf(CITIES);
+

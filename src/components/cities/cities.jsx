@@ -2,21 +2,19 @@ import React from "react";
 import OffersList from "../offers-list/offers-list";
 import {
   offersType,
-  functionType,
-  historyType,
   pathsType,
+  cardStyleType,
+  functionType,
   activeCityType,
-  customOfferCardPropertiesType
 } from "../../types";
 
 const Cities = (props) => {
   const {
     offers,
-    getRateVisualisation,
-    history,
     paths,
+    getRateVisualisation,
+    cardStyle,
     activeCity,
-    customOfferCardProperties
   } = props;
 
   return (
@@ -36,7 +34,7 @@ const Cities = (props) => {
                       <use xlinkHref="#icon-arrow-select"></use>
                     </svg>
                   </span>
-                  <ul className="places__options places__options--custom places__options--opened">
+                  <ul className="places__options places__options--custom">
                     <li className="places__option places__option--active" tabIndex="0">Popular</li>
                     <li className="places__option" tabIndex="0">Price: low to high</li>
                     <li className="places__option" tabIndex="0">Price: high to low</li>
@@ -46,10 +44,9 @@ const Cities = (props) => {
 
                 <OffersList
                   offers={offers}
-                  getRateVisualisation={getRateVisualisation}
-                  history={history}
                   paths={paths}
-                  customOfferCardProperties={customOfferCardProperties}
+                  cardStyle={cardStyle}
+                  getRateVisualisation={getRateVisualisation}
                 />
 
               </section>
@@ -63,7 +60,9 @@ const Cities = (props) => {
               <section className="cities__no-places">
                 <div className="cities__status-wrapper tabs__content">
                   <b className="cities__status">No places to stay available</b>
-                  <p className="cities__status-description">We could not find any property available at the moment in Dusseldorf</p>
+                  <p className="cities__status-description">
+                    We could not find any property available at the moment in Dusseldorf
+                  </p>
                 </div>
               </section>
               <div className="cities__right-section"></div>
@@ -77,11 +76,10 @@ const Cities = (props) => {
 
 Cities.propTypes = {
   offers: offersType,
-  getRateVisualisation: functionType,
-  history: historyType,
   paths: pathsType,
+  cardStyle: cardStyleType,
+  getRateVisualisation: functionType,
   activeCity: activeCityType,
-  customOfferCardProperties: customOfferCardPropertiesType,
 };
 
 export default Cities;

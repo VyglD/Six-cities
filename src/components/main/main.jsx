@@ -1,30 +1,29 @@
 import React from "react";
+import Header from "../header/header";
 import Cities from "../cities/cities";
 import {
   offersType,
-  componentType,
-  historyType,
   pathsType,
-  functionType,
   citiesType,
-  customOfferCardPropertiesType
+  cardStyleType,
+  functionType,
+  mapType,
+  emailType,
 } from "../../types";
 
 class Main extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.offersByCities = props.getOffersByCities(props.offers);
-
-    const offersByActiveCity = Array.from(this.offersByCities.entries())
+    const firstExistOffers = Array.from(props.allOffersByCities.entries())
     .find(([_, array]) => {
       return array.length > 0;
     });
 
     this.state = {
       activeCity: (
-        offersByActiveCity
-          ? offersByActiveCity[0]
+        firstExistOffers
+          ? firstExistOffers[0]
           : props.cities[0]
       )
     };
@@ -44,20 +43,19 @@ class Main extends React.PureComponent {
 
   render() {
     const {
-      header,
-      getRateVisualisation,
-      history,
       paths,
       cities,
-      customOfferCardProperties
+      cardStyle,
+      getRateVisualisation,
+      allOffersByCities,
+      email,
     } = this.props;
 
+    const offersOfActiveCity = allOffersByCities.get(this.state.activeCity);
 
-    const relevantOffers = this.offersByCities.get(this.state.activeCity);
-
-    const mainClass = (
+    const classMain = (
       `page__main page__main--index ${
-        relevantOffers.length > 0
+        offersOfActiveCity.length > 0
           ? ``
           : `page__main--index-empty`
       }`
@@ -66,16 +64,19 @@ class Main extends React.PureComponent {
     return (
       <React.Fragment>
         <div className="page page--gray page--main">
-          {header}
+          <Header
+            paths={paths}
+            email={email}
+          />
 
-          <main className={mainClass}>
+          <main className={classMain}>
             <h1 className="visually-hidden">Cities</h1>
             <div className="tabs">
               <section className="locations container">
                 <ul className="locations__list tabs__list">
                   {
                     cities.map((city) => {
-                      const linkClass = (
+                      const classLink = (
                         `locations__item-link tabs__item ${
                           city === this.state.activeCity
                             ? `tabs__item--active`
@@ -86,7 +87,7 @@ class Main extends React.PureComponent {
                       return (
                         <li className="locations__item" key={city}>
                           <a
-                            className={linkClass}
+                            className={classLink}
                             href="#"
                             onClick={this.handleChangeActiveCity}
                           >
@@ -100,12 +101,11 @@ class Main extends React.PureComponent {
               </section>
             </div>
             <Cities
-              offers={relevantOffers}
-              getRateVisualisation={getRateVisualisation}
-              history={history}
+              offers={offersOfActiveCity}
               paths={paths}
+              getRateVisualisation={getRateVisualisation}
+              cardStyle={cardStyle}
               activeCity={this.state.activeCity}
-              customOfferCardProperties={customOfferCardProperties}
             />
           </main>
         </div>
@@ -115,14 +115,13 @@ class Main extends React.PureComponent {
 }
 
 Main.propTypes = {
-  offers: offersType,
-  getRateVisualisation: functionType,
-  getOffersByCities: functionType,
-  header: componentType,
-  history: historyType,
+  allOffers: offersType,
   paths: pathsType,
   cities: citiesType,
-  customOfferCardProperties: customOfferCardPropertiesType,
+  cardStyle: cardStyleType,
+  getRateVisualisation: functionType,
+  allOffersByCities: mapType,
+  email: emailType,
 };
 
 export default Main;

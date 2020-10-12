@@ -1,11 +1,10 @@
 import React from "react";
 import OfferCard from "../offer-card/offer-card";
 import {
-  historyType,
   offersType,
   pathsType,
+  cardStyleType,
   functionType,
-  customOfferCardPropertiesType
 } from "../../types";
 
 class OffersList extends React.PureComponent {
@@ -13,39 +12,39 @@ class OffersList extends React.PureComponent {
     super(props);
 
     this.state = {
-      activeOffer: null
+      activeOffer: (
+        props.offers.length > 0
+          ? props.offers[0]
+          : null
+      )
     };
 
     this.handleOfferCardHover = this.handleOfferCardHover.bind(this);
-    this.handleOfferCardClick = this.handleOfferCardClick.bind(this);
   }
 
-  handleOfferCardHover(offer) {
-    this.setState({activeOffer: offer});
-  }
-
-  handleOfferCardClick(evt) {
-    const {history, paths} = this.props;
-
-    evt.preventDefault();
-
-    history.push(`${paths.OFFER}${this.state.activeOffer.id}`);
+  handleOfferCardHover(chosenOffer) {
+    this.setState({activeOffer: chosenOffer});
   }
 
   render() {
-    const {offers, getRateVisualisation, customOfferCardProperties} = this.props;
+    const {
+      offers,
+      paths,
+      cardStyle,
+      getRateVisualisation,
+    } = this.props;
 
     return (
       <div className="cities__places-list places__list tabs__content">
 
         {offers.map((offer) => (
           <OfferCard
+            key={offer.id}
             offer={offer}
+            paths={paths}
+            cardStyle={cardStyle}
             getRateVisualisation={getRateVisualisation}
             onMouseEnter={this.handleOfferCardHover}
-            onClick={this.handleOfferCardClick}
-            key={offer.id}
-            customOfferCardProperties={customOfferCardProperties}
           />
         ))}
 
@@ -56,10 +55,9 @@ class OffersList extends React.PureComponent {
 
 OffersList.propTypes = {
   offers: offersType,
-  getRateVisualisation: functionType,
-  history: historyType,
   paths: pathsType,
-  customOfferCardProperties: customOfferCardPropertiesType,
+  cardStyle: cardStyleType,
+  getRateVisualisation: functionType,
 };
 
 export default OffersList;

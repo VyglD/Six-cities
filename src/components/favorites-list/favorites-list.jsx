@@ -1,18 +1,24 @@
 import React from "react";
 import OfferCard from "../offer-card/offer-card";
-import {customOfferCardPropertiesType, functionType, offersByCityEntriesType} from "../../types";
+import {
+  pathsType,
+  cardStyleType,
+  functionType,
+  mapType,
+} from "../../types";
 
 const FavoriteList = (props) => {
   const {
-    offersByCityEntries,
+    paths,
+    cardStyle,
     getRateVisualisation,
-    customOfferCardProperties
+    offersByCities
   } = props;
 
   return (
     <ul className="favorites__list">
       {
-        offersByCityEntries.map(([city, offers]) => (
+        Array.from(offersByCities.entries()).map(([city, offers]) => (
           <li className="favorites__locations-items" key={city}>
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
@@ -26,12 +32,11 @@ const FavoriteList = (props) => {
                 offers.map((offer) => {
                   return (
                     <OfferCard
-                      offer={offer}
-                      getRateVisualisation={getRateVisualisation}
-                      onMouseEnter={() => {}}
-                      onClick={() => {}}
                       key={offer.id}
-                      customOfferCardProperties={customOfferCardProperties}
+                      offer={offer}
+                      paths={paths}
+                      cardStyle={cardStyle}
+                      getRateVisualisation={getRateVisualisation}
                     />
                   );
                 })
@@ -45,9 +50,10 @@ const FavoriteList = (props) => {
 };
 
 FavoriteList.propTypes = {
-  offersByCityEntries: offersByCityEntriesType,
+  paths: pathsType,
+  cardStyle: cardStyleType,
   getRateVisualisation: functionType,
-  customOfferCardProperties: customOfferCardPropertiesType
+  offersByCities: mapType,
 };
 
 export default FavoriteList;

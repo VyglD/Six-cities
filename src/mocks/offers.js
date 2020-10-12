@@ -1,4 +1,4 @@
-import {HOUSING_TYPE, CITIES} from "../const";
+import {HousingType, CITIES} from "../const";
 
 export const AVATAR_URL = `https://api.adorable.io/avatars/74`;
 const BIG_NUMBER = 999;
@@ -89,7 +89,7 @@ export default getRandomSubArray(CITIES)
           photos: [...generatePhotos()],
           description: new Array(getRandomInteger(MAX_PARAGRAPH)).fill(description),
           isPremium: Boolean(getRandomInteger()),
-          housingType: getRandomElement(Object.values(HOUSING_TYPE)),
+          housingType: getRandomElement(Object.values(HousingType)),
           rate: getRandomInteger(MAX_RATE),
           rooms: getRandomInteger(MAX_ROOMS),
           guests: getRandomInteger(MAX_GUESTS),

@@ -1,33 +1,39 @@
 import React from "react";
+import {Link} from "react-router-dom";
+import Header from "../header/header";
 import FavoriteList from "../favorites-list/favorites-list";
 import {
-  componentType,
-  offersType,
   favoriteOffersType,
+  pathsType,
+  cardStyleType,
   functionType,
-  customOfferCardPropertiesType
+  mapType,
+  emailType,
 } from "../../types";
 
 const Favorites = (props) => {
   const {
-    header,
-    offers,
     favoriteOffers,
+    paths,
+    cardStyle,
     getRateVisualisation,
-    getOffersByCities,
-    customOfferCardProperties
+    allOffersByCities,
+    email,
   } = props;
 
-  const offersByCityEntries = Array.from(
-      getOffersByCities(
-          offers.filter((offer) => favoriteOffers.includes(offer.id))
-      ).entries())
-      .filter(([_, array]) => array.length > 0);
+  const favoriteOffersByCities = new Map(
+      Array.from(allOffersByCities.entries()).map(([city, offers]) => {
+        const favoriteOffersOfCity = offers.filter((offer) => favoriteOffers.includes(offer.id));
 
+        return favoriteOffersOfCity.length > 0
+          ? [city, favoriteOffersOfCity]
+          : null;
+      }).filter((item) => item)
+  );
 
   const classPage = (
     `page ${
-      offersByCityEntries.length > 0
+      favoriteOffersByCities.size > 0
         ? ``
         : `page--favorites-empty`
     }`
@@ -35,7 +41,7 @@ const Favorites = (props) => {
 
   const classMain = (
     `page__main page__main--favorites ${
-      offersByCityEntries.length > 0
+      favoriteOffersByCities.size > 0
         ? ``
         : `page__main--favorites-empty`
     }`
@@ -43,7 +49,7 @@ const Favorites = (props) => {
 
   const classSection = (
     `favorites ${
-      offersByCityEntries.length > 0
+      favoriteOffersByCities.size > 0
         ? ``
         : `favorites--empty`
     }`
@@ -51,19 +57,23 @@ const Favorites = (props) => {
 
   return (
     <div className={classPage}>
-      {header}
+      <Header
+        paths={paths}
+        email={email}
+      />
 
       <main className={classMain}>
         <div className="page__favorites-container container">
           <section className={classSection}>
             <h1 className="favorites__title">Saved listing</h1>
             {
-              offersByCityEntries.length > 0
+              favoriteOffersByCities.size > 0
                 ? (
                   <FavoriteList
-                    offersByCityEntries={offersByCityEntries}
+                    paths={paths}
+                    cardStyle={cardStyle}
                     getRateVisualisation={getRateVisualisation}
-                    customOfferCardProperties={customOfferCardProperties}
+                    offersByCities={favoriteOffersByCities}
                   />
                 )
                 : (
@@ -79,21 +89,24 @@ const Favorites = (props) => {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link
+          className="footer__logo-link"
+          to={paths.MAIN}
+        >
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </a>
+        </Link>
       </footer>
     </div>
   );
 };
 
 Favorites.propTypes = {
-  offers: offersType,
   favoriteOffers: favoriteOffersType,
+  paths: pathsType,
+  cardStyle: cardStyleType,
   getRateVisualisation: functionType,
-  getOffersByCities: functionType,
-  header: componentType,
-  customOfferCardProperties: customOfferCardPropertiesType,
+  allOffersByCities: mapType,
+  email: emailType,
 };
 
 export default Favorites;

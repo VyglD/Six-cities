@@ -2,7 +2,9 @@ const MAX_RATE = 5;
 
 export const RATE_COEFFICIENT = 100 / MAX_RATE;
 
-export const HOUSING_TYPE = {
+export const MAX_NEAR_OFFERS = 3;
+
+export const HousingType = {
   APARTMENT: `Apartment`,
   ROOM: `Private Room`,
   HOUSE: `House`,
@@ -18,15 +20,15 @@ export const CITIES = [
   `Dusseldorf`
 ];
 
-export const PATHS = {
+export const Paths = {
   MAIN: `/`,
   LOGIN: `/login`,
   FAVORITES: `/favorites`,
-  OFFER: `/offer/`,
-  OFFER_ID: `/offer/:id`,
+  OFFER: `/offer`,
+  OFFER_ID: `offerId`
 };
 
-export const CUSTOM_OFFER_CARD_PROPERTIES_ENUM = {
+export const CardStyle = {
   CITIES: {
     article: `cities__place-card`,
     imgWrapper: `cities__image-wrapper`,
