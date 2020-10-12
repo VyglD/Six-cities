@@ -36,16 +36,18 @@ export const reviewType = PropTypes.exact({
 
 export const reviewsType = PropTypes.arrayOf(reviewType).isRequired;
 
-export const placesCountType = PropTypes.number.isRequired;
-
 export const functionType = PropTypes.func.isRequired;
 
 export const emailType = PropTypes.string.isRequired;
 
 export const pathsType = PropTypes.shape().isRequired;
 
+export const citiesType = PropTypes.arrayOf(PropTypes.oneOf(CITIES).isRequired).isRequired;
+
 export const historyType = PropTypes.shape({
   push: PropTypes.func.isRequired,
 }).isRequired;
 
 export const componentType = PropTypes.element.isRequired;
+
+export const activeCityType = PropTypes.oneOf(CITIES);

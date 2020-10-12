@@ -1,4 +1,4 @@
-import {RATE_COEFFICIENT} from "./const";
+import {RATE_COEFFICIENT, CITIES} from "./const";
 import moment from "moment";
 
 export const getSystemFormattedDate = (date) => {
@@ -11,4 +11,16 @@ export const getHumanFormattedDate = (date) => {
 
 export const getRateVisualisation = (rate) => {
   return {width: `${rate * RATE_COEFFICIENT}%`};
+};
+
+export const getOffersByCities = (offers) => {
+  const offersByCity = new Map([
+    ...CITIES.map((city) => [city, []])
+  ]);
+
+  offers.forEach((offer) => {
+    offersByCity.get(offer.city).push(offer);
+  });
+
+  return offersByCity;
 };

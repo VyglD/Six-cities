@@ -7,20 +7,22 @@ import favoriteOffers from "./mocks/favorite-offers";
 import {
   getSystemFormattedDate,
   getHumanFormattedDate,
-  getRateVisualisation
+  getRateVisualisation,
+  getOffersByCities
 } from "./util";
-import {PLACES_COUNT, PATHS} from "./const";
+import {PATHS, CITIES} from "./const";
 
 ReactDOM.render(
     <App
       offers={offers}
       reviews={reviews}
       favoriteOffers={favoriteOffers}
-      placesCount={PLACES_COUNT}
       paths={PATHS}
+      cities={CITIES}
       getSystemFormattedDate={getSystemFormattedDate}
       getHumanFormattedDate={getHumanFormattedDate}
       getRateVisualisation={getRateVisualisation}
+      getOffersByCities={getOffersByCities}
     />,
     document.querySelector(`#root`)
 );

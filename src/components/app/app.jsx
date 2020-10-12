@@ -6,11 +6,11 @@ import Favorites from "../favorites/favorites";
 import Offer from "../offer/offer";
 import {
   offersType,
-  placesCountType,
   pathsType,
   reviewsType,
   functionType,
-  favoriteOffersType
+  favoriteOffersType,
+  citiesType
 } from "../../types";
 import Header from "../header/header";
 
@@ -45,11 +45,12 @@ class App extends React.PureComponent {
       offers,
       favoriteOffers,
       reviews,
-      placesCount,
       paths,
+      cities,
       getSystemFormattedDate,
       getHumanFormattedDate,
-      getRateVisualisation
+      getRateVisualisation,
+      getOffersByCities
     } = this.props;
 
     return (
@@ -63,9 +64,10 @@ class App extends React.PureComponent {
                   header={this.getHeaderComponent(history)}
                   offers={offers}
                   getRateVisualisation={getRateVisualisation}
-                  placesCount={placesCount}
+                  getOffersByCities={getOffersByCities}
                   history={history}
                   paths={paths}
+                  cities={cities}
                 />
               );
             }}
@@ -90,6 +92,7 @@ class App extends React.PureComponent {
                   offers={offers}
                   favoriteOffers={favoriteOffers}
                   getRateVisualisation={getRateVisualisation}
+                  getOffersByCities={getOffersByCities}
                 />
               );
             }}
@@ -119,14 +122,15 @@ class App extends React.PureComponent {
 }
 
 App.propTypes = {
-  placesCount: placesCountType,
   offers: offersType,
   favoriteOffers: favoriteOffersType,
   paths: pathsType,
+  cities: citiesType,
   reviews: reviewsType,
   getSystemFormattedDate: functionType,
   getHumanFormattedDate: functionType,
   getRateVisualisation: functionType,
+  getOffersByCities: functionType,
 };
 
 export default App;
