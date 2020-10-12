@@ -38,8 +38,6 @@ export const reviewsType = PropTypes.arrayOf(reviewType).isRequired;
 
 export const placesCountType = PropTypes.number.isRequired;
 
-export const rateCoefficientType = PropTypes.number.isRequired;
-
 export const functionType = PropTypes.func.isRequired;
 
 export const emailType = PropTypes.string.isRequired;

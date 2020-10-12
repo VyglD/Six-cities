@@ -1,9 +1,9 @@
 import React from "react";
 import OffersList from "../offers-list/offers-list";
-import {offersType, rateCoefficientType, placesCountType, componentType, historyType, pathsType} from "../../types";
+import {offersType, placesCountType, componentType, historyType, pathsType, functionType} from "../../types";
 
 const Main = (props) => {
-  const {header, offers, rateCoefficient, placesCount, history, paths} = props;
+  const {header, offers, getRateVisualisation, placesCount, history, paths} = props;
 
   return (
     <React.Fragment>
@@ -71,7 +71,7 @@ const Main = (props) => {
 
                 <OffersList
                   offers={offers}
-                  rateCoefficient={rateCoefficient}
+                  getRateVisualisation={getRateVisualisation}
                   history={history}
                   paths={paths}
                 />
@@ -90,7 +90,7 @@ const Main = (props) => {
 
 Main.propTypes = {
   offers: offersType,
-  rateCoefficient: rateCoefficientType,
+  getRateVisualisation: functionType,
   placesCount: placesCountType,
   header: componentType,
   history: historyType,

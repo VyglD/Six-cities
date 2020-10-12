@@ -1,3 +1,4 @@
+import {RATE_COEFFICIENT} from "./const";
 import moment from "moment";
 
 export const getSystemFormattedDate = (date) => {
@@ -6,4 +7,8 @@ export const getSystemFormattedDate = (date) => {
 
 export const getHumanFormattedDate = (date) => {
   return moment(date).format(`MMMM YYYY`);
+};
+
+export const getRateVisualisation = (rate) => {
+  return {width: `${rate * RATE_COEFFICIENT}%`};
 };

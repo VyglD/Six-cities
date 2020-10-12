@@ -6,7 +6,6 @@ import Favorites from "../favorites/favorites";
 import Offer from "../offer/offer";
 import {
   offersType,
-  rateCoefficientType,
   placesCountType,
   pathsType,
   reviewsType,
@@ -46,11 +45,11 @@ class App extends React.PureComponent {
       offers,
       favoriteOffers,
       reviews,
-      rateCoefficient,
       placesCount,
       paths,
       getSystemFormattedDate,
-      getHumanFormattedDate
+      getHumanFormattedDate,
+      getRateVisualisation
     } = this.props;
 
     return (
@@ -63,7 +62,7 @@ class App extends React.PureComponent {
                 <Main
                   header={this.getHeaderComponent(history)}
                   offers={offers}
-                  rateCoefficient={rateCoefficient}
+                  getRateVisualisation={getRateVisualisation}
                   placesCount={placesCount}
                   history={history}
                   paths={paths}
@@ -90,7 +89,7 @@ class App extends React.PureComponent {
                   header={this.getHeaderComponent(history)}
                   offers={offers}
                   favoriteOffers={favoriteOffers}
-                  rateCoefficient={rateCoefficient}
+                  getRateVisualisation={getRateVisualisation}
                 />
               );
             }}
@@ -103,7 +102,7 @@ class App extends React.PureComponent {
                   header={this.getHeaderComponent(history)}
                   offers={this.props.offers}
                   reviews={reviews}
-                  rateCoefficient={rateCoefficient}
+                  getRateVisualisation={getRateVisualisation}
                   history={history}
                   paths={paths}
                   getSystemFormattedDate={getSystemFormattedDate}
@@ -123,11 +122,11 @@ App.propTypes = {
   placesCount: placesCountType,
   offers: offersType,
   favoriteOffers: favoriteOffersType,
-  rateCoefficient: rateCoefficientType,
   paths: pathsType,
   reviews: reviewsType,
   getSystemFormattedDate: functionType,
   getHumanFormattedDate: functionType,
+  getRateVisualisation: functionType,
 };
 
 export default App;

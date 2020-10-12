@@ -6,7 +6,6 @@ import {
   offersType,
   reviewsType,
   pathsType,
-  rateCoefficientType,
   functionType,
   emailType
 } from "../../types";
@@ -44,7 +43,7 @@ class Offer extends React.PureComponent {
       reviews: allReviews,
       history,
       paths,
-      rateCoefficient: ratecoefficient,
+      getRateVisualisation,
       getSystemFormattedDate,
       getHumanFormattedDate,
       email
@@ -54,10 +53,6 @@ class Offer extends React.PureComponent {
       const offer = offers.find((element) => element.id === this.state.offerId);
 
       const reviews = allReviews.filter((review) => review.offerId === this.state.offerId);
-
-      const style = {
-        width: `${offer.rate * ratecoefficient}%`
-      };
 
       return (
         <div className="page">
@@ -115,7 +110,7 @@ class Offer extends React.PureComponent {
                   </div>
                   <div className="property__rating rating">
                     <div className="property__stars rating__stars">
-                      <span style={style}></span>
+                      <span style={getRateVisualisation(offer.rate)}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                     <span className="property__rating-value rating__value">{offer.rate}</span>
@@ -202,7 +197,7 @@ class Offer extends React.PureComponent {
                             <div className="reviews__info">
                               <div className="reviews__rating rating">
                                 <div className="reviews__stars rating__stars">
-                                  <span style={{width: `${review.rate * ratecoefficient}%`}}></span>
+                                  <span style={getRateVisualisation(review.rate)}></span>
                                   <span className="visually-hidden">Rating</span>
                                 </div>
                               </div>
@@ -349,7 +344,7 @@ Offer.propTypes = {
   reviews: reviewsType,
   history: historyType,
   paths: pathsType,
-  rateCoefficient: rateCoefficientType,
+  getRateVisualisation: functionType,
   getSystemFormattedDate: functionType,
   getHumanFormattedDate: functionType,
   email: emailType,

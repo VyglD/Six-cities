@@ -1,18 +1,14 @@
 import React from "react";
-import {offerType, rateCoefficientType, functionType} from "../../types";
+import {offerType, functionType} from "../../types";
 
 class OfferCard extends React.PureComponent {
   render() {
     const {
       offer,
-      rateCoefficient: ratecoefficient,
+      getRateVisualisation,
       onMouseEnter,
       onClick
     } = this.props;
-
-    const style = {
-      width: `${offer.rate * ratecoefficient}%`
-    };
 
     return (
       <article
@@ -46,7 +42,7 @@ class OfferCard extends React.PureComponent {
           </div>
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
-              <span style={style}></span>
+              <span style={getRateVisualisation(offer.rate)}></span>
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
@@ -62,7 +58,7 @@ class OfferCard extends React.PureComponent {
 
 OfferCard.propTypes = {
   offer: offerType,
-  rateCoefficient: rateCoefficientType,
+  getRateVisualisation: functionType,
   onMouseEnter: functionType,
   onClick: functionType,
 };

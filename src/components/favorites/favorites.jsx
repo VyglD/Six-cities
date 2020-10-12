@@ -3,11 +3,11 @@ import {
   componentType,
   offersType,
   favoriteOffersType,
-  rateCoefficientType
+  functionType
 } from "../../types";
 
 const Favorites = (props) => {
-  const {header, offers, favoriteOffers, rateCoefficient: ratecoefficient} = props;
+  const {header, offers, favoriteOffers, getRateVisualisation} = props;
 
   const offersByCity = new Map();
   offers
@@ -43,10 +43,6 @@ const Favorites = (props) => {
                       {
                         offersByCity.get(city)
                           .map((offer) => {
-                            const style = {
-                              width: `${offer.rate * ratecoefficient}%`
-                            };
-
                             return (
                               <article className="favorites__card place-card" key={offer.id}>
                                 <div className="favorites__image-wrapper place-card__image-wrapper">
@@ -69,7 +65,7 @@ const Favorites = (props) => {
                                   </div>
                                   <div className="place-card__rating rating">
                                     <div className="place-card__stars rating__stars">
-                                      <span style={style}></span>
+                                      <span style={getRateVisualisation(offer.rate)}></span>
                                       <span className="visually-hidden">Rating</span>
                                     </div>
                                   </div>
@@ -101,7 +97,7 @@ const Favorites = (props) => {
 Favorites.propTypes = {
   offers: offersType,
   favoriteOffers: favoriteOffersType,
-  rateCoefficient: rateCoefficientType,
+  getRateVisualisation: functionType,
   header: componentType,
 };
 
