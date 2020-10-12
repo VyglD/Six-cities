@@ -5,7 +5,8 @@ import {
   functionType,
   historyType,
   pathsType,
-  activeCityType
+  activeCityType,
+  customOfferCardPropertiesType
 } from "../../types";
 
 const Cities = (props) => {
@@ -14,7 +15,8 @@ const Cities = (props) => {
     getRateVisualisation,
     history,
     paths,
-    activeCity
+    activeCity,
+    customOfferCardProperties
   } = props;
 
   return (
@@ -47,6 +49,7 @@ const Cities = (props) => {
                   getRateVisualisation={getRateVisualisation}
                   history={history}
                   paths={paths}
+                  customOfferCardProperties={customOfferCardProperties}
                 />
 
               </section>
@@ -78,6 +81,7 @@ Cities.propTypes = {
   history: historyType,
   paths: pathsType,
   activeCity: activeCityType,
+  customOfferCardProperties: customOfferCardPropertiesType,
 };
 
 export default Cities;

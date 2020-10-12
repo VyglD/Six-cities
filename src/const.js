@@ -25,3 +25,20 @@ export const PATHS = {
   OFFER: `/offer/`,
   OFFER_ID: `/offer/:id`,
 };
+
+export const CUSTOM_OFFER_CARD_PROPERTIES_ENUM = {
+  CITIES: {
+    article: `cities__place-card`,
+    imgWrapper: `cities__image-wrapper`,
+    imgWidth: 260,
+    imgHeight: 200,
+    info: ``,
+  },
+  FAVORITES: {
+    article: `favorites__card`,
+    imgWrapper: `favorites__image-wrapper`,
+    imgWidth: 150,
+    imgHeight: 110,
+    info: `favorites__card-info`,
+  }
+};

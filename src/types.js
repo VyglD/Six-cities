@@ -59,3 +59,13 @@ export const activeCityType = PropTypes.oneOf(CITIES);
 export const offersByCityEntriesType = PropTypes.arrayOf(
     PropTypes.array.isRequired
 ).isRequired;
+
+export const customOfferCardPropertiesEmumType = PropTypes.shape().isRequired;
+
+export const customOfferCardPropertiesType = PropTypes.shape({
+  article: PropTypes.string.isRequired,
+  imgWrapper: PropTypes.string.isRequired,
+  imgWidth: PropTypes.number.isRequired,
+  imgHeight: PropTypes.number.isRequired,
+  info: PropTypes.string.isRequired,
+}).isRequired;

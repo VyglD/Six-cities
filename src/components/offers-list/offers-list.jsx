@@ -1,6 +1,12 @@
 import React from "react";
 import OfferCard from "../offer-card/offer-card";
-import {historyType, offersType, pathsType, functionType} from "../../types";
+import {
+  historyType,
+  offersType,
+  pathsType,
+  functionType,
+  customOfferCardPropertiesType
+} from "../../types";
 
 class OffersList extends React.PureComponent {
   constructor(props) {
@@ -27,7 +33,7 @@ class OffersList extends React.PureComponent {
   }
 
   render() {
-    const {offers, getRateVisualisation} = this.props;
+    const {offers, getRateVisualisation, customOfferCardProperties} = this.props;
 
     return (
       <div className="cities__places-list places__list tabs__content">
@@ -39,6 +45,7 @@ class OffersList extends React.PureComponent {
             onMouseEnter={this.handleOfferCardHover}
             onClick={this.handleOfferCardClick}
             key={offer.id}
+            customOfferCardProperties={customOfferCardProperties}
           />
         ))}
 
@@ -52,6 +59,7 @@ OffersList.propTypes = {
   getRateVisualisation: functionType,
   history: historyType,
   paths: pathsType,
+  customOfferCardProperties: customOfferCardPropertiesType,
 };
 
 export default OffersList;

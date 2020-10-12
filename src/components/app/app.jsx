@@ -10,7 +10,8 @@ import {
   reviewsType,
   functionType,
   favoriteOffersType,
-  citiesType
+  citiesType,
+  customOfferCardPropertiesEmumType
 } from "../../types";
 import Header from "../header/header";
 
@@ -50,7 +51,8 @@ class App extends React.PureComponent {
       getSystemFormattedDate,
       getHumanFormattedDate,
       getRateVisualisation,
-      getOffersByCities
+      getOffersByCities,
+      customOfferCardPropertiesEmum
     } = this.props;
 
     return (
@@ -68,6 +70,7 @@ class App extends React.PureComponent {
                   history={history}
                   paths={paths}
                   cities={cities}
+                  customOfferCardProperties={customOfferCardPropertiesEmum.CITIES}
                 />
               );
             }}
@@ -93,6 +96,7 @@ class App extends React.PureComponent {
                   favoriteOffers={favoriteOffers}
                   getRateVisualisation={getRateVisualisation}
                   getOffersByCities={getOffersByCities}
+                  customOfferCardProperties={customOfferCardPropertiesEmum.FAVORITES}
                 />
               );
             }}
@@ -131,6 +135,7 @@ App.propTypes = {
   getHumanFormattedDate: functionType,
   getRateVisualisation: functionType,
   getOffersByCities: functionType,
+  customOfferCardPropertiesEmum: customOfferCardPropertiesEmumType,
 };
 
 export default App;

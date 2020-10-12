@@ -10,7 +10,7 @@ import {
   getRateVisualisation,
   getOffersByCities
 } from "./util";
-import {PATHS, CITIES} from "./const";
+import {PATHS, CITIES, CUSTOM_OFFER_CARD_PROPERTIES_ENUM} from "./const";
 
 ReactDOM.render(
     <App
@@ -19,6 +19,7 @@ ReactDOM.render(
       favoriteOffers={favoriteOffers}
       paths={PATHS}
       cities={CITIES}
+      customOfferCardPropertiesEmum={CUSTOM_OFFER_CARD_PROPERTIES_ENUM}
       getSystemFormattedDate={getSystemFormattedDate}
       getHumanFormattedDate={getHumanFormattedDate}
       getRateVisualisation={getRateVisualisation}

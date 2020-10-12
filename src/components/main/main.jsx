@@ -1,6 +1,14 @@
 import React from "react";
 import Cities from "../cities/cities";
-import {offersType, componentType, historyType, pathsType, functionType, citiesType} from "../../types";
+import {
+  offersType,
+  componentType,
+  historyType,
+  pathsType,
+  functionType,
+  citiesType,
+  customOfferCardPropertiesType
+} from "../../types";
 
 class Main extends React.PureComponent {
   constructor(props) {
@@ -40,7 +48,8 @@ class Main extends React.PureComponent {
       getRateVisualisation,
       history,
       paths,
-      cities
+      cities,
+      customOfferCardProperties
     } = this.props;
 
 
@@ -96,6 +105,7 @@ class Main extends React.PureComponent {
               history={history}
               paths={paths}
               activeCity={this.state.activeCity}
+              customOfferCardProperties={customOfferCardProperties}
             />
           </main>
         </div>
@@ -112,6 +122,7 @@ Main.propTypes = {
   history: historyType,
   paths: pathsType,
   cities: citiesType,
+  customOfferCardProperties: customOfferCardPropertiesType,
 };
 
 export default Main;

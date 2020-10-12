@@ -4,7 +4,8 @@ import {
   componentType,
   offersType,
   favoriteOffersType,
-  functionType
+  functionType,
+  customOfferCardPropertiesType
 } from "../../types";
 
 const Favorites = (props) => {
@@ -13,7 +14,8 @@ const Favorites = (props) => {
     offers,
     favoriteOffers,
     getRateVisualisation,
-    getOffersByCities
+    getOffersByCities,
+    customOfferCardProperties
   } = props;
 
   const offersByCityEntries = Array.from(
@@ -61,6 +63,7 @@ const Favorites = (props) => {
                   <FavoriteList
                     offersByCityEntries={offersByCityEntries}
                     getRateVisualisation={getRateVisualisation}
+                    customOfferCardProperties={customOfferCardProperties}
                   />
                 )
                 : (
@@ -90,6 +93,7 @@ Favorites.propTypes = {
   getRateVisualisation: functionType,
   getOffersByCities: functionType,
   header: componentType,
+  customOfferCardProperties: customOfferCardPropertiesType,
 };
 
 export default Favorites;

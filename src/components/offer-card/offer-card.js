@@ -1,5 +1,5 @@
 import React from "react";
-import {offerType, functionType} from "../../types";
+import {offerType, functionType, customOfferCardPropertiesType} from "../../types";
 
 class OfferCard extends React.PureComponent {
   render() {
@@ -7,12 +7,25 @@ class OfferCard extends React.PureComponent {
       offer,
       getRateVisualisation,
       onMouseEnter,
-      onClick
+      onClick,
+      customOfferCardProperties
     } = this.props;
+
+    const {
+      article,
+      imgWrapper,
+      imgWidth,
+      imgHeight,
+      info
+    } = customOfferCardProperties;
+
+    const articleClass = `place-card ${article}`;
+    const imgWrapperClass = `place-card__image-wrapper ${imgWrapper}`;
+    const infoClass = `place-card__info ${info}`;
 
     return (
       <article
-        className="cities__place-card place-card"
+        className={articleClass}
         onMouseEnter={onMouseEnter.bind(this, offer)}
         onClick={onClick}
       >
@@ -22,12 +35,18 @@ class OfferCard extends React.PureComponent {
             <span>Premium</span>
           </div>
           : ``}
-        <div className="cities__image-wrapper place-card__image-wrapper">
+        <div className={imgWrapperClass}>
           <a href="#">
-            <img className="place-card__image" src={offer.photos[0]} width="260" height="200" alt="Place image"/>
+            <img
+              className="place-card__image"
+              src={offer.photos[0]}
+              width={imgWidth}
+              height={imgHeight}
+              alt="Place image"
+            />
           </a>
         </div>
-        <div className="place-card__info">
+        <div className={infoClass}>
           <div className="place-card__price-wrapper">
             <div className="place-card__price">
               <b className="place-card__price-value">&euro;{offer.cost}</b>
@@ -61,6 +80,7 @@ OfferCard.propTypes = {
   getRateVisualisation: functionType,
   onMouseEnter: functionType,
   onClick: functionType,
+  customOfferCardProperties: customOfferCardPropertiesType
 };
 
 export default OfferCard;
