@@ -107,7 +107,7 @@ class App extends React.PureComponent {
               return (
                 <Offer
                   header={this.getHeaderComponent(history)}
-                  offers={this.props.offers}
+                  offers={offers}
                   reviews={reviews}
                   getRateVisualisation={getRateVisualisation}
                   history={history}
@@ -115,6 +115,8 @@ class App extends React.PureComponent {
                   getSystemFormattedDate={getSystemFormattedDate}
                   getHumanFormattedDate={getHumanFormattedDate}
                   email={this.state.email}
+                  customOfferCardProperties={customOfferCardPropertiesEmum.NEAR_PLACES}
+                  getOffersByCities={getOffersByCities}
                 />
               );
             }}

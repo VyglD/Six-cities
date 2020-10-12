@@ -40,5 +40,12 @@ export const CUSTOM_OFFER_CARD_PROPERTIES_ENUM = {
     imgWidth: 150,
     imgHeight: 110,
     info: `favorites__card-info`,
+  },
+  NEAR_PLACES: {
+    article: `near-places__card`,
+    imgWrapper: `near-places__image-wrapper`,
+    imgWidth: 260,
+    imgHeight: 200,
+    info: ``,
   }
 };
