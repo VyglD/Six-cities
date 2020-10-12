@@ -3,7 +3,7 @@ import React from "react";
 const MIN_CHARACTERS = 50;
 const MAX_CHARACTERS = 300;
 
-class CommentForm extends React.PureComponent {
+class ReviewForm extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -155,4 +155,4 @@ class CommentForm extends React.PureComponent {
   }
 }
 
-export default CommentForm;
+export default ReviewForm;
