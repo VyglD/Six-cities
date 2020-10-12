@@ -108,6 +108,7 @@ class App extends React.PureComponent {
                   paths={paths}
                   getSystemFormattedDate={getSystemFormattedDate}
                   getHumanFormattedDate={getHumanFormattedDate}
+                  email={this.state.email}
                 />
               );
             }}
