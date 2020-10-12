@@ -1,4 +1,5 @@
 import React from "react";
+import FavoriteList from "../favorites-list/favorites-list";
 import {
   componentType,
   offersType,
@@ -15,78 +16,62 @@ const Favorites = (props) => {
     getOffersByCities
   } = props;
 
-  const offersByCity = getOffersByCities(
-      offers.filter((offer) => favoriteOffers.includes(offer.id))
+  const offersByCityEntries = Array.from(
+      getOffersByCities(
+          offers.filter((offer) => favoriteOffers.includes(offer.id))
+      ).entries())
+      .filter(([_, array]) => array.length > 0);
+
+
+  const classPage = (
+    `page ${
+      offersByCityEntries.length > 0
+        ? ``
+        : `page--favorites-empty`
+    }`
+  );
+
+  const classMain = (
+    `page__main page__main--favorites ${
+      offersByCityEntries.length > 0
+        ? ``
+        : `page__main--favorites-empty`
+    }`
+  );
+
+  const classSection = (
+    `favorites ${
+      offersByCityEntries.length > 0
+        ? ``
+        : `favorites--empty`
+    }`
   );
 
   return (
-    <div className="page">
+    <div className={classPage}>
       {header}
 
-      <main className="page__main page__main--favorites">
+      <main className={classMain}>
         <div className="page__favorites-container container">
-          <section className="favorites">
+          <section className={classSection}>
             <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {
-                Array.from(offersByCity.keys())
-                  .map((city) => {
-                    return offersByCity.get(city).length > 0
-                      ? (
-                        <li className="favorites__locations-items" key={city}>
-                          <div className="favorites__locations locations locations--current">
-                            <div className="locations__item">
-                              <a className="locations__item-link" href="#">
-                                <span>{city}</span>
-                              </a>
-                            </div>
-                          </div>
-                          <div className="favorites__places">
-                            {
-                              offersByCity.get(city)
-                                .map((offer) => {
-                                  return (
-                                    <article className="favorites__card place-card" key={offer.id}>
-                                      <div className="favorites__image-wrapper place-card__image-wrapper">
-                                        <a href="#">
-                                          <img className="place-card__image" src={offer.photos[0]} width="150" height="110" alt="Place image"/>
-                                        </a>
-                                      </div>
-                                      <div className="favorites__card-info place-card__info">
-                                        <div className="place-card__price-wrapper">
-                                          <div className="place-card__price">
-                                            <b className="place-card__price-value">&euro;{offer.cost}</b>
-                                            <span className="place-card__price-text">&#47;&nbsp;night</span>
-                                          </div>
-                                          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-                                            <svg className="place-card__bookmark-icon" width="18" height="19">
-                                              <use xlinkHref="#icon-bookmark"></use>
-                                            </svg>
-                                            <span className="visually-hidden">In bookmarks</span>
-                                          </button>
-                                        </div>
-                                        <div className="place-card__rating rating">
-                                          <div className="place-card__stars rating__stars">
-                                            <span style={getRateVisualisation(offer.rate)}></span>
-                                            <span className="visually-hidden">Rating</span>
-                                          </div>
-                                        </div>
-                                        <h2 className="place-card__name">
-                                          <a href="#">{offer.title}</a>
-                                        </h2>
-                                        <p className="place-card__type">{offer.housingType}</p>
-                                      </div>
-                                    </article>
-                                  );
-                                })
-                            }
-                          </div>
-                        </li>
-                      )
-                      : ``;
-                  })
-              }
-            </ul>
+            {
+              offersByCityEntries.length > 0
+                ? (
+                  <FavoriteList
+                    offersByCityEntries={offersByCityEntries}
+                    getRateVisualisation={getRateVisualisation}
+                  />
+                )
+                : (
+                  <div className="favorites__status-wrapper">
+                    <b className="favorites__status">Nothing yet saved.</b>
+                    <p className="favorites__status-description">
+                      Save properties to narrow down search or plan yor future trips.
+                    </p>
+                  </div>
+                )
+            }
           </section>
         </div>
       </main>

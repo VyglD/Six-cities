@@ -23,7 +23,9 @@ export const offerType = PropTypes.exact({
 
 export const offersType = PropTypes.arrayOf(offerType).isRequired;
 
-export const favoriteOffersType = PropTypes.arrayOf(PropTypes.string.isRequired).isRequired;
+export const favoriteOffersType = PropTypes.arrayOf(
+    PropTypes.string.isRequired
+).isRequired;
 
 export const reviewType = PropTypes.exact({
   offerId: PropTypes.string.isRequired,
@@ -42,7 +44,9 @@ export const emailType = PropTypes.string.isRequired;
 
 export const pathsType = PropTypes.shape().isRequired;
 
-export const citiesType = PropTypes.arrayOf(PropTypes.oneOf(CITIES).isRequired).isRequired;
+export const citiesType = PropTypes.arrayOf(
+    PropTypes.oneOf(CITIES).isRequired
+).isRequired;
 
 export const historyType = PropTypes.shape({
   push: PropTypes.func.isRequired,
@@ -51,3 +55,7 @@ export const historyType = PropTypes.shape({
 export const componentType = PropTypes.element.isRequired;
 
 export const activeCityType = PropTypes.oneOf(CITIES);
+
+export const offersByCityEntriesType = PropTypes.arrayOf(
+    PropTypes.array.isRequired
+).isRequired;
