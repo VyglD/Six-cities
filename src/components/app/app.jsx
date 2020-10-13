@@ -12,7 +12,7 @@ import {
   numberConstantType,
   cardStyleEnumType,
   functionType,
-  favoriteOffersType,
+  favoriteOfferIdsType,
 } from "../../types";
 
 class App extends React.PureComponent {
@@ -21,21 +21,41 @@ class App extends React.PureComponent {
 
     this.state = {
       email: ``,
+      favoriteOfferIds: this.props.favoriteOfferIds,
     };
 
     this.allOffersByCities = props.getOffersByCities(props.allOffers);
 
     this.handleLogIn = this.handleLogIn.bind(this);
+    this.handlefavoriteOfferIdsChange = this.handlefavoriteOfferIdsChange.bind(this);
   }
 
   handleLogIn(email) {
     this.setState({email});
   }
 
+  handlefavoriteOfferIdsChange(history, offer) {
+    if (this.state.email) {
+      const oldfavoriteOfferIds = this.state.favoriteOfferIds.slice();
+      const index = oldfavoriteOfferIds.findIndex((offerId) => offerId === offer.id);
+
+      if (index === -1) {
+        oldfavoriteOfferIds.push(offer.id);
+
+        this.setState({favoriteOfferIds: oldfavoriteOfferIds});
+      } else {
+        oldfavoriteOfferIds.splice(index, 1);
+
+        this.setState({favoriteOfferIds: oldfavoriteOfferIds});
+      }
+    } else {
+      history.push(this.props.paths.LOGIN);
+    }
+  }
+
   render() {
     const {
       allOffers,
-      favoriteOffers,
       allReviews,
       paths,
       cities,
@@ -51,15 +71,16 @@ class App extends React.PureComponent {
         <Switch>
           <Route exact
             path={paths.MAIN}
-            render={() => (
+            render={({history}) => (
               <Main
-                allOffers={allOffers}
+                favoriteOfferIds={this.state.favoriteOfferIds}
                 paths={paths}
                 cities={cities}
                 cardStyle={cardStyleEnum.CITIES}
                 getRateVisualisation={getRateVisualisation}
                 allOffersByCities={this.allOffersByCities}
                 email={this.state.email}
+                onFavoritesChange = {this.handlefavoriteOfferIdsChange.bind(this, history)}
               />
             )}
           />
@@ -81,16 +102,17 @@ class App extends React.PureComponent {
           />
           <Route exact
             path={paths.FAVORITES}
-            render={() => {
+            render={({history}) => {
               return this.state.email
                 ? (
                   <Favorites
-                    favoriteOffers={favoriteOffers}
+                    favoriteOfferIds={this.state.favoriteOfferIds}
                     paths={paths}
                     cardStyle={cardStyleEnum.FAVORITES}
                     getRateVisualisation={getRateVisualisation}
                     allOffersByCities={this.allOffersByCities}
                     email={this.state.email}
+                    onFavoritesChange = {this.handlefavoriteOfferIdsChange.bind(this, history)}
                   />
                 )
                 : (
@@ -100,7 +122,7 @@ class App extends React.PureComponent {
           />
           <Route exact
             path={`${paths.OFFER}/:${paths.OFFER_ID}`}
-            render={({match}) => {
+            render={({history, match}) => {
               const chosenOfferId = match.params[paths.OFFER_ID];
               const chosenOffer = allOffers.find((offer) => offer.id === chosenOfferId);
 
@@ -108,6 +130,7 @@ class App extends React.PureComponent {
                 ? (
                   <Offer
                     chosenOffer={chosenOffer}
+                    favoriteOfferIds={this.state.favoriteOfferIds}
                     allReviews={allReviews}
                     paths={paths}
                     maxNearOffers={maxNearOffers}
@@ -117,6 +140,7 @@ class App extends React.PureComponent {
                     getRateVisualisation={getRateVisualisation}
                     allOffersByCities={this.allOffersByCities}
                     email={this.state.email}
+                    onFavoritesChange = {this.handlefavoriteOfferIdsChange.bind(this, history)}
                   />
                 )
                 : (
@@ -133,7 +157,7 @@ class App extends React.PureComponent {
 
 App.propTypes = {
   allOffers: offersType,
-  favoriteOffers: favoriteOffersType,
+  favoriteOfferIds: favoriteOfferIdsType,
   allReviews: reviewsType,
   paths: pathsType,
   cities: citiesType,

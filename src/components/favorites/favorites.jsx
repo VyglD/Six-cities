@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import Header from "../header/header";
 import FavoriteList from "../favorites-list/favorites-list";
 import {
-  favoriteOffersType,
+  favoriteOfferIdsType,
   pathsType,
   cardStyleType,
   functionType,
@@ -13,27 +13,28 @@ import {
 
 const Favorites = (props) => {
   const {
-    favoriteOffers,
+    favoriteOfferIds,
     paths,
     cardStyle,
     getRateVisualisation,
     allOffersByCities,
     email,
+    onFavoritesChange,
   } = props;
 
-  const favoriteOffersByCities = new Map(
+  const favoriteOfferIdsByCities = new Map(
       Array.from(allOffersByCities.entries()).map(([city, offers]) => {
-        const favoriteOffersOfCity = offers.filter((offer) => favoriteOffers.includes(offer.id));
+        const favoriteOfferIdsOfCity = offers.filter((offer) => favoriteOfferIds.includes(offer.id));
 
-        return favoriteOffersOfCity.length > 0
-          ? [city, favoriteOffersOfCity]
+        return favoriteOfferIdsOfCity.length > 0
+          ? [city, favoriteOfferIdsOfCity]
           : null;
       }).filter((item) => item)
   );
 
   const classPage = (
     `page ${
-      favoriteOffersByCities.size > 0
+      favoriteOfferIdsByCities.size > 0
         ? ``
         : `page--favorites-empty`
     }`
@@ -41,7 +42,7 @@ const Favorites = (props) => {
 
   const classMain = (
     `page__main page__main--favorites ${
-      favoriteOffersByCities.size > 0
+      favoriteOfferIdsByCities.size > 0
         ? ``
         : `page__main--favorites-empty`
     }`
@@ -49,7 +50,7 @@ const Favorites = (props) => {
 
   const classSection = (
     `favorites ${
-      favoriteOffersByCities.size > 0
+      favoriteOfferIdsByCities.size > 0
         ? ``
         : `favorites--empty`
     }`
@@ -67,13 +68,16 @@ const Favorites = (props) => {
           <section className={classSection}>
             <h1 className="favorites__title">Saved listing</h1>
             {
-              favoriteOffersByCities.size > 0
+              favoriteOfferIdsByCities.size > 0
                 ? (
                   <FavoriteList
+                    favoriteOfferIds={favoriteOfferIds}
                     paths={paths}
                     cardStyle={cardStyle}
                     getRateVisualisation={getRateVisualisation}
-                    offersByCities={favoriteOffersByCities}
+                    offersByCities={favoriteOfferIdsByCities}
+                    email={email}
+                    onFavoritesChange={onFavoritesChange}
                   />
                 )
                 : (
@@ -101,12 +105,13 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  favoriteOffers: favoriteOffersType,
+  favoriteOfferIds: favoriteOfferIdsType,
   paths: pathsType,
   cardStyle: cardStyleType,
   getRateVisualisation: functionType,
   allOffersByCities: mapType,
   email: emailType,
+  onFavoritesChange: functionType,
 };
 
 export default Favorites;

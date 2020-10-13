@@ -2,9 +2,11 @@ import React from "react";
 import OfferCard from "../offer-card/offer-card";
 import {
   offersType,
+  favoriteOfferIdsType,
   pathsType,
   cardStyleType,
   functionType,
+  emailType,
 } from "../../types";
 
 class OffersList extends React.PureComponent {
@@ -29,9 +31,12 @@ class OffersList extends React.PureComponent {
   render() {
     const {
       offers,
+      favoriteOfferIds,
       paths,
       cardStyle,
       getRateVisualisation,
+      email,
+      onFavoritesChange,
     } = this.props;
 
     return (
@@ -41,10 +46,13 @@ class OffersList extends React.PureComponent {
           <OfferCard
             key={offer.id}
             offer={offer}
+            favoriteOfferIds={favoriteOfferIds}
             paths={paths}
             cardStyle={cardStyle}
             getRateVisualisation={getRateVisualisation}
+            email={email}
             onMouseEnter={this.handleOfferCardHover}
+            onFavoritesChange={onFavoritesChange}
           />
         ))}
 
@@ -55,9 +63,12 @@ class OffersList extends React.PureComponent {
 
 OffersList.propTypes = {
   offers: offersType,
+  favoriteOfferIds: favoriteOfferIdsType,
   paths: pathsType,
   cardStyle: cardStyleType,
   getRateVisualisation: functionType,
+  email: emailType,
+  onFavoritesChange: functionType,
 };
 
 export default OffersList;

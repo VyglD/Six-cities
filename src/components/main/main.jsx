@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../header/header";
 import Cities from "../cities/cities";
 import {
-  offersType,
+  favoriteOfferIdsType,
   pathsType,
   citiesType,
   cardStyleType,
@@ -43,12 +43,14 @@ class Main extends React.PureComponent {
 
   render() {
     const {
+      favoriteOfferIds,
       paths,
       cities,
       cardStyle,
       getRateVisualisation,
       allOffersByCities,
       email,
+      onFavoritesChange,
     } = this.props;
 
     const offersOfActiveCity = allOffersByCities.get(this.state.activeCity);
@@ -102,10 +104,13 @@ class Main extends React.PureComponent {
             </div>
             <Cities
               offers={offersOfActiveCity}
+              favoriteOfferIds={favoriteOfferIds}
               paths={paths}
-              getRateVisualisation={getRateVisualisation}
               cardStyle={cardStyle}
+              getRateVisualisation={getRateVisualisation}
+              email={email}
               activeCity={this.state.activeCity}
+              onFavoritesChange={onFavoritesChange}
             />
           </main>
         </div>
@@ -115,13 +120,14 @@ class Main extends React.PureComponent {
 }
 
 Main.propTypes = {
-  allOffers: offersType,
+  favoriteOfferIds: favoriteOfferIdsType,
   paths: pathsType,
   cities: citiesType,
   cardStyle: cardStyleType,
   getRateVisualisation: functionType,
   allOffersByCities: mapType,
   email: emailType,
+  onFavoritesChange: functionType,
 };
 
 export default Main;

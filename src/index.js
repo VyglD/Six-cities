@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./components/app/app";
 import mockOffers from "./mocks/offers";
 import mockReviews from "./mocks/reviews";
-import favoriteOffers from "./mocks/favorite-offers";
+import favoriteOfferIds from "./mocks/favorite-offers";
 import {
   getSystemFormattedDate,
   getHumanFormattedDate,
@@ -20,7 +20,7 @@ import {
 ReactDOM.render(
     <App
       allOffers={mockOffers}
-      favoriteOffers={favoriteOffers}
+      favoriteOfferIds={favoriteOfferIds}
       allReviews={mockReviews}
       paths={Paths}
       cities={CITIES}

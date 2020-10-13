@@ -5,6 +5,7 @@ import ReviewForm from "../review-form/review-form";
 import OfferCard from "../offer-card/offer-card";
 import {
   offerType,
+  favoriteOfferIdsType,
   reviewsType,
   pathsType,
   numberConstantType,
@@ -17,6 +18,7 @@ import {
 const Offer = (props) => {
   const {
     chosenOffer,
+    favoriteOfferIds,
     allReviews,
     paths,
     maxNearOffers,
@@ -26,6 +28,7 @@ const Offer = (props) => {
     getRateVisualisation,
     allOffersByCities,
     email,
+    onFavoritesChange,
   } = props;
 
   const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
@@ -34,7 +37,13 @@ const Offer = (props) => {
     .filter((offer) => offer.id !== chosenOffer.id)
     .slice(0, maxNearOffers);
 
-  window.scrollTo(0, 0);
+  const favoriteClass = (
+    `property__bookmark-button button ${
+      email && favoriteOfferIds.includes(chosenOffer.id)
+        ? `property__bookmark-button--active`
+        : ``
+    }`
+  );
 
   return (
     <div className="page">
@@ -84,8 +93,9 @@ const Offer = (props) => {
                   {chosenOffer.title}
                 </h1>
                 <button
-                  className="property__bookmark-button button"
+                  className={favoriteClass}
                   type="button"
+                  onClick={() => onFavoritesChange(chosenOffer)}
                 >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -195,9 +205,12 @@ const Offer = (props) => {
                   <OfferCard
                     key={nearOffer.id}
                     offer={nearOffer}
+                    favoriteOfferIds={favoriteOfferIds}
                     paths={paths}
                     cardStyle={cardStyle}
                     getRateVisualisation={getRateVisualisation}
+                    email={email}
+                    onFavoritesChange={onFavoritesChange}
                   />
                 ))
               }
@@ -211,6 +224,7 @@ const Offer = (props) => {
 
 Offer.propTypes = {
   chosenOffer: offerType,
+  favoriteOfferIds: favoriteOfferIdsType,
   allReviews: reviewsType,
   paths: pathsType,
   maxNearOffers: numberConstantType,
@@ -220,6 +234,7 @@ Offer.propTypes = {
   getRateVisualisation: functionType,
   allOffersByCities: mapType,
   email: emailType,
+  onFavoritesChange: functionType,
 };
 
 export default Offer;

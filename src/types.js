@@ -25,7 +25,7 @@ export const offerType = PropTypes.exact({
 
 export const offersType = PropTypes.arrayOf(offerType).isRequired;
 
-export const favoriteOffersType = PropTypes.arrayOf(offerIdType).isRequired;
+export const favoriteOfferIdsType = PropTypes.arrayOf(offerIdType).isRequired;
 
 export const reviewType = PropTypes.exact({
   offerId: offerIdType,

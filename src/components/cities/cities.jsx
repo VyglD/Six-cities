@@ -2,19 +2,24 @@ import React from "react";
 import OffersList from "../offers-list/offers-list";
 import {
   offersType,
+  favoriteOfferIdsType,
   pathsType,
   cardStyleType,
   functionType,
+  emailType,
   activeCityType,
 } from "../../types";
 
 const Cities = (props) => {
   const {
     offers,
+    favoriteOfferIds,
     paths,
     getRateVisualisation,
     cardStyle,
+    email,
     activeCity,
+    onFavoritesChange,
   } = props;
 
   return (
@@ -44,9 +49,12 @@ const Cities = (props) => {
 
                 <OffersList
                   offers={offers}
+                  favoriteOfferIds={favoriteOfferIds}
                   paths={paths}
                   cardStyle={cardStyle}
                   getRateVisualisation={getRateVisualisation}
+                  email={email}
+                  onFavoritesChange={onFavoritesChange}
                 />
 
               </section>
@@ -76,10 +84,13 @@ const Cities = (props) => {
 
 Cities.propTypes = {
   offers: offersType,
+  favoriteOfferIds: favoriteOfferIdsType,
   paths: pathsType,
   cardStyle: cardStyleType,
   getRateVisualisation: functionType,
+  email: emailType,
   activeCity: activeCityType,
+  onFavoritesChange: functionType,
 };
 
 export default Cities;
