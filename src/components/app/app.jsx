@@ -22,12 +22,14 @@ class App extends React.PureComponent {
     this.state = {
       email: ``,
       favoriteOfferIds: this.props.favoriteOfferIds,
+      allReviews: this.props.allReviews,
     };
 
     this.allOffersByCities = props.getOffersByCities(props.allOffers);
 
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handlefavoriteOfferIdsChange = this.handlefavoriteOfferIdsChange.bind(this);
+    this.handleReviewAdd = this.handleReviewAdd.bind(this);
   }
 
   handleLogIn(email) {
@@ -53,13 +55,24 @@ class App extends React.PureComponent {
     }
   }
 
+  handleReviewAdd(review, callback) {
+    const allReviewsOld = this.state.allReviews.slice();
+
+    allReviewsOld.push(review);
+
+    this.setState(
+        {allReviews: allReviewsOld},
+        callback
+    );
+  }
+
   render() {
     const {
       allOffers,
-      allReviews,
       paths,
       cities,
       maxNearOffers,
+      maxReviews,
       cardStyleEnum,
       getSystemFormattedDate,
       getHumanFormattedDate,
@@ -131,9 +144,10 @@ class App extends React.PureComponent {
                   <Offer
                     chosenOffer={chosenOffer}
                     favoriteOfferIds={this.state.favoriteOfferIds}
-                    allReviews={allReviews}
+                    allReviews={this.state.allReviews}
                     paths={paths}
                     maxNearOffers={maxNearOffers}
+                    maxReviews={maxReviews}
                     cardStyle={cardStyleEnum.NEAR_PLACES}
                     getSystemFormattedDate={getSystemFormattedDate}
                     getHumanFormattedDate={getHumanFormattedDate}
@@ -141,6 +155,7 @@ class App extends React.PureComponent {
                     allOffersByCities={this.allOffersByCities}
                     email={this.state.email}
                     onFavoritesChange = {this.handlefavoriteOfferIdsChange.bind(this, history)}
+                    onReviewAdd = {this.handleReviewAdd}
                   />
                 )
                 : (
@@ -162,6 +177,7 @@ App.propTypes = {
   paths: pathsType,
   cities: citiesType,
   maxNearOffers: numberConstantType,
+  maxReviews: numberConstantType,
   cardStyleEnum: cardStyleEnumType,
   getSystemFormattedDate: functionType,
   getHumanFormattedDate: functionType,

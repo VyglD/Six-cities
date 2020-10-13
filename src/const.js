@@ -3,6 +3,7 @@ const MAX_RATE = 5;
 export const RATE_COEFFICIENT = 100 / MAX_RATE;
 
 export const MAX_NEAR_OFFERS = 3;
+export const MAX_REVIEWS = 10;
 
 export const HousingType = {
   APARTMENT: `Apartment`,

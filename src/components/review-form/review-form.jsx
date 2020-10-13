@@ -1,4 +1,5 @@
 import React from "react";
+import {offerType, functionType, emailType} from "../../types";
 
 const MIN_CHARACTERS = 50;
 const MAX_CHARACTERS = 300;
@@ -15,19 +16,29 @@ class ReviewForm extends React.PureComponent {
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.handleRatingChange = this.handleRatingChange.bind(this);
-    this.handleSubmitComment = this.handleSubmitComment.bind(this);
+    this.handleSubmitReview = this.handleSubmitReview.bind(this);
+
+    this.clearForm = this.clearForm.bind(this);
   }
 
   checkFormValidity() {
     const {review, rating} = this.state;
 
-    if (review.length > MIN_CHARACTERS
+    if (review.length >= MIN_CHARACTERS
       && review.length < MAX_CHARACTERS
       && rating > 0) {
       this.setState({isValid: true});
     } else {
       this.setState({isValid: false});
     }
+  }
+
+  clearForm() {
+    this.setState({
+      rating: 0,
+      review: ``,
+      isValid: false,
+    });
   }
 
   handleRatingChange(evt) {
@@ -45,10 +56,20 @@ class ReviewForm extends React.PureComponent {
     );
   }
 
-  handleSubmitComment(evt) {
+  handleSubmitReview(evt) {
+    const {currentOffer, email, onReviewAdd} = this.props;
+    const newReview = {
+      offerId: currentOffer.id,
+      name: email,
+      photo: ``,
+      rate: this.state.rating,
+      date: new Date(),
+      text: this.state.review,
+    };
+
     evt.preventDefault();
 
-    // вызов метода для изменения массива комментов
+    onReviewAdd(newReview, this.clearForm);
   }
 
   render() {
@@ -57,7 +78,7 @@ class ReviewForm extends React.PureComponent {
         className="reviews__form form"
         action="#"
         method="post"
-        onSubmit={this.handleSubmitComment}
+        onSubmit={this.handleSubmitReview}
       >
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
         <div className="reviews__rating-form form__rating">
@@ -68,6 +89,7 @@ class ReviewForm extends React.PureComponent {
             id="stars-5"
             type="radio"
             onChange={this.handleRatingChange}
+            checked={this.state.rating === 5 ? `checked` : ``}
           />
           <label htmlFor="stars-5" className="reviews__rating-label form__rating-label" title="perfect">
             <svg className="form__star-image" width="37" height="33">
@@ -82,6 +104,7 @@ class ReviewForm extends React.PureComponent {
             id="stars-4"
             type="radio"
             onChange={this.handleRatingChange}
+            checked={this.state.rating === 4 ? `checked` : ``}
           />
           <label htmlFor="stars-4" className="reviews__rating-label form__rating-label" title="good">
             <svg className="form__star-image" width="37" height="33">
@@ -96,6 +119,7 @@ class ReviewForm extends React.PureComponent {
             id="stars-3"
             type="radio"
             onChange={this.handleRatingChange}
+            checked={this.state.rating === 3 ? `checked` : ``}
           />
           <label htmlFor="stars-3" className="reviews__rating-label form__rating-label" title="not bad">
             <svg className="form__star-image" width="37" height="33">
@@ -110,6 +134,7 @@ class ReviewForm extends React.PureComponent {
             id="stars-2"
             type="radio"
             onChange={this.handleRatingChange}
+            checked={this.state.rating === 2 ? `checked` : ``}
           />
           <label htmlFor="stars-2" className="reviews__rating-label form__rating-label" title="badly">
             <svg className="form__star-image" width="37" height="33">
@@ -124,6 +149,7 @@ class ReviewForm extends React.PureComponent {
             id="stars-1"
             type="radio"
             onChange={this.handleRatingChange}
+            checked={this.state.rating === 1 ? `checked` : ``}
           />
           <label htmlFor="stars-1" className="reviews__rating-label form__rating-label" title="terribly">
             <svg className="form__star-image" width="37" height="33">
@@ -135,6 +161,7 @@ class ReviewForm extends React.PureComponent {
           className="reviews__textarea form__textarea"
           id="review"
           name="review"
+          value={this.state.review}
           onChange={this.handleFieldChange}
           placeholder="Tell how was your stay, what you like and what can be improved">
         </textarea>
@@ -154,5 +181,11 @@ class ReviewForm extends React.PureComponent {
     );
   }
 }
+
+ReviewForm.propTypes = {
+  currentOffer: offerType,
+  email: emailType,
+  onReviewAdd: functionType,
+};
 
 export default ReviewForm;

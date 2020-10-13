@@ -22,6 +22,7 @@ const Offer = (props) => {
     allReviews,
     paths,
     maxNearOffers,
+    maxReviews,
     cardStyle,
     getSystemFormattedDate,
     getHumanFormattedDate,
@@ -29,6 +30,7 @@ const Offer = (props) => {
     allOffersByCities,
     email,
     onFavoritesChange,
+    onReviewAdd,
   } = props;
 
   const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
@@ -175,20 +177,27 @@ const Offer = (props) => {
                 </h2>
                 <ul className="reviews__list">
                   {
-                    reviewsOfChosenOffer.map((review, index) => (
-                      <Review
-                        key={index}
-                        review={review}
-                        getSystemFormattedDate={getSystemFormattedDate}
-                        getHumanFormattedDate={getHumanFormattedDate}
-                        getRateVisualisation={getRateVisualisation}
-                      />
-                    ))
+                    reviewsOfChosenOffer.slice(0, maxReviews)
+                      .map((review, index) => (
+                        <Review
+                          key={index}
+                          review={review}
+                          getSystemFormattedDate={getSystemFormattedDate}
+                          getHumanFormattedDate={getHumanFormattedDate}
+                          getRateVisualisation={getRateVisualisation}
+                        />
+                      ))
                   }
                 </ul>
                 {
                   email
-                    ? <ReviewForm />
+                    ? (
+                      <ReviewForm
+                        currentOffer={chosenOffer}
+                        email={email}
+                        onReviewAdd={onReviewAdd}
+                      />
+                    )
                     : ``
                 }
               </section>
@@ -228,6 +237,7 @@ Offer.propTypes = {
   allReviews: reviewsType,
   paths: pathsType,
   maxNearOffers: numberConstantType,
+  maxReviews: numberConstantType,
   cardStyle: cardStyleType,
   getSystemFormattedDate: functionType,
   getHumanFormattedDate: functionType,
@@ -235,6 +245,7 @@ Offer.propTypes = {
   allOffersByCities: mapType,
   email: emailType,
   onFavoritesChange: functionType,
+  onReviewAdd: functionType,
 };
 
 export default Offer;
