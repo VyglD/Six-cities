@@ -3,23 +3,22 @@ import {Link} from "react-router-dom";
 import {
   offerType,
   favoriteOfferIdsType,
-  pathsType,
-  cardStyleType,
   functionType,
   notRequiredFunctionType,
   emailType,
+  CardStyleType
 } from "../../types";
+import {Path} from "../../const";
+import {getRateVisualisation} from "../../util";
 
 const OfferCard = (props) => {
   const {
     offer,
     favoriteOfferIds,
-    paths,
-    cardStyle,
-    getRateVisualisation,
     email,
     onMouseEnter = (() => {}),
     onFavoritesChange,
+    CardStyle,
   } = props;
 
   const {
@@ -28,7 +27,7 @@ const OfferCard = (props) => {
     imgWidth,
     imgHeight,
     info,
-  } = cardStyle;
+  } = CardStyle;
 
   const articleClass = `place-card ${article}`;
   const imgWrapperClass = `place-card__image-wrapper ${imgWrapper}`;
@@ -42,7 +41,7 @@ const OfferCard = (props) => {
     }`
   );
 
-  const linkHref = `${paths.OFFER}/${offer.id}`;
+  const linkHref = `${Path.OFFER}/${offer.id}`;
 
   return (
     <article
@@ -101,12 +100,10 @@ const OfferCard = (props) => {
 OfferCard.propTypes = {
   offer: offerType,
   favoriteOfferIds: favoriteOfferIdsType,
-  paths: pathsType,
-  cardStyle: cardStyleType,
-  getRateVisualisation: functionType,
   email: emailType,
   onMouseEnter: notRequiredFunctionType,
   onFavoritesChange: functionType,
+  CardStyle: CardStyleType,
 };
 
 export default OfferCard;

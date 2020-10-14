@@ -1,12 +1,14 @@
 import React from "react";
-import {reviewType, functionType} from "../../types";
+import {reviewType} from "../../types";
+import {
+  getSystemFormattedDate,
+  getHumanFormattedDate,
+  getRateVisualisation,
+} from "../../util";
 
 const Review = (props) => {
   const {
     review,
-    getSystemFormattedDate,
-    getHumanFormattedDate,
-    getRateVisualisation,
   } = props;
 
   return (
@@ -54,9 +56,6 @@ const Review = (props) => {
 
 Review.propTypes = {
   review: reviewType,
-  getSystemFormattedDate: functionType,
-  getHumanFormattedDate: functionType,
-  getRateVisualisation: functionType,
 };
 
 export default Review;

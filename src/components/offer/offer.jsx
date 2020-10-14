@@ -7,26 +7,18 @@ import {
   offerType,
   favoriteOfferIdsType,
   reviewsType,
-  pathsType,
-  numberConstantType,
-  cardStyleType,
   functionType,
   mapType,
   emailType,
 } from "../../types";
+import {MAX_NEAR_OFFERS, MAX_REVIEWS, CardStyle} from "../../const";
+import {getRateVisualisation} from "../../util";
 
 const Offer = (props) => {
   const {
     chosenOffer,
     favoriteOfferIds,
     allReviews,
-    paths,
-    maxNearOffers,
-    maxReviews,
-    cardStyle,
-    getSystemFormattedDate,
-    getHumanFormattedDate,
-    getRateVisualisation,
     allOffersByCities,
     email,
     onFavoritesChange,
@@ -37,7 +29,7 @@ const Offer = (props) => {
 
   const nearOffers = allOffersByCities.get(chosenOffer.city)
     .filter((offer) => offer.id !== chosenOffer.id)
-    .slice(0, maxNearOffers);
+    .slice(0, MAX_NEAR_OFFERS);
 
   const favoriteClass = (
     `property__bookmark-button button ${
@@ -50,7 +42,6 @@ const Offer = (props) => {
   return (
     <div className="page">
       <Header
-        paths={paths}
         email={email}
       />
 
@@ -177,14 +168,11 @@ const Offer = (props) => {
                 </h2>
                 <ul className="reviews__list">
                   {
-                    reviewsOfChosenOffer.slice(0, maxReviews)
+                    reviewsOfChosenOffer.slice(0, MAX_REVIEWS)
                       .map((review, index) => (
                         <Review
                           key={index}
                           review={review}
-                          getSystemFormattedDate={getSystemFormattedDate}
-                          getHumanFormattedDate={getHumanFormattedDate}
-                          getRateVisualisation={getRateVisualisation}
                         />
                       ))
                   }
@@ -215,11 +203,9 @@ const Offer = (props) => {
                     key={nearOffer.id}
                     offer={nearOffer}
                     favoriteOfferIds={favoriteOfferIds}
-                    paths={paths}
-                    cardStyle={cardStyle}
-                    getRateVisualisation={getRateVisualisation}
                     email={email}
                     onFavoritesChange={onFavoritesChange}
+                    CardStyle={CardStyle.NEAR_PLACES}
                   />
                 ))
               }
@@ -235,13 +221,6 @@ Offer.propTypes = {
   chosenOffer: offerType,
   favoriteOfferIds: favoriteOfferIdsType,
   allReviews: reviewsType,
-  paths: pathsType,
-  maxNearOffers: numberConstantType,
-  maxReviews: numberConstantType,
-  cardStyle: cardStyleType,
-  getSystemFormattedDate: functionType,
-  getHumanFormattedDate: functionType,
-  getRateVisualisation: functionType,
   allOffersByCities: mapType,
   email: emailType,
   onFavoritesChange: functionType,

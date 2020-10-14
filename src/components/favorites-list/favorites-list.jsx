@@ -2,19 +2,15 @@ import React from "react";
 import OfferCard from "../offer-card/offer-card";
 import {
   favoriteOfferIdsType,
-  pathsType,
-  cardStyleType,
   functionType,
   mapType,
   emailType,
 } from "../../types";
+import {CardStyle} from "../../const";
 
 const FavoriteList = (props) => {
   const {
     favoriteOfferIds,
-    paths,
-    cardStyle,
-    getRateVisualisation,
     offersByCities,
     email,
     onFavoritesChange,
@@ -40,11 +36,9 @@ const FavoriteList = (props) => {
                       key={offer.id}
                       offer={offer}
                       favoriteOfferIds={favoriteOfferIds}
-                      paths={paths}
-                      cardStyle={cardStyle}
-                      getRateVisualisation={getRateVisualisation}
                       email={email}
                       onFavoritesChange={onFavoritesChange}
+                      CardStyle={CardStyle.FAVORITES}
                     />
                   );
                 })
@@ -59,9 +53,6 @@ const FavoriteList = (props) => {
 
 FavoriteList.propTypes = {
   favoriteOfferIds: favoriteOfferIdsType,
-  paths: pathsType,
-  cardStyle: cardStyleType,
-  getRateVisualisation: functionType,
   offersByCities: mapType,
   email: emailType,
   onFavoritesChange: functionType,

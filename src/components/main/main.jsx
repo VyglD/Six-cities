@@ -3,13 +3,11 @@ import Header from "../header/header";
 import Cities from "../cities/cities";
 import {
   favoriteOfferIdsType,
-  pathsType,
-  citiesType,
-  cardStyleType,
   functionType,
   mapType,
   emailType,
 } from "../../types";
+import {CITIES} from "../../const";
 
 class Main extends React.PureComponent {
   constructor(props) {
@@ -24,7 +22,7 @@ class Main extends React.PureComponent {
       activeCity: (
         firstExistOffers
           ? firstExistOffers[0]
-          : props.cities[0]
+          : CITIES[0]
       )
     };
 
@@ -44,10 +42,6 @@ class Main extends React.PureComponent {
   render() {
     const {
       favoriteOfferIds,
-      paths,
-      cities,
-      cardStyle,
-      getRateVisualisation,
       allOffersByCities,
       email,
       onFavoritesChange,
@@ -67,7 +61,6 @@ class Main extends React.PureComponent {
       <React.Fragment>
         <div className="page page--gray page--main">
           <Header
-            paths={paths}
             email={email}
           />
 
@@ -77,7 +70,7 @@ class Main extends React.PureComponent {
               <section className="locations container">
                 <ul className="locations__list tabs__list">
                   {
-                    cities.map((city) => {
+                    CITIES.map((city) => {
                       const classLink = (
                         `locations__item-link tabs__item ${
                           city === this.state.activeCity
@@ -105,9 +98,6 @@ class Main extends React.PureComponent {
             <Cities
               offers={offersOfActiveCity}
               favoriteOfferIds={favoriteOfferIds}
-              paths={paths}
-              cardStyle={cardStyle}
-              getRateVisualisation={getRateVisualisation}
               email={email}
               activeCity={this.state.activeCity}
               onFavoritesChange={onFavoritesChange}
@@ -121,10 +111,6 @@ class Main extends React.PureComponent {
 
 Main.propTypes = {
   favoriteOfferIds: favoriteOfferIdsType,
-  paths: pathsType,
-  cities: citiesType,
-  cardStyle: cardStyleType,
-  getRateVisualisation: functionType,
   allOffersByCities: mapType,
   email: emailType,
   onFavoritesChange: functionType,

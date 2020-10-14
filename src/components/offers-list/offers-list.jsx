@@ -3,11 +3,10 @@ import OfferCard from "../offer-card/offer-card";
 import {
   offersType,
   favoriteOfferIdsType,
-  pathsType,
-  cardStyleType,
   functionType,
   emailType,
 } from "../../types";
+import {CardStyle} from "../../const";
 
 class OffersList extends React.PureComponent {
   constructor(props) {
@@ -32,9 +31,6 @@ class OffersList extends React.PureComponent {
     const {
       offers,
       favoriteOfferIds,
-      paths,
-      cardStyle,
-      getRateVisualisation,
       email,
       onFavoritesChange,
     } = this.props;
@@ -47,12 +43,10 @@ class OffersList extends React.PureComponent {
             key={offer.id}
             offer={offer}
             favoriteOfferIds={favoriteOfferIds}
-            paths={paths}
-            cardStyle={cardStyle}
-            getRateVisualisation={getRateVisualisation}
             email={email}
             onMouseEnter={this.handleOfferCardHover}
             onFavoritesChange={onFavoritesChange}
+            CardStyle={CardStyle.CITIES}
           />
         ))}
 
@@ -64,9 +58,6 @@ class OffersList extends React.PureComponent {
 OffersList.propTypes = {
   offers: offersType,
   favoriteOfferIds: favoriteOfferIdsType,
-  paths: pathsType,
-  cardStyle: cardStyleType,
-  getRateVisualisation: functionType,
   email: emailType,
   onFavoritesChange: functionType,
 };

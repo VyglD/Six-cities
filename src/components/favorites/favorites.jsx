@@ -4,19 +4,15 @@ import Header from "../header/header";
 import FavoriteList from "../favorites-list/favorites-list";
 import {
   favoriteOfferIdsType,
-  pathsType,
-  cardStyleType,
   functionType,
   mapType,
   emailType,
 } from "../../types";
+import {Path} from "../../const";
 
 const Favorites = (props) => {
   const {
     favoriteOfferIds,
-    paths,
-    cardStyle,
-    getRateVisualisation,
     allOffersByCities,
     email,
     onFavoritesChange,
@@ -59,7 +55,6 @@ const Favorites = (props) => {
   return (
     <div className={classPage}>
       <Header
-        paths={paths}
         email={email}
       />
 
@@ -72,9 +67,6 @@ const Favorites = (props) => {
                 ? (
                   <FavoriteList
                     favoriteOfferIds={favoriteOfferIds}
-                    paths={paths}
-                    cardStyle={cardStyle}
-                    getRateVisualisation={getRateVisualisation}
                     offersByCities={favoriteOfferIdsByCities}
                     email={email}
                     onFavoritesChange={onFavoritesChange}
@@ -95,7 +87,7 @@ const Favorites = (props) => {
       <footer className="footer container">
         <Link
           className="footer__logo-link"
-          to={paths.MAIN}
+          to={Path.MAIN}
         >
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
         </Link>
@@ -106,9 +98,6 @@ const Favorites = (props) => {
 
 Favorites.propTypes = {
   favoriteOfferIds: favoriteOfferIdsType,
-  paths: pathsType,
-  cardStyle: cardStyleType,
-  getRateVisualisation: functionType,
   allOffersByCities: mapType,
   email: emailType,
   onFavoritesChange: functionType,

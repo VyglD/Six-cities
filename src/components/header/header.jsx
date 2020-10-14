@@ -1,11 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {pathsType, emailType} from "../../types";
+import {emailType} from "../../types";
+import {Path} from "../../const";
 
 const Header = (props) => {
-  const {paths, email} = props;
+  const {email} = props;
 
-  const loginHref = email ? paths.FAVORITES : paths.LOGIN;
+  const loginHref = email ? Path.FAVORITES : Path.LOGIN;
   const loginInnards = (
     email
       ? <span className="header__user-name user__name">{email}</span>
@@ -19,7 +20,7 @@ const Header = (props) => {
           <div className="header__left">
             <Link
               className="header__logo-link"
-              to={paths.MAIN}
+              to={Path.MAIN}
             >
               <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
             </Link>
@@ -44,7 +45,6 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
-  paths: pathsType,
   email: emailType,
 };
 

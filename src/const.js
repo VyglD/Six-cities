@@ -1,4 +1,4 @@
-const MAX_RATE = 5;
+export const MAX_RATE = 5;
 
 export const RATE_COEFFICIENT = 100 / MAX_RATE;
 
@@ -21,7 +21,7 @@ export const CITIES = [
   `Dusseldorf`
 ];
 
-export const Paths = {
+export const Path = {
   MAIN: `/`,
   LOGIN: `/login`,
   FAVORITES: `/favorites`,

@@ -1,11 +1,9 @@
-import {HousingType, CITIES} from "../const";
+import {HousingType, CITIES, MAX_RATE} from "../const";
 
-export const AVATAR_URL = `https://api.adorable.io/avatars/74`;
-const BIG_NUMBER = 999;
+export const BIG_NUMBER = 999;
 
 const MAX_OFFERS = 4;
 const MAX_PHOTOS = 6;
-export const MAX_RATE = 5;
 const MAX_ROOMS = 3;
 const MAX_GUESTS = 4;
 const MAX_PARAGRAPH = 4;
@@ -96,7 +94,7 @@ export default getRandomSubArray(CITIES)
           cost: getRandomInteger(BIG_NUMBER),
           features: getRandomSubArray(features),
           owner: {
-            avatar: `${AVATAR_URL}/${Math.random()}`,
+            avatar: `https://loremflickr.com/75/75/face?lock=${getRandomInteger(BIG_NUMBER)}`,
             name: getRandomElement(names),
             isSuper: Boolean(getRandomInteger()),
           }
@@ -108,4 +106,3 @@ export default getRandomSubArray(CITIES)
 
     return result;
   }, []);
-

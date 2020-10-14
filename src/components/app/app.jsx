@@ -7,13 +7,9 @@ import Offer from "../offer/offer";
 import {
   offersType,
   reviewsType,
-  pathsType,
-  citiesType,
-  numberConstantType,
-  cardStyleEnumType,
-  functionType,
   favoriteOfferIdsType,
 } from "../../types";
+import {CITIES, Path} from "../../const";
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -25,18 +21,30 @@ class App extends React.PureComponent {
       allReviews: this.props.allReviews,
     };
 
-    this.allOffersByCities = props.getOffersByCities(props.allOffers);
+    this.allOffersByCities = this.getOffersByCities(props.allOffers);
 
     this.handleLogIn = this.handleLogIn.bind(this);
-    this.handlefavoriteOfferIdsChange = this.handlefavoriteOfferIdsChange.bind(this);
+    this.handleFavoriteOfferIdsChange = this.handleFavoriteOfferIdsChange.bind(this);
     this.handleReviewAdd = this.handleReviewAdd.bind(this);
+  }
+
+  getOffersByCities(offers) {
+    const offersByCity = new Map([
+      ...CITIES.map((city) => [city, []])
+    ]);
+
+    offers.forEach((offer) => {
+      offersByCity.get(offer.city).push(offer);
+    });
+
+    return offersByCity;
   }
 
   handleLogIn(email) {
     this.setState({email});
   }
 
-  handlefavoriteOfferIdsChange(history, offer) {
+  handleFavoriteOfferIdsChange(history, offer) {
     if (this.state.email) {
       const oldfavoriteOfferIds = this.state.favoriteOfferIds.slice();
       const index = oldfavoriteOfferIds.findIndex((offerId) => offerId === offer.id);
@@ -51,7 +59,7 @@ class App extends React.PureComponent {
         this.setState({favoriteOfferIds: oldfavoriteOfferIds});
       }
     } else {
-      history.push(this.props.paths.LOGIN);
+      history.push(Path.LOGIN);
     }
   }
 
@@ -69,44 +77,31 @@ class App extends React.PureComponent {
   render() {
     const {
       allOffers,
-      paths,
-      cities,
-      maxNearOffers,
-      maxReviews,
-      cardStyleEnum,
-      getSystemFormattedDate,
-      getHumanFormattedDate,
-      getRateVisualisation,
     } = this.props;
 
     return (
       <BrowserRouter>
         <Switch>
           <Route exact
-            path={paths.MAIN}
+            path={Path.MAIN}
             render={({history}) => (
               <Main
                 favoriteOfferIds={this.state.favoriteOfferIds}
-                paths={paths}
-                cities={cities}
-                cardStyle={cardStyleEnum.CITIES}
-                getRateVisualisation={getRateVisualisation}
                 allOffersByCities={this.allOffersByCities}
                 email={this.state.email}
-                onFavoritesChange = {this.handlefavoriteOfferIdsChange.bind(this, history)}
+                onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
               />
             )}
           />
           <Route exact
-            path={paths.LOGIN}
+            path={Path.LOGIN}
             render={()=> {
               return this.state.email
                 ? (
-                  <Redirect to={paths.MAIN} />
+                  <Redirect to={Path.MAIN} />
                 )
                 : (
                   <Login
-                    paths={paths}
                     email={this.state.email}
                     onLogIn={this.handleLogIn}
                   />
@@ -114,29 +109,26 @@ class App extends React.PureComponent {
             }}
           />
           <Route exact
-            path={paths.FAVORITES}
+            path={Path.FAVORITES}
             render={({history}) => {
               return this.state.email
                 ? (
                   <Favorites
                     favoriteOfferIds={this.state.favoriteOfferIds}
-                    paths={paths}
-                    cardStyle={cardStyleEnum.FAVORITES}
-                    getRateVisualisation={getRateVisualisation}
                     allOffersByCities={this.allOffersByCities}
                     email={this.state.email}
-                    onFavoritesChange = {this.handlefavoriteOfferIdsChange.bind(this, history)}
+                    onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
                   />
                 )
                 : (
-                  <Redirect to={paths.LOGIN} />
+                  <Redirect to={Path.LOGIN} />
                 );
             }}
           />
           <Route exact
-            path={`${paths.OFFER}/:${paths.OFFER_ID}`}
+            path={`${Path.OFFER}/:${Path.OFFER_ID}`}
             render={({history, match}) => {
-              const chosenOfferId = match.params[paths.OFFER_ID];
+              const chosenOfferId = match.params[Path.OFFER_ID];
               const chosenOffer = allOffers.find((offer) => offer.id === chosenOfferId);
 
               return chosenOffer
@@ -145,25 +137,18 @@ class App extends React.PureComponent {
                     chosenOffer={chosenOffer}
                     favoriteOfferIds={this.state.favoriteOfferIds}
                     allReviews={this.state.allReviews}
-                    paths={paths}
-                    maxNearOffers={maxNearOffers}
-                    maxReviews={maxReviews}
-                    cardStyle={cardStyleEnum.NEAR_PLACES}
-                    getSystemFormattedDate={getSystemFormattedDate}
-                    getHumanFormattedDate={getHumanFormattedDate}
-                    getRateVisualisation={getRateVisualisation}
                     allOffersByCities={this.allOffersByCities}
                     email={this.state.email}
-                    onFavoritesChange = {this.handlefavoriteOfferIdsChange.bind(this, history)}
+                    onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
                     onReviewAdd = {this.handleReviewAdd}
                   />
                 )
                 : (
-                  <Redirect to={paths.MAIN} />
+                  <Redirect to={Path.MAIN} />
                 );
             }}
           />
-          <Redirect to={paths.MAIN} />
+          <Redirect to={Path.MAIN} />
         </Switch>
       </BrowserRouter>
     );
@@ -174,15 +159,6 @@ App.propTypes = {
   allOffers: offersType,
   favoriteOfferIds: favoriteOfferIdsType,
   allReviews: reviewsType,
-  paths: pathsType,
-  cities: citiesType,
-  maxNearOffers: numberConstantType,
-  maxReviews: numberConstantType,
-  cardStyleEnum: cardStyleEnumType,
-  getSystemFormattedDate: functionType,
-  getHumanFormattedDate: functionType,
-  getRateVisualisation: functionType,
-  getOffersByCities: functionType,
 };
 
 export default App;
