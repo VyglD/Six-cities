@@ -2,10 +2,7 @@ import React from "react";
 import Header from "../header/header";
 import Cities from "../cities/cities";
 import {
-  favoriteOfferIdsType,
-  functionType,
   mapType,
-  emailType,
 } from "../../types";
 import {CITIES} from "../../const";
 
@@ -41,10 +38,7 @@ class Main extends React.PureComponent {
 
   render() {
     const {
-      favoriteOfferIds,
       allOffersByCities,
-      email,
-      onFavoritesChange,
     } = this.props;
 
     const offersOfActiveCity = allOffersByCities.get(this.state.activeCity);
@@ -61,7 +55,7 @@ class Main extends React.PureComponent {
       <React.Fragment>
         <div className="page page--gray page--main">
           <Header
-            email={email}
+            {...this.props}
           />
 
           <main className={classMain}>
@@ -96,11 +90,9 @@ class Main extends React.PureComponent {
               </section>
             </div>
             <Cities
+              {...this.props}
               offers={offersOfActiveCity}
-              favoriteOfferIds={favoriteOfferIds}
-              email={email}
               activeCity={this.state.activeCity}
-              onFavoritesChange={onFavoritesChange}
             />
           </main>
         </div>
@@ -110,10 +102,7 @@ class Main extends React.PureComponent {
 }
 
 Main.propTypes = {
-  favoriteOfferIds: favoriteOfferIdsType,
   allOffersByCities: mapType,
-  email: emailType,
-  onFavoritesChange: functionType,
 };
 
 export default Main;

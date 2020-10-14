@@ -1,19 +1,13 @@
 import React from "react";
 import OfferCard from "../offer-card/offer-card";
 import {
-  favoriteOfferIdsType,
-  functionType,
   mapType,
-  emailType,
 } from "../../types";
 import {CardStyle} from "../../const";
 
 const FavoriteList = (props) => {
   const {
-    favoriteOfferIds,
     offersByCities,
-    email,
-    onFavoritesChange,
   } = props;
 
   return (
@@ -34,10 +28,8 @@ const FavoriteList = (props) => {
                   return (
                     <OfferCard
                       key={offer.id}
+                      {...props}
                       offer={offer}
-                      favoriteOfferIds={favoriteOfferIds}
-                      email={email}
-                      onFavoritesChange={onFavoritesChange}
                       CardStyle={CardStyle.FAVORITES}
                     />
                   );
@@ -52,10 +44,7 @@ const FavoriteList = (props) => {
 };
 
 FavoriteList.propTypes = {
-  favoriteOfferIds: favoriteOfferIdsType,
   offersByCities: mapType,
-  email: emailType,
-  onFavoritesChange: functionType,
 };
 
 export default FavoriteList;

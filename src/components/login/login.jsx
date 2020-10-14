@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../header/header";
-import {functionType, emailType} from "../../types";
+import {functionType} from "../../types";
 
 class Login extends React.PureComponent {
   constructor(props) {
@@ -27,12 +27,10 @@ class Login extends React.PureComponent {
   }
 
   render() {
-    const {email} = this.props;
-
     return (
       <div className="page page--gray page--login">
         <Header
-          email={email}
+          {...this.props}
         />
 
         <main className="page__main page__main--login">
@@ -84,7 +82,6 @@ class Login extends React.PureComponent {
 }
 
 Login.propTypes = {
-  email: emailType,
   onLogIn: functionType,
 };
 

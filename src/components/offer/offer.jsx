@@ -21,8 +21,7 @@ const Offer = (props) => {
     allReviews,
     allOffersByCities,
     email,
-    onFavoritesChange,
-    onReviewAdd,
+    onFavoritesChange
   } = props;
 
   const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
@@ -42,7 +41,7 @@ const Offer = (props) => {
   return (
     <div className="page">
       <Header
-        email={email}
+        {...props}
       />
 
       <main className="page__main page__main--property">
@@ -181,9 +180,7 @@ const Offer = (props) => {
                   email
                     ? (
                       <ReviewForm
-                        currentOffer={chosenOffer}
-                        email={email}
-                        onReviewAdd={onReviewAdd}
+                        {...props}
                       />
                     )
                     : ``
@@ -201,10 +198,8 @@ const Offer = (props) => {
                 nearOffers.map((nearOffer) => (
                   <OfferCard
                     key={nearOffer.id}
+                    {...props}
                     offer={nearOffer}
-                    favoriteOfferIds={favoriteOfferIds}
-                    email={email}
-                    onFavoritesChange={onFavoritesChange}
                     CardStyle={CardStyle.NEAR_PLACES}
                   />
                 ))
@@ -224,7 +219,6 @@ Offer.propTypes = {
   allOffersByCities: mapType,
   email: emailType,
   onFavoritesChange: functionType,
-  onReviewAdd: functionType,
 };
 
 export default Offer;

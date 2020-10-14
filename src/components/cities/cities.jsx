@@ -2,19 +2,13 @@ import React from "react";
 import OffersList from "../offers-list/offers-list";
 import {
   offersType,
-  favoriteOfferIdsType,
-  functionType,
-  emailType,
   сityType,
 } from "../../types";
 
 const Cities = (props) => {
   const {
     offers,
-    favoriteOfferIds,
-    email,
     activeCity,
-    onFavoritesChange,
   } = props;
 
   return (
@@ -43,10 +37,7 @@ const Cities = (props) => {
                 </form>
 
                 <OffersList
-                  offers={offers}
-                  favoriteOfferIds={favoriteOfferIds}
-                  email={email}
-                  onFavoritesChange={onFavoritesChange}
+                  {...props}
                 />
 
               </section>
@@ -76,10 +67,7 @@ const Cities = (props) => {
 
 Cities.propTypes = {
   offers: offersType,
-  favoriteOfferIds: favoriteOfferIdsType,
-  email: emailType,
   activeCity: сityType,
-  onFavoritesChange: functionType,
 };
 
 export default Cities;

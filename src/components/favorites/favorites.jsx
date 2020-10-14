@@ -4,9 +4,7 @@ import Header from "../header/header";
 import FavoriteList from "../favorites-list/favorites-list";
 import {
   favoriteOfferIdsType,
-  functionType,
   mapType,
-  emailType,
 } from "../../types";
 import {Path} from "../../const";
 
@@ -14,8 +12,6 @@ const Favorites = (props) => {
   const {
     favoriteOfferIds,
     allOffersByCities,
-    email,
-    onFavoritesChange,
   } = props;
 
   const favoriteOfferIdsByCities = new Map(
@@ -55,7 +51,7 @@ const Favorites = (props) => {
   return (
     <div className={classPage}>
       <Header
-        email={email}
+        {...props}
       />
 
       <main className={classMain}>
@@ -66,10 +62,9 @@ const Favorites = (props) => {
               favoriteOfferIdsByCities.size > 0
                 ? (
                   <FavoriteList
+                    {...props}
                     favoriteOfferIds={favoriteOfferIds}
                     offersByCities={favoriteOfferIdsByCities}
-                    email={email}
-                    onFavoritesChange={onFavoritesChange}
                   />
                 )
                 : (
@@ -99,8 +94,6 @@ const Favorites = (props) => {
 Favorites.propTypes = {
   favoriteOfferIds: favoriteOfferIdsType,
   allOffersByCities: mapType,
-  email: emailType,
-  onFavoritesChange: functionType,
 };
 
 export default Favorites;
