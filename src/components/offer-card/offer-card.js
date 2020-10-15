@@ -6,7 +6,7 @@ import {
   functionType,
   notRequiredFunctionType,
   emailType,
-  CardStyleType
+  cardStyleType
 } from "../../types";
 import {Path} from "../../const";
 import {getRateVisualisation} from "../../util";
@@ -18,34 +18,22 @@ const OfferCard = (props) => {
     email,
     onMouseEnter = (() => {}),
     onFavoritesChange,
-    CardStyle,
+    cardStyle,
   } = props;
 
   const {
-    article,
-    imgWrapper,
-    imgWidth,
-    imgHeight,
-    info,
-  } = CardStyle;
-
-  const articleClass = `place-card ${article}`;
-  const imgWrapperClass = `place-card__image-wrapper ${imgWrapper}`;
-  const infoClass = `place-card__info ${info}`;
-
-  const favoriteClass = (
-    `place-card__bookmark-button button ${
-      email && favoriteOfferIds.includes(offer.id)
-        ? `place-card__bookmark-button--active`
-        : ``
-    }`
-  );
+    article = ``,
+    imgWrapper = ``,
+    imgWidth = 260,
+    imgHeight = 200,
+    info = ``,
+  } = cardStyle;
 
   const linkHref = `${Path.OFFER}/${offer.id}`;
 
   return (
     <article
-      className={articleClass}
+      className={`place-card ${article}`}
       onMouseEnter={() => onMouseEnter(offer)}
     >
       {offer.isPremium
@@ -54,7 +42,7 @@ const OfferCard = (props) => {
           <span>Premium</span>
         </div>
         : ``}
-      <div className={imgWrapperClass}>
+      <div className={`place-card__image-wrapper ${imgWrapper}`}>
         <Link to={linkHref}>
           <img
             className="place-card__image"
@@ -65,14 +53,19 @@ const OfferCard = (props) => {
           />
         </Link>
       </div>
-      <div className={infoClass}>
+      <div className={`place-card__info ${info}`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{offer.cost}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={favoriteClass}
+            className={
+              `place-card__bookmark-button button ${
+                Boolean(email) && favoriteOfferIds.includes(offer.id)
+                && `place-card__bookmark-button--active`
+              }`
+            }
             type="button"
             onClick={() => onFavoritesChange(offer)}
           >
@@ -103,7 +96,7 @@ OfferCard.propTypes = {
   email: emailType,
   onMouseEnter: notRequiredFunctionType,
   onFavoritesChange: functionType,
-  CardStyle: CardStyleType,
+  cardStyle: cardStyleType,
 };
 
 export default OfferCard;

@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../header/header";
 import Review from "../review/review";
 import ReviewForm from "../review-form/review-form";
-import OfferCard from "../offer-card/offer-card";
+import OfferCardNear from "../offer-card-near/offer-card-near";
 import {
   offerType,
   favoriteOfferIdsType,
@@ -11,7 +11,7 @@ import {
   mapType,
   emailType,
 } from "../../types";
-import {MAX_NEAR_OFFERS, MAX_REVIEWS, CardStyle} from "../../const";
+import {MAX_NEAR_OFFERS, MAX_REVIEWS} from "../../const";
 import {getRateVisualisation} from "../../util";
 
 const Offer = (props) => {
@@ -196,11 +196,10 @@ const Offer = (props) => {
             <div className="near-places__list places__list">
               {
                 nearOffers.map((nearOffer) => (
-                  <OfferCard
+                  <OfferCardNear
                     key={nearOffer.id}
                     {...props}
                     offer={nearOffer}
-                    CardStyle={CardStyle.NEAR_PLACES}
                   />
                 ))
               }

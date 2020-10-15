@@ -1,9 +1,8 @@
 import React from "react";
-import OfferCard from "../offer-card/offer-card";
+import OfferCardMain from "../offer-card-main/offer-card-main";
 import {
   offersType,
 } from "../../types";
-import {CardStyle} from "../../const";
 
 class OffersList extends React.PureComponent {
   constructor(props) {
@@ -33,12 +32,11 @@ class OffersList extends React.PureComponent {
       <div className="cities__places-list places__list tabs__content">
 
         {offers.map((offer) => (
-          <OfferCard
+          <OfferCardMain
             key={offer.id}
             {...this.props}
             offer={offer}
             onMouseEnter={this.handleOfferCardHover}
-            CardStyle={CardStyle.CITIES}
           />
         ))}
 

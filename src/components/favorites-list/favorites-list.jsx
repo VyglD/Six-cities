@@ -1,9 +1,8 @@
 import React from "react";
-import OfferCard from "../offer-card/offer-card";
+import OfferCardFavorite from "../offer-card-favorite/offer-card-favorite";
 import {
   mapType,
 } from "../../types";
-import {CardStyle} from "../../const";
 
 const FavoriteList = (props) => {
   const {
@@ -26,11 +25,10 @@ const FavoriteList = (props) => {
               {
                 offers.map((offer) => {
                   return (
-                    <OfferCard
+                    <OfferCardFavorite
                       key={offer.id}
                       {...props}
                       offer={offer}
-                      CardStyle={CardStyle.FAVORITES}
                     />
                   );
                 })

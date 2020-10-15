@@ -47,10 +47,10 @@ export const emailType = PropTypes.string.isRequired;
 
 export const сityType = PropTypes.oneOf(CITIES);
 
-export const CardStyleType = PropTypes.shape({
-  article: PropTypes.string.isRequired,
-  imgWrapper: PropTypes.string.isRequired,
-  imgWidth: PropTypes.number.isRequired,
-  imgHeight: PropTypes.number.isRequired,
-  info: PropTypes.string.isRequired,
+export const cardStyleType = PropTypes.shape({
+  article: PropTypes.string,
+  imgWrapper: PropTypes.string,
+  imgWidth: PropTypes.number,
+  imgHeight: PropTypes.number,
+  info: PropTypes.string,
 }).isRequired;
