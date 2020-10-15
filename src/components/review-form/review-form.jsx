@@ -21,6 +21,7 @@ class ReviewForm extends React.PureComponent {
   clearForm() {
     this.ratingRef.current.querySelector(`.${rateInputClass}:checked`).checked = false;
     this.reviewRef.current.value = ``;
+    this.disableSubmitButton();
   }
 
   isReviewFieldValidity() {
@@ -39,8 +40,12 @@ class ReviewForm extends React.PureComponent {
     return this.isReviewFieldValidity() && this.isRatingFieldValidity();
   }
 
-  handleFieldChange() {
+  disableSubmitButton() {
     this.submitRef.current.disabled = !(this.isFormValidity());
+  }
+
+  handleFieldChange() {
+    this.disableSubmitButton();
   }
 
   handleSubmitReview(evt) {

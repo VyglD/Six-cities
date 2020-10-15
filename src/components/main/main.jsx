@@ -43,14 +43,6 @@ class Main extends React.PureComponent {
 
     const offersOfActiveCity = allOffersByCities.get(this.state.activeCity);
 
-    const classMain = (
-      `page__main page__main--index ${
-        offersOfActiveCity.length > 0
-          ? ``
-          : `page__main--index-empty`
-      }`
-    );
-
     return (
       <React.Fragment>
         <div className="page page--gray page--main">
@@ -58,7 +50,13 @@ class Main extends React.PureComponent {
             {...this.props}
           />
 
-          <main className={classMain}>
+          <main
+            className={
+              `page__main page__main--index ${
+                offersOfActiveCity.length === 0 && `page__main--index-empty`
+              }`
+            }
+          >
             <h1 className="visually-hidden">Cities</h1>
             <div className="tabs">
               <section className="locations container">

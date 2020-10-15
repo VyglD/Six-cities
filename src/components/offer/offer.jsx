@@ -30,14 +30,6 @@ const Offer = (props) => {
     .filter((offer) => offer.id !== chosenOffer.id)
     .slice(0, MAX_NEAR_OFFERS);
 
-  const favoriteClass = (
-    `property__bookmark-button button ${
-      email && favoriteOfferIds.includes(chosenOffer.id)
-        ? `property__bookmark-button--active`
-        : ``
-    }`
-  );
-
   return (
     <div className="page">
       <Header
@@ -85,7 +77,12 @@ const Offer = (props) => {
                   {chosenOffer.title}
                 </h1>
                 <button
-                  className={favoriteClass}
+                  className={
+                    `property__bookmark-button button ${
+                      email && favoriteOfferIds.includes(chosenOffer.id)
+                        && `property__bookmark-button--active`
+                    }`
+                  }
                   type="button"
                   onClick={() => onFavoritesChange(chosenOffer)}
                 >

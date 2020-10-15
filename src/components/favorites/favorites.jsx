@@ -24,39 +24,21 @@ const Favorites = (props) => {
       }).filter((item) => item)
   );
 
-  const classPage = (
-    `page ${
-      favoriteOfferIdsByCities.size > 0
-        ? ``
-        : `page--favorites-empty`
-    }`
-  );
-
-  const classMain = (
-    `page__main page__main--favorites ${
-      favoriteOfferIdsByCities.size > 0
-        ? ``
-        : `page__main--favorites-empty`
-    }`
-  );
-
-  const classSection = (
-    `favorites ${
-      favoriteOfferIdsByCities.size > 0
-        ? ``
-        : `favorites--empty`
-    }`
-  );
+  const emptyTriger = favoriteOfferIdsByCities.size === 0;
 
   return (
-    <div className={classPage}>
+    <div className={`page ${emptyTriger && `page--favorites-empty`}`}>
       <Header
         {...props}
       />
 
-      <main className={classMain}>
+      <main
+        className={
+          `page__main page__main--favorites ${emptyTriger && `page__main--favorites-empty`}`
+        }
+      >
         <div className="page__favorites-container container">
-          <section className={classSection}>
+          <section className={`favorites ${emptyTriger && `favorites--empty` }`}>
             <h1 className="favorites__title">Saved listing</h1>
             {
               favoriteOfferIdsByCities.size > 0

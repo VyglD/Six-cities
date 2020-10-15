@@ -23,6 +23,8 @@ class App extends React.PureComponent {
 
     this.allOffersByCities = this.getOffersByCities(props.allOffers);
 
+    this.currentOfferId = ``;
+
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleFavoriteOfferIdsChange = this.handleFavoriteOfferIdsChange.bind(this);
     this.handleReviewAdd = this.handleReviewAdd.bind(this);
@@ -46,32 +48,33 @@ class App extends React.PureComponent {
 
   handleFavoriteOfferIdsChange(history, offer) {
     if (this.state.email) {
-      const oldfavoriteOfferIds = this.state.favoriteOfferIds.slice();
-      const index = oldfavoriteOfferIds.findIndex((offerId) => offerId === offer.id);
+      this.setState((state) => {
+        const oldfavoriteOfferIds = state.favoriteOfferIds.slice();
+        const index = oldfavoriteOfferIds.findIndex((offerId) => offerId === offer.id);
 
-      if (index === -1) {
-        oldfavoriteOfferIds.push(offer.id);
+        if (index === -1) {
+          return {favoriteOfferIds: [...oldfavoriteOfferIds, offer.id]};
+        }
 
-        this.setState({favoriteOfferIds: oldfavoriteOfferIds});
-      } else {
         oldfavoriteOfferIds.splice(index, 1);
 
-        this.setState({favoriteOfferIds: oldfavoriteOfferIds});
-      }
+        return {favoriteOfferIds: oldfavoriteOfferIds};
+      });
     } else {
       history.push(Path.LOGIN);
     }
   }
 
   handleReviewAdd(review, callback) {
-    const allReviewsOld = this.state.allReviews.slice();
+    this.setState((state) => {
+      const allReviewsOld = state.allReviews.slice();
 
-    allReviewsOld.push(review);
+      allReviewsOld.push(review);
 
-    this.setState(
-        {allReviews: allReviewsOld},
-        callback
-    );
+      return (
+        {allReviews: allReviewsOld}
+      );
+    }, callback);
   }
 
   render() {
@@ -130,6 +133,11 @@ class App extends React.PureComponent {
             render={({history, match}) => {
               const chosenOfferId = match.params[Path.OFFER_ID];
               const chosenOffer = allOffers.find((offer) => offer.id === chosenOfferId);
+
+              if (this.currentOfferId !== chosenOfferId) {
+                this.currentOfferId = chosenOfferId;
+                window.scrollTo(0, 0);
+              }
 
               return chosenOffer
                 ? (
