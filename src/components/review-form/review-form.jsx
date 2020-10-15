@@ -3,73 +3,62 @@ import {offerType, functionType, emailType} from "../../types";
 
 const MIN_CHARACTERS = 50;
 const MAX_CHARACTERS = 300;
+const rateInputClass = `form__rating-input`;
 
 class ReviewForm extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      rating: 0,
-      review: ``,
-      isValid: false,
-    };
+    this.ratingRef = React.createRef();
+    this.reviewRef = React.createRef();
+    this.submitRef = React.createRef();
 
-    this.handleFieldChange = this.handleFieldChange.bind(this);
-    this.handleRatingChange = this.handleRatingChange.bind(this);
     this.handleSubmitReview = this.handleSubmitReview.bind(this);
-
+    this.handleFieldChange = this.handleFieldChange.bind(this);
     this.clearForm = this.clearForm.bind(this);
   }
 
-  checkFormValidity() {
-    const {review, rating} = this.state;
-
-    if (review.length >= MIN_CHARACTERS
-      && review.length < MAX_CHARACTERS
-      && rating > 0) {
-      this.setState({isValid: true});
-    } else {
-      this.setState({isValid: false});
-    }
-  }
-
   clearForm() {
-    this.setState({
-      rating: 0,
-      review: ``,
-      isValid: false,
-    });
+    this.ratingRef.current.querySelector(`.${rateInputClass}:checked`).checked = false;
+    this.reviewRef.current.value = ``;
   }
 
-  handleRatingChange(evt) {
-    this.setState(
-        {rating: parseInt(evt.target.value, 10)},
-        this.checkFormValidity
-    );
+  isReviewFieldValidity() {
+    const reviewTextLength = this.reviewRef.current.value.length;
+
+    return (reviewTextLength >= MIN_CHARACTERS) && (reviewTextLength < MAX_CHARACTERS);
   }
 
-  handleFieldChange(evt) {
-    const {name, value} = evt.target;
-    this.setState(
-        {[name]: value},
-        this.checkFormValidity
-    );
+  isRatingFieldValidity() {
+    const ratingInputs = this.ratingRef.current.querySelectorAll(`.${rateInputClass}`);
+
+    return Boolean(Array.from(ratingInputs).filter((input) => input.checked).length);
+  }
+
+  isFormValidity() {
+    return this.isReviewFieldValidity() && this.isRatingFieldValidity();
+  }
+
+  handleFieldChange() {
+    this.submitRef.current.disabled = !(this.isFormValidity());
   }
 
   handleSubmitReview(evt) {
-    const {currentOffer, email, onReviewAdd} = this.props;
-    const newReview = {
-      offerId: currentOffer.id,
-      name: email,
-      photo: ``,
-      rate: this.state.rating,
-      date: new Date(),
-      text: this.state.review,
-    };
-
     evt.preventDefault();
 
-    onReviewAdd(newReview, this.clearForm);
+    if (this.isFormValidity()) {
+      const {chosenOffer, email, onReviewAdd} = this.props;
+      const newReview = {
+        offerId: chosenOffer.id,
+        name: email,
+        photo: ``,
+        rate: parseInt(this.ratingRef.current.querySelector(`.${rateInputClass}:checked`), 10),
+        date: new Date(),
+        text: this.reviewRef.current.value,
+      };
+
+      onReviewAdd(newReview, this.clearForm);
+    }
   }
 
   render() {
@@ -81,15 +70,17 @@ class ReviewForm extends React.PureComponent {
         onSubmit={this.handleSubmitReview}
       >
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
-        <div className="reviews__rating-form form__rating">
+        <div
+          className="reviews__rating-form form__rating"
+          ref={this.ratingRef}
+        >
           <input
-            className="form__rating-input visually-hidden"
+            className={`${rateInputClass} visually-hidden`}
             name="rating"
             value="5"
             id="stars-5"
             type="radio"
-            onChange={this.handleRatingChange}
-            checked={this.state.rating === 5 ? `checked` : ``}
+            onChange={this.handleFieldChange}
           />
           <label htmlFor="stars-5" className="reviews__rating-label form__rating-label" title="perfect">
             <svg className="form__star-image" width="37" height="33">
@@ -98,13 +89,12 @@ class ReviewForm extends React.PureComponent {
           </label>
 
           <input
-            className="form__rating-input visually-hidden"
+            className={`${rateInputClass} visually-hidden`}
             name="rating"
             value="4"
             id="stars-4"
             type="radio"
-            onChange={this.handleRatingChange}
-            checked={this.state.rating === 4 ? `checked` : ``}
+            onChange={this.handleFieldChange}
           />
           <label htmlFor="stars-4" className="reviews__rating-label form__rating-label" title="good">
             <svg className="form__star-image" width="37" height="33">
@@ -113,13 +103,12 @@ class ReviewForm extends React.PureComponent {
           </label>
 
           <input
-            className="form__rating-input visually-hidden"
+            className={`${rateInputClass} visually-hidden`}
             name="rating"
             value="3"
             id="stars-3"
             type="radio"
-            onChange={this.handleRatingChange}
-            checked={this.state.rating === 3 ? `checked` : ``}
+            onChange={this.handleFieldChange}
           />
           <label htmlFor="stars-3" className="reviews__rating-label form__rating-label" title="not bad">
             <svg className="form__star-image" width="37" height="33">
@@ -128,13 +117,12 @@ class ReviewForm extends React.PureComponent {
           </label>
 
           <input
-            className="form__rating-input visually-hidden"
+            className={`${rateInputClass} visually-hidden`}
             name="rating"
             value="2"
             id="stars-2"
             type="radio"
-            onChange={this.handleRatingChange}
-            checked={this.state.rating === 2 ? `checked` : ``}
+            onChange={this.handleFieldChange}
           />
           <label htmlFor="stars-2" className="reviews__rating-label form__rating-label" title="badly">
             <svg className="form__star-image" width="37" height="33">
@@ -143,13 +131,12 @@ class ReviewForm extends React.PureComponent {
           </label>
 
           <input
-            className="form__rating-input visually-hidden"
+            className={`${rateInputClass} visually-hidden`}
             name="rating"
             value="1"
             id="stars-1"
             type="radio"
-            onChange={this.handleRatingChange}
-            checked={this.state.rating === 1 ? `checked` : ``}
+            onChange={this.handleFieldChange}
           />
           <label htmlFor="stars-1" className="reviews__rating-label form__rating-label" title="terribly">
             <svg className="form__star-image" width="37" height="33">
@@ -159,9 +146,9 @@ class ReviewForm extends React.PureComponent {
         </div>
         <textarea
           className="reviews__textarea form__textarea"
+          ref={this.reviewRef}
           id="review"
           name="review"
-          value={this.state.review}
           onChange={this.handleFieldChange}
           placeholder="Tell how was your stay, what you like and what can be improved">
         </textarea>
@@ -172,7 +159,8 @@ class ReviewForm extends React.PureComponent {
           <button
             className="reviews__submit form__submit button"
             type="submit"
-            disabled={this.state.isValid ? `` : `disabled`}
+            ref={this.submitRef}
+            disabled
           >
             Submit
           </button>
@@ -183,7 +171,7 @@ class ReviewForm extends React.PureComponent {
 }
 
 ReviewForm.propTypes = {
-  currentOffer: offerType,
+  chosenOffer: offerType,
   email: emailType,
   onReviewAdd: functionType,
 };
