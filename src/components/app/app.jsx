@@ -9,7 +9,7 @@ import {
   reviewsType,
   favoriteOfferIdsType,
 } from "../../types";
-import {CITIES, Path} from "../../const";
+import {City, Path} from "../../const";
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -31,9 +31,9 @@ class App extends React.PureComponent {
   }
 
   getOffersByCities(offers) {
-    const offersByCity = new Map([
-      ...CITIES.map((city) => [city, []])
-    ]);
+    const offersByCity = new Map(
+        Object.entries(City).map(([_, values]) => [values.name, []])
+    );
 
     offers.forEach((offer) => {
       offersByCity.get(offer.city).push(offer);

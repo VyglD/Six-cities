@@ -4,22 +4,22 @@ import Cities from "../cities/cities";
 import {
   mapType,
 } from "../../types";
-import {CITIES} from "../../const";
+import {City} from "../../const";
 
 class Main extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const firstExistOffers = Array.from(props.allOffersByCities.entries())
+    const firstNotEmptyPair = Array.from(props.allOffersByCities.entries())
     .find(([_, array]) => {
       return array.length > 0;
     });
 
     this.state = {
       activeCity: (
-        firstExistOffers
-          ? firstExistOffers[0]
-          : CITIES[0]
+        firstNotEmptyPair
+          ? firstNotEmptyPair[0]
+          : City.PARIS.name
       )
     };
 
@@ -62,19 +62,16 @@ class Main extends React.PureComponent {
               <section className="locations container">
                 <ul className="locations__list tabs__list">
                   {
-                    CITIES.map((city) => {
-                      const classLink = (
-                        `locations__item-link tabs__item ${
-                          city === this.state.activeCity
-                            ? `tabs__item--active`
-                            : ``
-                        }`
-                      );
+                    Object.entries(City).map(([_, values]) => {
+                      const city = values.name;
+                      const activeClass = (city === this.state.activeCity) && `tabs__item--active`;
 
                       return (
                         <li className="locations__item" key={city}>
                           <a
-                            className={classLink}
+                            className={
+                              `locations__item-link tabs__item ${activeClass}`
+                            }
                             href="#"
                             onClick={this.handleChangeActiveCity}
                           >

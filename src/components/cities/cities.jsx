@@ -1,8 +1,9 @@
 import React from "react";
 import OffersList from "../offers-list/offers-list";
+import Map from "../map/map";
 import {
   offersType,
-  сityType,
+  cityNameType,
 } from "../../types";
 
 const Cities = (props) => {
@@ -42,7 +43,11 @@ const Cities = (props) => {
 
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                <section className="cities__map map">
+                  <Map
+                    {...props}
+                  />
+                </section>
               </div>
             </div>
           )
@@ -67,7 +72,7 @@ const Cities = (props) => {
 
 Cities.propTypes = {
   offers: offersType,
-  activeCity: сityType,
+  activeCity: cityNameType,
 };
 
 export default Cities;

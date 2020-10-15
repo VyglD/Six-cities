@@ -1,11 +1,23 @@
 import PropTypes from "prop-types";
-import {HousingType, CITIES} from "./const";
+import {HousingType, City} from "./const";
+
+export const cityNameType = PropTypes.oneOf(
+    Object.values(City).map((properties) => properties.name)
+).isRequired;
+
+export const CityType = PropTypes.exact({
+  name: cityNameType,
+  latitude: PropTypes.number.isRequired,
+  longitude: PropTypes.number.isRequired,
+}).isRequired;
 
 export const offerIdType = PropTypes.string.isRequired;
 
 export const offerType = PropTypes.exact({
   id: offerIdType,
-  city: PropTypes.oneOf(Object.values(CITIES)).isRequired,
+  city: cityNameType,
+  latitude: PropTypes.number.isRequired,
+  longitude: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   description: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
@@ -44,8 +56,6 @@ export const notRequiredFunctionType = PropTypes.func;
 export const mapType = PropTypes.instanceOf(Map).isRequired;
 
 export const emailType = PropTypes.string.isRequired;
-
-export const сityType = PropTypes.oneOf(CITIES);
 
 export const cardStyleType = PropTypes.shape({
   article: PropTypes.string,

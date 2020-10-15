@@ -11,14 +11,38 @@ export const HousingType = {
   HOTEL: `Hotel`
 };
 
-export const CITIES = [
-  `Paris`,
-  `Cologne`,
-  `Brussels`,
-  `Amsterdam`,
-  `Hamburg`,
-  `Dusseldorf`
-];
+export const City = {
+  PARIS: {
+    name: `Paris`,
+    latitude: 48.85341,
+    longitude: 2.3,
+  },
+  COLOGNE: {
+    name: `Cologne`,
+    latitude: 50.9333,
+    longitude: 7.0,
+  },
+  BRUSSELS: {
+    name: `Brussels`,
+    latitude: 50.8504,
+    longitude: 4.3,
+  },
+  AMSTERDAM: {
+    name: `Amsterdam`,
+    latitude: 52.38333,
+    longitude: 4.9,
+  },
+  HAMBURG: {
+    name: `Hamburg`,
+    latitude: 53.5753,
+    longitude: 10.0,
+  },
+  DUSSELDORF: {
+    name: `Dusseldorf`,
+    latitude: 51.2217,
+    longitude: 6.8,
+  },
+};
 
 export const Path = {
   MAIN: `/`,
