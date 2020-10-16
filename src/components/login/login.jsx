@@ -1,39 +1,29 @@
 import React from "react";
 import Header from "../header/header";
-import {pathsType, functionType, emailType} from "../../types";
+import {functionType} from "../../types";
 
 class Login extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      email: ``,
-      password: ``,
-    };
+    this.formRef = React.createRef();
 
-    this.handleFieldChange = this.handleFieldChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleFieldChange(evt) {
-    const {name, value} = evt.target;
-    this.setState({[name]: value});
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
 
-    this.props.onLogIn(this.state.email);
+    this.props.onLogIn(
+        new FormData(this.formRef.current).get(`email`)
+    );
   }
 
   render() {
-    const {paths, email} = this.props;
-
     return (
       <div className="page page--gray page--login">
         <Header
-          paths={paths}
-          email={email}
+          {...this.props}
         />
 
         <main className="page__main page__main--login">
@@ -44,6 +34,7 @@ class Login extends React.PureComponent {
                 className="login__form form"
                 action="#"
                 method="post"
+                ref={this.formRef}
                 onSubmit={this.handleSubmit}
               >
                 <div className="login__input-wrapper form__input-wrapper">
@@ -52,9 +43,9 @@ class Login extends React.PureComponent {
                     className="login__input form__input"
                     type="email"
                     name="email"
-                    onChange={this.handleFieldChange}
                     placeholder="Email"
-                    required/>
+                    required
+                  />
                 </div>
                 <div className="login__input-wrapper form__input-wrapper">
                   <label className="visually-hidden">Password</label>
@@ -62,10 +53,10 @@ class Login extends React.PureComponent {
                     className="login__input form__input"
                     type="password"
                     name="password"
-                    onChange={this.handleFieldChange}
                     placeholder="Password"
                     autoComplete="off"
-                    required/>
+                    required
+                  />
                 </div>
                 <button className="login__submit form__submit button" type="submit">Sign in</button>
               </form>
@@ -85,8 +76,6 @@ class Login extends React.PureComponent {
 }
 
 Login.propTypes = {
-  paths: pathsType,
-  email: emailType,
   onLogIn: functionType,
 };
 

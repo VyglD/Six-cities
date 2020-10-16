@@ -1,14 +1,15 @@
-import {HousingType, CITIES} from "../const";
+import {HousingType, City, MAX_RATE} from "../const";
 
-export const AVATAR_URL = `https://api.adorable.io/avatars/74`;
-const BIG_NUMBER = 999;
+export const BIG_NUMBER = 999;
 
-const MAX_OFFERS = 4;
+const MAX_OFFERS = 7;
 const MAX_PHOTOS = 6;
-export const MAX_RATE = 5;
 const MAX_ROOMS = 3;
 const MAX_GUESTS = 4;
 const MAX_PARAGRAPH = 4;
+
+const LATITUDE_STEP = 0.01;
+const LONGITUDE_STEP = 0.05;
 
 const description = (
   `An independent House, strategically located between
@@ -42,6 +43,13 @@ const features = [
   `Baby seat`,
   `Cabel TV`
 ];
+
+export const getRandomNumber = (a, b) => {
+  const lower = Math.min(a, b);
+  const upper = Math.max(a, b);
+
+  return lower + Math.random() * (upper - lower);
+};
 
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -77,35 +85,44 @@ export const getRandomSubArray = (array) => {
   return shuffleArray(array).slice(start, end);
 };
 
-export default getRandomSubArray(CITIES)
-  .map((city) => {
-    return new Array(getRandomInteger(MAX_OFFERS))
-      .fill()
-      .map((_, index) => {
-        return {
-          id: `${city}-${index}`,
-          city,
-          title: `Mock Title ${city}-${index}`,
-          photos: [...generatePhotos()],
-          description: new Array(getRandomInteger(MAX_PARAGRAPH)).fill(description),
-          isPremium: Boolean(getRandomInteger()),
-          housingType: getRandomElement(Object.values(HousingType)),
-          rate: getRandomInteger(MAX_RATE),
-          rooms: getRandomInteger(MAX_ROOMS),
-          guests: getRandomInteger(MAX_GUESTS),
-          cost: getRandomInteger(BIG_NUMBER),
-          features: getRandomSubArray(features),
-          owner: {
-            avatar: `${AVATAR_URL}/${Math.random()}`,
-            name: getRandomElement(names),
-            isSuper: Boolean(getRandomInteger()),
-          }
-        };
-      });
-  })
-  .reduce((offersByCity, result) => {
-    result.push(...offersByCity);
+export default getRandomSubArray(
+    Object.entries(City).map(([_, values]) => values.name)
+).map((cityName) => {
+  return new Array(getRandomInteger(MAX_OFFERS))
+    .fill()
+    .map((_, index) => {
+      const city = City[cityName.toUpperCase()];
+      return {
+        id: `${city.name}-${index}`,
+        city: city.name,
+        latitude: getRandomNumber(
+            city.latitude - LATITUDE_STEP,
+            city.latitude + LATITUDE_STEP
+        ),
+        longitude: getRandomNumber(
+            city.longitude - LONGITUDE_STEP,
+            city.longitude + LONGITUDE_STEP
+        ),
+        title: `Mock Title ${city.name}-${index}`,
+        photos: [...generatePhotos()],
+        description: new Array(getRandomInteger(MAX_PARAGRAPH)).fill(description),
+        isPremium: Boolean(getRandomInteger()),
+        housingType: getRandomElement(Object.values(HousingType)),
+        rate: getRandomInteger(MAX_RATE),
+        rooms: getRandomInteger(MAX_ROOMS),
+        guests: getRandomInteger(MAX_GUESTS),
+        cost: getRandomInteger(BIG_NUMBER),
+        features: getRandomSubArray(features),
+        owner: {
+          avatar: `https://loremflickr.com/75/75/face?lock=${getRandomInteger(BIG_NUMBER)}`,
+          name: getRandomElement(names),
+          isSuper: Boolean(getRandomInteger()),
+        }
+      };
+    });
+})
+.reduce((offersByCity, result) => {
+  result.push(...offersByCity);
 
-    return result;
-  }, []);
-
+  return result;
+}, []);

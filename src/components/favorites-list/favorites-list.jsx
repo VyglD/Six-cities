@@ -1,23 +1,12 @@
 import React from "react";
-import OfferCard from "../offer-card/offer-card";
+import OfferCardFavorite from "../offer-card-favorite/offer-card-favorite";
 import {
-  favoriteOfferIdsType,
-  pathsType,
-  cardStyleType,
-  functionType,
   mapType,
-  emailType,
 } from "../../types";
 
 const FavoriteList = (props) => {
   const {
-    favoriteOfferIds,
-    paths,
-    cardStyle,
-    getRateVisualisation,
     offersByCities,
-    email,
-    onFavoritesChange,
   } = props;
 
   return (
@@ -36,15 +25,10 @@ const FavoriteList = (props) => {
               {
                 offers.map((offer) => {
                   return (
-                    <OfferCard
+                    <OfferCardFavorite
                       key={offer.id}
+                      {...props}
                       offer={offer}
-                      favoriteOfferIds={favoriteOfferIds}
-                      paths={paths}
-                      cardStyle={cardStyle}
-                      getRateVisualisation={getRateVisualisation}
-                      email={email}
-                      onFavoritesChange={onFavoritesChange}
                     />
                   );
                 })
@@ -58,13 +42,7 @@ const FavoriteList = (props) => {
 };
 
 FavoriteList.propTypes = {
-  favoriteOfferIds: favoriteOfferIdsType,
-  paths: pathsType,
-  cardStyle: cardStyleType,
-  getRateVisualisation: functionType,
   offersByCities: mapType,
-  email: emailType,
-  onFavoritesChange: functionType,
 };
 
 export default FavoriteList;

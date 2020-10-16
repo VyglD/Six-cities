@@ -14,15 +14,28 @@ module.exports = {
         historyApiFallback: true,
     },
     module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            }
-        ],
+      rules: [
+        {
+          test: /\.(js|jsx)$/,
+          exclude: /node_modules/,
+          use: {
+              loader: 'babel-loader',
+          },
+        },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader']
+        },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: {
+            loader: "file-loader",
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        },
+      ],
     },
     plugins: [
       new MomentLocalesPlugin()

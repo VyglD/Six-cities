@@ -2,56 +2,38 @@ import React from "react";
 import Header from "../header/header";
 import Review from "../review/review";
 import ReviewForm from "../review-form/review-form";
-import OfferCard from "../offer-card/offer-card";
+import OfferCardNear from "../offer-card-near/offer-card-near";
 import {
   offerType,
   favoriteOfferIdsType,
   reviewsType,
-  pathsType,
-  numberConstantType,
-  cardStyleType,
   functionType,
   mapType,
   emailType,
 } from "../../types";
+import {MAX_NEAR_OFFERS, MAX_REVIEWS} from "../../const";
+import {getRateVisualisation} from "../../util";
 
 const Offer = (props) => {
   const {
     chosenOffer,
     favoriteOfferIds,
     allReviews,
-    paths,
-    maxNearOffers,
-    maxReviews,
-    cardStyle,
-    getSystemFormattedDate,
-    getHumanFormattedDate,
-    getRateVisualisation,
     allOffersByCities,
     email,
-    onFavoritesChange,
-    onReviewAdd,
+    onFavoritesChange
   } = props;
 
   const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
 
   const nearOffers = allOffersByCities.get(chosenOffer.city)
     .filter((offer) => offer.id !== chosenOffer.id)
-    .slice(0, maxNearOffers);
-
-  const favoriteClass = (
-    `property__bookmark-button button ${
-      email && favoriteOfferIds.includes(chosenOffer.id)
-        ? `property__bookmark-button--active`
-        : ``
-    }`
-  );
+    .slice(0, MAX_NEAR_OFFERS);
 
   return (
     <div className="page">
       <Header
-        paths={paths}
-        email={email}
+        {...props}
       />
 
       <main className="page__main page__main--property">
@@ -95,7 +77,12 @@ const Offer = (props) => {
                   {chosenOffer.title}
                 </h1>
                 <button
-                  className={favoriteClass}
+                  className={
+                    `property__bookmark-button button ${
+                      email && favoriteOfferIds.includes(chosenOffer.id)
+                        && `property__bookmark-button--active`
+                    }`
+                  }
                   type="button"
                   onClick={() => onFavoritesChange(chosenOffer)}
                 >
@@ -177,14 +164,11 @@ const Offer = (props) => {
                 </h2>
                 <ul className="reviews__list">
                   {
-                    reviewsOfChosenOffer.slice(0, maxReviews)
+                    reviewsOfChosenOffer.slice(0, MAX_REVIEWS)
                       .map((review, index) => (
                         <Review
                           key={index}
                           review={review}
-                          getSystemFormattedDate={getSystemFormattedDate}
-                          getHumanFormattedDate={getHumanFormattedDate}
-                          getRateVisualisation={getRateVisualisation}
                         />
                       ))
                   }
@@ -193,9 +177,7 @@ const Offer = (props) => {
                   email
                     ? (
                       <ReviewForm
-                        currentOffer={chosenOffer}
-                        email={email}
-                        onReviewAdd={onReviewAdd}
+                        {...props}
                       />
                     )
                     : ``
@@ -211,15 +193,10 @@ const Offer = (props) => {
             <div className="near-places__list places__list">
               {
                 nearOffers.map((nearOffer) => (
-                  <OfferCard
+                  <OfferCardNear
                     key={nearOffer.id}
+                    {...props}
                     offer={nearOffer}
-                    favoriteOfferIds={favoriteOfferIds}
-                    paths={paths}
-                    cardStyle={cardStyle}
-                    getRateVisualisation={getRateVisualisation}
-                    email={email}
-                    onFavoritesChange={onFavoritesChange}
                   />
                 ))
               }
@@ -235,17 +212,9 @@ Offer.propTypes = {
   chosenOffer: offerType,
   favoriteOfferIds: favoriteOfferIdsType,
   allReviews: reviewsType,
-  paths: pathsType,
-  maxNearOffers: numberConstantType,
-  maxReviews: numberConstantType,
-  cardStyle: cardStyleType,
-  getSystemFormattedDate: functionType,
-  getHumanFormattedDate: functionType,
-  getRateVisualisation: functionType,
   allOffersByCities: mapType,
   email: emailType,
   onFavoritesChange: functionType,
-  onReviewAdd: functionType,
 };
 
 export default Offer;

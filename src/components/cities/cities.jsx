@@ -1,25 +1,15 @@
 import React from "react";
 import OffersList from "../offers-list/offers-list";
+import Map from "../map/map";
 import {
   offersType,
-  favoriteOfferIdsType,
-  pathsType,
-  cardStyleType,
-  functionType,
-  emailType,
-  activeCityType,
+  cityNameType,
 } from "../../types";
 
 const Cities = (props) => {
   const {
     offers,
-    favoriteOfferIds,
-    paths,
-    getRateVisualisation,
-    cardStyle,
-    email,
     activeCity,
-    onFavoritesChange,
   } = props;
 
   return (
@@ -48,18 +38,16 @@ const Cities = (props) => {
                 </form>
 
                 <OffersList
-                  offers={offers}
-                  favoriteOfferIds={favoriteOfferIds}
-                  paths={paths}
-                  cardStyle={cardStyle}
-                  getRateVisualisation={getRateVisualisation}
-                  email={email}
-                  onFavoritesChange={onFavoritesChange}
+                  {...props}
                 />
 
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                <section className="cities__map map">
+                  <Map
+                    {...props}
+                  />
+                </section>
               </div>
             </div>
           )
@@ -84,13 +72,7 @@ const Cities = (props) => {
 
 Cities.propTypes = {
   offers: offersType,
-  favoriteOfferIds: favoriteOfferIdsType,
-  paths: pathsType,
-  cardStyle: cardStyleType,
-  getRateVisualisation: functionType,
-  email: emailType,
-  activeCity: activeCityType,
-  onFavoritesChange: functionType,
+  activeCity: cityNameType,
 };
 
 export default Cities;

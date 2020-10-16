@@ -2,29 +2,24 @@ import React from "react";
 import Header from "../header/header";
 import Cities from "../cities/cities";
 import {
-  favoriteOfferIdsType,
-  pathsType,
-  citiesType,
-  cardStyleType,
-  functionType,
   mapType,
-  emailType,
 } from "../../types";
+import {City} from "../../const";
 
 class Main extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const firstExistOffers = Array.from(props.allOffersByCities.entries())
+    const firstNotEmptyPair = Array.from(props.allOffersByCities.entries())
     .find(([_, array]) => {
       return array.length > 0;
     });
 
     this.state = {
       activeCity: (
-        firstExistOffers
-          ? firstExistOffers[0]
-          : props.cities[0]
+        firstNotEmptyPair
+          ? firstNotEmptyPair[0]
+          : City.PARIS.name
       )
     };
 
@@ -43,53 +38,40 @@ class Main extends React.PureComponent {
 
   render() {
     const {
-      favoriteOfferIds,
-      paths,
-      cities,
-      cardStyle,
-      getRateVisualisation,
       allOffersByCities,
-      email,
-      onFavoritesChange,
     } = this.props;
 
     const offersOfActiveCity = allOffersByCities.get(this.state.activeCity);
-
-    const classMain = (
-      `page__main page__main--index ${
-        offersOfActiveCity.length > 0
-          ? ``
-          : `page__main--index-empty`
-      }`
-    );
 
     return (
       <React.Fragment>
         <div className="page page--gray page--main">
           <Header
-            paths={paths}
-            email={email}
+            {...this.props}
           />
 
-          <main className={classMain}>
+          <main
+            className={
+              `page__main page__main--index ${
+                offersOfActiveCity.length === 0 && `page__main--index-empty`
+              }`
+            }
+          >
             <h1 className="visually-hidden">Cities</h1>
             <div className="tabs">
               <section className="locations container">
                 <ul className="locations__list tabs__list">
                   {
-                    cities.map((city) => {
-                      const classLink = (
-                        `locations__item-link tabs__item ${
-                          city === this.state.activeCity
-                            ? `tabs__item--active`
-                            : ``
-                        }`
-                      );
+                    Object.entries(City).map(([_, values]) => {
+                      const city = values.name;
+                      const activeClass = (city === this.state.activeCity) && `tabs__item--active`;
 
                       return (
                         <li className="locations__item" key={city}>
                           <a
-                            className={classLink}
+                            className={
+                              `locations__item-link tabs__item ${activeClass}`
+                            }
                             href="#"
                             onClick={this.handleChangeActiveCity}
                           >
@@ -103,14 +85,9 @@ class Main extends React.PureComponent {
               </section>
             </div>
             <Cities
+              {...this.props}
               offers={offersOfActiveCity}
-              favoriteOfferIds={favoriteOfferIds}
-              paths={paths}
-              cardStyle={cardStyle}
-              getRateVisualisation={getRateVisualisation}
-              email={email}
               activeCity={this.state.activeCity}
-              onFavoritesChange={onFavoritesChange}
             />
           </main>
         </div>
@@ -120,14 +97,7 @@ class Main extends React.PureComponent {
 }
 
 Main.propTypes = {
-  favoriteOfferIds: favoriteOfferIdsType,
-  paths: pathsType,
-  cities: citiesType,
-  cardStyle: cardStyleType,
-  getRateVisualisation: functionType,
   allOffersByCities: mapType,
-  email: emailType,
-  onFavoritesChange: functionType,
 };
 
 export default Main;

@@ -1,11 +1,23 @@
 import PropTypes from "prop-types";
-import {HousingType, CITIES} from "./const";
+import {HousingType, City} from "./const";
+
+export const cityNameType = PropTypes.oneOf(
+    Object.values(City).map((properties) => properties.name)
+).isRequired;
+
+export const CityType = PropTypes.exact({
+  name: cityNameType,
+  latitude: PropTypes.number.isRequired,
+  longitude: PropTypes.number.isRequired,
+}).isRequired;
 
 export const offerIdType = PropTypes.string.isRequired;
 
 export const offerType = PropTypes.exact({
   id: offerIdType,
-  city: PropTypes.oneOf(Object.values(CITIES)).isRequired,
+  city: cityNameType,
+  latitude: PropTypes.number.isRequired,
+  longitude: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   description: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
@@ -38,24 +50,6 @@ export const reviewType = PropTypes.exact({
 
 export const reviewsType = PropTypes.arrayOf(reviewType).isRequired;
 
-export const pathsType = PropTypes.shape().isRequired;
-
-export const citiesType = PropTypes.arrayOf(
-    PropTypes.oneOf(CITIES).isRequired
-).isRequired;
-
-export const numberConstantType = PropTypes.number.isRequired;
-
-export const cardStyleType = PropTypes.shape({
-  article: PropTypes.string.isRequired,
-  imgWrapper: PropTypes.string.isRequired,
-  imgWidth: PropTypes.number.isRequired,
-  imgHeight: PropTypes.number.isRequired,
-  info: PropTypes.string.isRequired,
-}).isRequired;
-
-export const cardStyleEnumType = PropTypes.shape().isRequired;
-
 export const functionType = PropTypes.func.isRequired;
 export const notRequiredFunctionType = PropTypes.func;
 
@@ -63,5 +57,10 @@ export const mapType = PropTypes.instanceOf(Map).isRequired;
 
 export const emailType = PropTypes.string.isRequired;
 
-export const activeCityType = PropTypes.oneOf(CITIES);
-
+export const cardStyleType = PropTypes.shape({
+  article: PropTypes.string,
+  imgWrapper: PropTypes.string,
+  imgWidth: PropTypes.number,
+  imgHeight: PropTypes.number,
+  info: PropTypes.string,
+}).isRequired;
