@@ -1,13 +1,32 @@
 import React from "react";
 import OfferCardFavorite from "../offer-card-favorite/offer-card-favorite";
 import {
-  mapType,
+  offersType,
+  favoriteOfferIdsType,
 } from "../../types";
+
+const getFavoriteOffersByCities = (offers, ids) => {
+  const favoriteOffersByCities = new Map();
+
+  offers.filter((offer) => ids.includes(offer.id))
+    .forEach((offer) => {
+      if (favoriteOffersByCities.has(offer.city)) {
+        favoriteOffersByCities.get(offer.city).push(offer);
+      } else {
+        favoriteOffersByCities.set(offer.city, [offer]);
+      }
+    });
+
+  return favoriteOffersByCities;
+};
 
 const FavoriteList = (props) => {
   const {
-    offersByCities,
+    allOffers,
+    favoriteOfferIds,
   } = props;
+
+  const offersByCities = getFavoriteOffersByCities(allOffers, favoriteOfferIds);
 
   return (
     <ul className="favorites__list">
@@ -42,7 +61,8 @@ const FavoriteList = (props) => {
 };
 
 FavoriteList.propTypes = {
-  offersByCities: mapType,
+  allOffers: offersType,
+  favoriteOfferIds: favoriteOfferIdsType,
 };
 
 export default FavoriteList;

@@ -15,27 +15,35 @@ const getOffersByCities = (offers) => {
   return offersByCity;
 };
 
+const getFirstNotEmptyCity = (offersByCity) => {
+  const keys = Array.from(offersByCity.keys());
+  const firstNotEmptyCity = keys.find((key) => offersByCity.get(key).length > 0);
+
+  return firstNotEmptyCity ? firstNotEmptyCity : keys[0];
+};
+
 const allOffersByCity = getOffersByCities(mockOffers);
+const firstNotEmptyCity = getFirstNotEmptyCity(allOffersByCity);
 
 const initialState = {
-  city: City.PARIS,
-  offers: allOffersByCity.get(City.PARIS.name),
+  allOffers: mockOffers,
+  activeCity: firstNotEmptyCity,
+  offers: allOffersByCity.get(firstNotEmptyCity),
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.CHANGE_CITY:
+    case ActionType.CHANGE_ACTIVE_CITY:
       const newCity = action.payload;
 
+
       return extend(state, {
-        city: newCity,
+        activeCity: newCity,
         offers: allOffersByCity.get(newCity),
       });
-    case ActionType.GET_OFFERS:
-      return state;
   }
 
-  return state.offers;
+  return state;
 };
 
 export {reducer};

@@ -8,8 +8,8 @@ import {
   favoriteOfferIdsType,
   reviewsType,
   functionType,
-  mapType,
   emailType,
+  offersType,
 } from "../../types";
 import {MAX_NEAR_OFFERS, MAX_REVIEWS} from "../../const";
 import {getRateVisualisation} from "../../util";
@@ -17,17 +17,17 @@ import {getRateVisualisation} from "../../util";
 const Offer = (props) => {
   const {
     chosenOffer,
+    allOffers,
     favoriteOfferIds,
     allReviews,
-    allOffersByCities,
     email,
     onFavoritesChange
   } = props;
 
   const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
 
-  const nearOffers = allOffersByCities.get(chosenOffer.city)
-    .filter((offer) => offer.id !== chosenOffer.id)
+  const nearOffers = allOffers
+    .filter((offer) => (offer.city === chosenOffer.city && offer.id !== chosenOffer.id))
     .slice(0, MAX_NEAR_OFFERS);
 
   return (
@@ -210,9 +210,9 @@ const Offer = (props) => {
 
 Offer.propTypes = {
   chosenOffer: offerType,
+  allOffers: offersType,
   favoriteOfferIds: favoriteOfferIdsType,
   allReviews: reviewsType,
-  allOffersByCities: mapType,
   email: emailType,
   onFavoritesChange: functionType,
 };

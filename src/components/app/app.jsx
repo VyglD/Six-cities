@@ -1,5 +1,6 @@
 import React from "react";
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 import Main from "../main/main";
 import Login from "../login/login";
 import Favorites from "../favorites/favorites";
@@ -9,7 +10,7 @@ import {
   reviewsType,
   favoriteOfferIdsType,
 } from "../../types";
-import {City, Path} from "../../const";
+import {Path} from "../../const";
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -21,25 +22,11 @@ class App extends React.PureComponent {
       allReviews: this.props.allReviews,
     };
 
-    this.allOffersByCities = this.getOffersByCities(props.allOffers);
-
     this.currentOfferId = ``;
 
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleFavoriteOfferIdsChange = this.handleFavoriteOfferIdsChange.bind(this);
     this.handleReviewAdd = this.handleReviewAdd.bind(this);
-  }
-
-  getOffersByCities(offers) {
-    const offersByCity = new Map(
-        Object.entries(City).map(([_, values]) => [values.name, []])
-    );
-
-    offers.forEach((offer) => {
-      offersByCity.get(offer.city).push(offer);
-    });
-
-    return offersByCity;
   }
 
   handleLogIn(email) {
@@ -78,9 +65,7 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const {
-      allOffers,
-    } = this.props;
+    const {allOffers} = this.props;
 
     return (
       <BrowserRouter>
@@ -90,7 +75,6 @@ class App extends React.PureComponent {
             render={({history}) => (
               <Main
                 favoriteOfferIds={this.state.favoriteOfferIds}
-                allOffersByCities={this.allOffersByCities}
                 email={this.state.email}
                 onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
               />
@@ -118,7 +102,7 @@ class App extends React.PureComponent {
                 ? (
                   <Favorites
                     favoriteOfferIds={this.state.favoriteOfferIds}
-                    allOffersByCities={this.allOffersByCities}
+                    allOffers={allOffers}
                     email={this.state.email}
                     onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
                   />
@@ -143,9 +127,9 @@ class App extends React.PureComponent {
                 ? (
                   <Offer
                     chosenOffer={chosenOffer}
+                    allOffers={allOffers}
                     favoriteOfferIds={this.state.favoriteOfferIds}
                     allReviews={this.state.allReviews}
-                    allOffersByCities={this.allOffersByCities}
                     email={this.state.email}
                     onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
                     onReviewAdd = {this.handleReviewAdd}
@@ -169,4 +153,9 @@ App.propTypes = {
   allReviews: reviewsType,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  allOffers: state.allOffers,
+});
+
+export {App};
+export default connect(mapStateToProps)(App);
