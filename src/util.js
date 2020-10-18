@@ -12,3 +12,7 @@ export const getHumanFormattedDate = (date) => {
 export const getRateVisualisation = (rate) => {
   return {width: `${rate * RATE_COEFFICIENT}%`};
 };
+
+export const extend = (a, b) => {
+  return Object.assign({}, a, b);
+};

@@ -1,47 +1,35 @@
 import React from "react";
+import {connect} from "react-redux";
 import Header from "../header/header";
 import Cities from "../cities/cities";
 import {
-  mapType,
+  cityNameType,
+  functionType,
+  offersType,
 } from "../../types";
 import {City} from "../../const";
+import {ActionCreater} from "../../store/action";
 
 class Main extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const firstNotEmptyPair = Array.from(props.allOffersByCities.entries())
-    .find(([_, array]) => {
-      return array.length > 0;
-    });
-
-    this.state = {
-      activeCity: (
-        firstNotEmptyPair
-          ? firstNotEmptyPair[0]
-          : City.PARIS.name
-      )
-    };
-
     this.handleChangeActiveCity = this.handleChangeActiveCity.bind(this);
   }
 
   handleChangeActiveCity(evt) {
+    const {changeActiveCity, activeCity} = this.props;
     const newCity = evt.target.textContent;
 
     evt.preventDefault();
 
-    if (newCity !== this.state.activeCity) {
-      this.setState({activeCity: newCity});
+    if (newCity !== activeCity) {
+      changeActiveCity(newCity);
     }
   }
 
   render() {
-    const {
-      allOffersByCities,
-    } = this.props;
-
-    const offersOfActiveCity = allOffersByCities.get(this.state.activeCity);
+    const {activeCity, offers} = this.props;
 
     return (
       <React.Fragment>
@@ -53,7 +41,7 @@ class Main extends React.PureComponent {
           <main
             className={
               `page__main page__main--index ${
-                offersOfActiveCity.length === 0 && `page__main--index-empty`
+                offers.length === 0 && `page__main--index-empty`
               }`
             }
           >
@@ -64,7 +52,7 @@ class Main extends React.PureComponent {
                   {
                     Object.entries(City).map(([_, values]) => {
                       const city = values.name;
-                      const activeClass = (city === this.state.activeCity) && `tabs__item--active`;
+                      const activeClass = (city === activeCity) && `tabs__item--active`;
 
                       return (
                         <li className="locations__item" key={city}>
@@ -86,8 +74,8 @@ class Main extends React.PureComponent {
             </div>
             <Cities
               {...this.props}
-              offers={offersOfActiveCity}
-              activeCity={this.state.activeCity}
+              offers={offers}
+              activeCity={activeCity}
             />
           </main>
         </div>
@@ -97,7 +85,21 @@ class Main extends React.PureComponent {
 }
 
 Main.propTypes = {
-  allOffersByCities: mapType,
+  activeCity: cityNameType,
+  offers: offersType,
+  changeActiveCity: functionType,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  activeCity: state.activeCity,
+  offers: state.offers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeActiveCity(newCity) {
+    dispatch(ActionCreater.changeActiveCity(newCity));
+  },
+});
+
+export {Main};
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
