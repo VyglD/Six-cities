@@ -7,20 +7,6 @@ import {
 class OffersList extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-      activeOffer: (
-        props.offers.length > 0
-          ? props.offers[0]
-          : null
-      )
-    };
-
-    this.handleOfferCardHover = this.handleOfferCardHover.bind(this);
-  }
-
-  handleOfferCardHover(chosenOffer) {
-    this.setState({activeOffer: chosenOffer});
   }
 
   render() {
@@ -36,7 +22,6 @@ class OffersList extends React.PureComponent {
             key={offer.id}
             {...this.props}
             offer={offer}
-            onMouseEnter={this.handleOfferCardHover}
           />
         ))}
 
