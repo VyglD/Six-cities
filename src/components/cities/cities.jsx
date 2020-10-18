@@ -10,7 +10,6 @@ class Cities extends React.PureComponent {
   constructor(props) {
     super(props);
 
-
     this.state = {
       activeOffer: null
     };

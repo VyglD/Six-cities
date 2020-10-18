@@ -54,12 +54,16 @@ class Map extends React.PureComponent {
       });
 
       offers.map((offer) => {
-        const coords = getCoords(offer);
-
         this.markers.push(
-            leaflet.marker(coords, {icon: iconMarker}).addTo(this.map)
+            leaflet.marker(getCoords(offer), {icon: iconMarker}).addTo(this.map)
         );
       });
+
+      if (this.activeOffer) {
+        this.markers.push(
+            leaflet.marker(getCoords(this.activeOffer), {icon: iconMarkerActive}).addTo(this.map)
+        );
+      }
     }
   }
 
@@ -134,6 +138,9 @@ class Map extends React.PureComponent {
 
   componentWillUnmount() {
     this.map.remove();
+    this.activeCity = null;
+    this.activeOffer = null;
+    this.markers = null;
     this.map = null;
     this.mapRef.current.remove();
   }
