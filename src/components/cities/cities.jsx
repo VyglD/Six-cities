@@ -1,29 +1,35 @@
 import React from "react";
-import OffersList from "../offers-list/offers-list";
+import {connect} from "react-redux";
+import OfferCardMain from "../offer-card-main/offer-card-main";
 import Map from "../map/map";
 import {
   offersType,
+  offerType,
   cityNameType,
+  functionType,
 } from "../../types";
+import {ActionCreater} from "../../store/action";
+
+import withParentWrapping from "../../hocs/withParentWrapping/withParentWrapping";
+
+const OfferCardMainWrapped = withParentWrapping(OfferCardMain);
+
 
 class Cities extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      activeOffer: null
-    };
-
     this.handleOfferCardHover = this.handleOfferCardHover.bind(this);
   }
 
   handleOfferCardHover(chosenOffer) {
-    this.setState({activeOffer: chosenOffer});
+    this.props.changeActiveOffer(chosenOffer);
   }
 
   render() {
     const {
       offers,
+      activeOffer,
       activeCity,
     } = this.props;
 
@@ -51,18 +57,17 @@ class Cities extends React.PureComponent {
                       <li className="places__option" tabIndex="0">Top rated first</li>
                     </ul>
                   </form>
-
-                  <OffersList
+                  <OfferCardMainWrapped
                     {...this.props}
                     onMouseEnter={this.handleOfferCardHover}
+                    wrappingClass={`cities__places-list places__list tabs__content`}
                   />
-
                 </section>
                 <div className="cities__right-section">
                   <section className="cities__map map">
                     <Map
                       {...this.props}
-                      activeOffer={this.state.activeOffer}
+                      activeOffer={activeOffer}
                     />
                   </section>
                 </div>
@@ -90,7 +95,20 @@ class Cities extends React.PureComponent {
 
 Cities.propTypes = {
   offers: offersType,
+  activeOffer: offerType,
   activeCity: cityNameType,
+  changeActiveOffer: functionType,
 };
 
-export default Cities;
+const mapStateToProps = (state) => ({
+  activeOffer: state.activeOffer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeActiveOffer(newOffer) {
+    dispatch(ActionCreater.changeActiveOffer(newOffer));
+  }
+});
+
+export {Cities};
+export default connect(mapStateToProps, mapDispatchToProps)(Cities);

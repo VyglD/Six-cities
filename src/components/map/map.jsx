@@ -126,6 +126,7 @@ class Map extends React.PureComponent {
 
     if (activeCity !== this.activeCity) {
       this.activeCity = activeCity;
+      this.activeOffer = activeOffer;
 
       this.setMarkers();
       this.map.setView(this.getCurrentCityCoords(), ZOOM);

@@ -4,6 +4,9 @@ import {
   offersType,
   favoriteOfferIdsType,
 } from "../../types";
+import withParentWrapping from "../../hocs/withParentWrapping/withParentWrapping";
+
+const OfferCardFavoriteWrapped = withParentWrapping(OfferCardFavorite);
 
 const getFavoriteOffersByCities = (offers, ids) => {
   const favoriteOffersByCities = new Map();
@@ -20,7 +23,7 @@ const getFavoriteOffersByCities = (offers, ids) => {
   return favoriteOffersByCities;
 };
 
-const FavoriteList = (props) => {
+const FavoritesCities = (props) => {
   const {
     allOffers,
     favoriteOfferIds,
@@ -40,19 +43,11 @@ const FavoriteList = (props) => {
                 </a>
               </div>
             </div>
-            <div className="favorites__places">
-              {
-                offers.map((offer) => {
-                  return (
-                    <OfferCardFavorite
-                      key={offer.id}
-                      {...props}
-                      offer={offer}
-                    />
-                  );
-                })
-              }
-            </div>
+            <OfferCardFavoriteWrapped
+              {...props}
+              offers={offers}
+              wrappingClass={`favorites__places`}
+            />
           </li>
         ))
       }
@@ -60,9 +55,9 @@ const FavoriteList = (props) => {
   );
 };
 
-FavoriteList.propTypes = {
+FavoritesCities.propTypes = {
   allOffers: offersType,
   favoriteOfferIds: favoriteOfferIdsType,
 };
 
-export default FavoriteList;
+export default FavoritesCities;

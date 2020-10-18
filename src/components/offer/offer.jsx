@@ -15,6 +15,10 @@ import {
 import {MAX_NEAR_OFFERS} from "../../const";
 import {getRateVisualisation} from "../../util";
 
+import withParentWrapping from "../../hocs/withParentWrapping/withParentWrapping";
+
+const OfferCardNearWrapped = withParentWrapping(OfferCardNear);
+
 const Offer = (props) => {
   const {
     chosenOffer,
@@ -187,17 +191,11 @@ const Offer = (props) => {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              {
-                nearOffers.map((nearOffer) => (
-                  <OfferCardNear
-                    key={nearOffer.id}
-                    {...props}
-                    offer={nearOffer}
-                  />
-                ))
-              }
-            </div>
+            <OfferCardNearWrapped
+              {...props}
+              offers={nearOffers}
+              wrappingClass={`near-places__list places__list`}
+            />
           </section>
         </div>
       </main>
