@@ -1,7 +1,8 @@
 import React from "react";
 import Header from "../header/header";
-import Review from "../review/review";
+import ReviewsList from "../reviews-list/reviews-list";
 import ReviewForm from "../review-form/review-form";
+import Map from "../map/map";
 import OfferCardNear from "../offer-card-near/offer-card-near";
 import {
   offerType,
@@ -11,8 +12,12 @@ import {
   emailType,
   offersType,
 } from "../../types";
-import {MAX_NEAR_OFFERS, MAX_REVIEWS} from "../../const";
+import {MAX_NEAR_OFFERS} from "../../const";
 import {getRateVisualisation} from "../../util";
+
+import withParentWrapping from "../../hocs/withParentWrapping/withParentWrapping";
+
+const OfferCardNearWrapped = withParentWrapping(OfferCardNear);
 
 const Offer = (props) => {
   const {
@@ -162,45 +167,35 @@ const Offer = (props) => {
                 <h2 className="reviews__title">
                   Reviews &middot; <span className="reviews__amount">{reviewsOfChosenOffer.length}</span>
                 </h2>
-                <ul className="reviews__list">
-                  {
-                    reviewsOfChosenOffer.slice(0, MAX_REVIEWS)
-                      .map((review, index) => (
-                        <Review
-                          key={index}
-                          review={review}
-                        />
-                      ))
-                  }
-                </ul>
+                <ReviewsList
+                  reviews={reviewsOfChosenOffer}
+                />
                 {
-                  email
-                    ? (
-                      <ReviewForm
-                        {...props}
-                      />
-                    )
-                    : ``
+                  email && (
+                    <ReviewForm
+                      {...props}
+                    />
+                  )
                 }
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            <Map
+              offers={nearOffers}
+              activeOffer={chosenOffer}
+              activeCity={chosenOffer.city}
+            />
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              {
-                nearOffers.map((nearOffer) => (
-                  <OfferCardNear
-                    key={nearOffer.id}
-                    {...props}
-                    offer={nearOffer}
-                  />
-                ))
-              }
-            </div>
+            <OfferCardNearWrapped
+              {...props}
+              offers={nearOffers}
+              wrappingClass={`near-places__list places__list`}
+            />
           </section>
         </div>
       </main>

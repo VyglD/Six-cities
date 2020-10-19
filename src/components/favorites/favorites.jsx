@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import Header from "../header/header";
-import FavoriteList from "../favorites-list/favorites-list";
+import FavoritesCities from "../favorites-cities/favorites-cities";
 import {
   favoriteOfferIdsType,
 } from "../../types";
@@ -39,7 +39,7 @@ const Favorites = (props) => {
                   </div>
                 )
                 : (
-                  <FavoriteList
+                  <FavoritesCities
                     {...props}
                   />
                 )

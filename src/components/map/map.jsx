@@ -2,9 +2,32 @@ import leaflet from "leaflet";
 import "../../../node_modules/leaflet/dist/leaflet.css";
 import React from "react";
 import {City} from "../../const";
-import {offersType, cityNameType} from "../../types";
+import {offersType, cityNameType, offerType} from "../../types";
 
 const ZOOM = 12;
+const PIN_SIZE = 30;
+
+const IconPattern = leaflet.Icon.extend({
+  options: {
+    iconUrl: `/img/pin.svg`,
+    iconSize: [PIN_SIZE, PIN_SIZE]
+  }
+});
+
+const iconMarker = new IconPattern();
+const iconMarkerActive = new IconPattern({iconUrl: `/img/pin-active.svg`});
+
+const compareСoords = (marker, coords) => {
+  const markerCoord = marker.getLatLng();
+  return markerCoord.lat === coords.lat && markerCoord.lng === coords.lng;
+};
+
+const getCoords = (coordStore) => {
+  return {
+    lat: coordStore.latitude,
+    lng: coordStore.longitude,
+  };
+};
 
 class Map extends React.PureComponent {
   constructor(props) {
@@ -18,19 +41,13 @@ class Map extends React.PureComponent {
   getCurrentCityCoords() {
     const {activeCity} = this.props;
     const cityInfo = City[activeCity.toUpperCase()];
-    const currentCity = [cityInfo.latitude, cityInfo.longitude];
 
-    return currentCity;
+    return getCoords(cityInfo);
   }
 
   setMarkers() {
     if (this.map) {
       const {offers} = this.props;
-
-      const icon = leaflet.icon({
-        iconUrl: `/img/pin.svg`,
-        iconSize: [30, 30]
-      });
 
       this.markers.forEach((marker) => {
         this.map.removeLayer(marker);
@@ -38,13 +55,41 @@ class Map extends React.PureComponent {
 
       offers.map((offer) => {
         this.markers.push(
-            leaflet.marker([offer.latitude, offer.longitude], {icon}).addTo(this.map)
+            leaflet.marker(getCoords(offer), {icon: iconMarker}).addTo(this.map)
         );
       });
+
+      if (this.activeOffer) {
+        this.markers.push(
+            leaflet.marker(getCoords(this.activeOffer), {icon: iconMarkerActive}).addTo(this.map)
+        );
+      }
     }
   }
 
+  updateMarkers(oldActiveOffer, newActiveOffer) {
+    if (oldActiveOffer) {
+      const oldCoords = getCoords(oldActiveOffer);
+
+      this.markers.filter((marker) => compareСoords(marker, oldCoords))
+        .forEach((marker) => {
+          marker.setIcon(iconMarker);
+        });
+    }
+
+    const newCoords = getCoords(newActiveOffer);
+
+    this.markers.filter((marker) => compareСoords(marker, newCoords))
+      .forEach((marker) => {
+        marker.setIcon(iconMarkerActive);
+      });
+  }
+
   componentDidMount() {
+    const {activeCity, activeOffer} = this.props;
+    this.activeCity = activeCity;
+    this.activeOffer = activeOffer;
+
     const currentCity = this.getCurrentCityCoords();
 
     const map = leaflet.map(`map`, {
@@ -77,12 +122,26 @@ class Map extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    this.setMarkers();
-    this.map.setView(this.getCurrentCityCoords(), ZOOM);
+    const {activeCity, activeOffer} = this.props;
+
+    if (activeCity !== this.activeCity) {
+      this.activeCity = activeCity;
+      this.activeOffer = activeOffer;
+
+      this.setMarkers();
+      this.map.setView(this.getCurrentCityCoords(), ZOOM);
+    } else if (activeOffer !== this.activeOffer) {
+      this.updateMarkers(this.activeOffer, activeOffer);
+
+      this.activeOffer = activeOffer;
+    }
   }
 
   componentWillUnmount() {
     this.map.remove();
+    this.activeCity = null;
+    this.activeOffer = null;
+    this.markers = null;
     this.map = null;
     this.mapRef.current.remove();
   }
@@ -96,6 +155,7 @@ class Map extends React.PureComponent {
 
 Map.propTypes = {
   offers: offersType,
+  activeOffer: offerType,
   activeCity: cityNameType,
 };
 
