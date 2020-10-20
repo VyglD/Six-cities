@@ -1,5 +1,5 @@
 import leaflet from "leaflet";
-import "../../../node_modules/leaflet/dist/leaflet.css";
+import "leaflet/dist/leaflet.css";
 import React from "react";
 import {City} from "../../const";
 import {offersType, cityNameType, offerType} from "../../types";

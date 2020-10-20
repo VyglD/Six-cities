@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import OfferCardMain from "../offer-card-main/offer-card-main";
+import OffersListMain from "../offers-list-main/offers-list-main";
 import Map from "../map/map";
 import {
   offersType,
@@ -9,11 +9,6 @@ import {
   functionType,
 } from "../../types";
 import {ActionCreater} from "../../store/action";
-
-import withParentWrapping from "../../hocs/withParentWrapping/withParentWrapping";
-
-const OfferCardMainWrapped = withParentWrapping(OfferCardMain);
-
 
 class Cities extends React.PureComponent {
   constructor(props) {
@@ -57,10 +52,9 @@ class Cities extends React.PureComponent {
                       <li className="places__option" tabIndex="0">Top rated first</li>
                     </ul>
                   </form>
-                  <OfferCardMainWrapped
-                    {...this.props}
+                  <OffersListMain
                     onMouseEnter={this.handleOfferCardHover}
-                    wrappingClass={`cities__places-list places__list tabs__content`}
+                    {...this.props}
                   />
                 </section>
                 <div className="cities__right-section">

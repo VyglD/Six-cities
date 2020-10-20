@@ -1,5 +1,5 @@
 import React from "react";
-import OfferCard from "../offer-card/offer-card";
+import OffersList from "../offers-list/offers-list";
 
 const cardStyle = {
   article: `favorites__card`,
@@ -9,13 +9,14 @@ const cardStyle = {
   info: `favorites__card-info`,
 };
 
-const OfferCardFavorite = (props) => {
+const OffersListFavorite = (props) => {
   return (
-    <OfferCard
-      {...props}
+    <OffersList
+      className={`favorites__places`}
       cardStyle={cardStyle}
+      {...props}
     />
   );
 };
 
-export default OfferCardFavorite;
+export default OffersListFavorite;

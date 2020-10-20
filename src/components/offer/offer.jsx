@@ -3,7 +3,7 @@ import Header from "../header/header";
 import ReviewsList from "../reviews-list/reviews-list";
 import ReviewForm from "../review-form/review-form";
 import Map from "../map/map";
-import OfferCardNear from "../offer-card-near/offer-card-near";
+import OffersListNear from "../offers-list-near/offers-list-near";
 import {
   offerType,
   favoriteOfferIdsType,
@@ -14,10 +14,6 @@ import {
 } from "../../types";
 import {MAX_NEAR_OFFERS} from "../../const";
 import {getRateVisualisation} from "../../util";
-
-import withParentWrapping from "../../hocs/withParentWrapping/withParentWrapping";
-
-const OfferCardNearWrapped = withParentWrapping(OfferCardNear);
 
 const Offer = (props) => {
   const {
@@ -191,10 +187,9 @@ const Offer = (props) => {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OfferCardNearWrapped
-              {...props}
+            <OffersListNear
               offers={nearOffers}
-              wrappingClass={`near-places__list places__list`}
+              {...props}
             />
           </section>
         </div>
