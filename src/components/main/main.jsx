@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import Header from "../header/header";
-import Cities from "../cities/cities";
+import Places from "../places/places";
 import {
   cityNameType,
   functionType,
@@ -72,7 +72,7 @@ class Main extends React.PureComponent {
                 </ul>
               </section>
             </div>
-            <Cities
+            <Places
               {...this.props}
               offers={offers}
               activeCity={activeCity}

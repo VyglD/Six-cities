@@ -1,5 +1,4 @@
 import React from "react";
-import {connect} from "react-redux";
 import OffersListMain from "../offers-list-main/offers-list-main";
 import Map from "../map/map";
 import {
@@ -8,24 +7,20 @@ import {
   cityNameType,
   functionType,
 } from "../../types";
-import {ActionCreater} from "../../store/action";
 
-class Cities extends React.PureComponent {
+import withActiveItem from "../../hocs/with-active-item/with-active-item";
+
+class Places extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.handleOfferCardHover = this.handleOfferCardHover.bind(this);
-  }
-
-  handleOfferCardHover(chosenOffer) {
-    this.props.changeActiveOffer(chosenOffer);
   }
 
   render() {
     const {
       offers,
-      activeOffer,
       activeCity,
+      activeItem,
+      onItemChange,
     } = this.props;
 
     return (
@@ -53,7 +48,7 @@ class Cities extends React.PureComponent {
                     </ul>
                   </form>
                   <OffersListMain
-                    onMouseEnter={this.handleOfferCardHover}
+                    onMouseEnter={onItemChange}
                     {...this.props}
                   />
                 </section>
@@ -61,7 +56,7 @@ class Cities extends React.PureComponent {
                   <section className="cities__map map">
                     <Map
                       {...this.props}
-                      activeOffer={activeOffer}
+                      activeOffer={activeItem}
                     />
                   </section>
                 </div>
@@ -87,22 +82,12 @@ class Cities extends React.PureComponent {
   }
 }
 
-Cities.propTypes = {
+Places.propTypes = {
   offers: offersType,
-  activeOffer: offerType,
   activeCity: cityNameType,
-  changeActiveOffer: functionType,
+  activeItem: offerType,
+  onItemChange: functionType,
 };
 
-const mapStateToProps = (state) => ({
-  activeOffer: state.activeOffer,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  changeActiveOffer(newOffer) {
-    dispatch(ActionCreater.changeActiveOffer(newOffer));
-  }
-});
-
-export {Cities};
-export default connect(mapStateToProps, mapDispatchToProps)(Cities);
+export {Places};
+export default withActiveItem(Places);

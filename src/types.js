@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import {HousingType, City} from "./const";
 
+export const anyType = PropTypes.any;
+
 export const stringType = PropTypes.string.isRequired;
 
 export const cityNameType = PropTypes.oneOf(

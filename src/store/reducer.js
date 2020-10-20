@@ -28,7 +28,6 @@ const firstNotEmptyCity = getFirstNotEmptyCity(allOffersByCity);
 const initialState = {
   allOffers: mockOffers,
   activeCity: firstNotEmptyCity,
-  activeOffer: null,
   offers: allOffersByCity.get(firstNotEmptyCity),
 };
 
@@ -39,12 +38,7 @@ const reducer = (state = initialState, action) => {
 
       return extend(state, {
         activeCity: newCity,
-        activeOffer: null,
         offers: allOffersByCity.get(newCity),
-      });
-    case ActionType.CHANGE_ACTIVE_OFFER:
-      return extend(state, {
-        activeOffer: action.payload,
       });
   }
 
