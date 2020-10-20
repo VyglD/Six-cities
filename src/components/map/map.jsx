@@ -67,22 +67,23 @@ class Map extends React.PureComponent {
     }
   }
 
+  updateMarker(offer, icon) {
+    const coords = getCoords(offer);
+
+    this.markers.filter((marker) => compareСoords(marker, coords))
+      .forEach((marker) => {
+        marker.setIcon(icon);
+      });
+  }
+
   updateMarkers(oldActiveOffer, newActiveOffer) {
     if (oldActiveOffer) {
-      const oldCoords = getCoords(oldActiveOffer);
-
-      this.markers.filter((marker) => compareСoords(marker, oldCoords))
-        .forEach((marker) => {
-          marker.setIcon(iconMarker);
-        });
+      this.updateMarker(oldActiveOffer, iconMarker);
     }
 
-    const newCoords = getCoords(newActiveOffer);
-
-    this.markers.filter((marker) => compareСoords(marker, newCoords))
-      .forEach((marker) => {
-        marker.setIcon(iconMarkerActive);
-      });
+    if (newActiveOffer) {
+      this.updateMarker(newActiveOffer, iconMarkerActive);
+    }
   }
 
   componentDidMount() {

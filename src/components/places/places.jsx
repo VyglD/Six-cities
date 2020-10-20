@@ -29,11 +29,6 @@ class Places extends React.PureComponent {
     delete customProps.activeItem;
     delete customProps.onItemChange;
 
-    if (this.city !== customProps.activeCity) {
-      this.city = customProps.activeCity;
-      customProps.activeOffer = null;
-    }
-
     const {
       offers,
       activeCity,
@@ -65,7 +60,7 @@ class Places extends React.PureComponent {
                     </ul>
                   </form>
                   <OffersListMain
-                    onMouseEnter={onActiveCardChange}
+                    onActiveCardChange={onActiveCardChange}
                     {...customProps}
                   />
                 </section>

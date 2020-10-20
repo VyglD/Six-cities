@@ -16,7 +16,7 @@ const OfferCard = (props) => {
     offer,
     favoriteOfferIds,
     email,
-    onMouseEnter = (() => {}),
+    onActiveCardChange = (() => {}),
     onFavoritesChange,
     cardStyle,
   } = props;
@@ -34,7 +34,8 @@ const OfferCard = (props) => {
   return (
     <article
       className={`place-card ${article}`}
-      onMouseEnter={() => onMouseEnter(offer)}
+      onMouseEnter={() => onActiveCardChange(offer)}
+      onMouseLeave={() => onActiveCardChange(null)}
     >
       {offer.isPremium
         ?
@@ -94,7 +95,7 @@ OfferCard.propTypes = {
   offer: offerType,
   favoriteOfferIds: favoriteOfferIdsType,
   email: emailType,
-  onMouseEnter: notRequiredFunctionType,
+  onActiveCardChange: notRequiredFunctionType,
   onFavoritesChange: functionType,
   cardStyle: cardStyleType,
 };
