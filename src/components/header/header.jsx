@@ -54,4 +54,5 @@ Header.propTypes = {
   email: emailType,
 };
 
-export default Header;
+export {Header};
+export default React.memo(Header);

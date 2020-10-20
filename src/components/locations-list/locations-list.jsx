@@ -43,4 +43,3 @@ LocationsList.propTypes = {
 
 export {LocationsList};
 export default withActiveItem(LocationsList);
-

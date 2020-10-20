@@ -100,4 +100,5 @@ OfferCard.propTypes = {
   cardStyle: cardStyleType,
 };
 
-export default OfferCard;
+export {OfferCard};
+export default React.memo(OfferCard);
