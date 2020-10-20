@@ -3,25 +3,42 @@ import OffersListMain from "../offers-list-main/offers-list-main";
 import Map from "../map/map";
 import {
   offersType,
-  offerType,
   cityNameType,
   functionType,
+  notRequiredOfferType,
 } from "../../types";
+import {extend} from "../../util";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
 class Places extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.city = props.activeCity;
   }
 
   render() {
+    const customProps = extend(
+        this.props,
+        {
+          activeOffer: this.props.activeItem,
+          onActiveCardChange: this.props.onItemChange,
+        }
+    );
+    delete customProps.activeItem;
+    delete customProps.onItemChange;
+
+    if (this.city !== customProps.activeCity) {
+      this.city = customProps.activeCity;
+      customProps.activeOffer = null;
+    }
+
     const {
       offers,
       activeCity,
-      activeItem,
-      onItemChange,
-    } = this.props;
+      onActiveCardChange,
+    } = customProps;
 
     return (
       <div className="cities">
@@ -48,15 +65,14 @@ class Places extends React.PureComponent {
                     </ul>
                   </form>
                   <OffersListMain
-                    onMouseEnter={onItemChange}
-                    {...this.props}
+                    onMouseEnter={onActiveCardChange}
+                    {...customProps}
                   />
                 </section>
                 <div className="cities__right-section">
                   <section className="cities__map map">
                     <Map
-                      {...this.props}
-                      activeOffer={activeItem}
+                      {...customProps}
                     />
                   </section>
                 </div>
@@ -85,7 +101,7 @@ class Places extends React.PureComponent {
 Places.propTypes = {
   offers: offersType,
   activeCity: cityNameType,
-  activeItem: offerType,
+  activeItem: notRequiredOfferType,
   onItemChange: functionType,
 };
 

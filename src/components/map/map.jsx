@@ -2,7 +2,7 @@ import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import React from "react";
 import {City} from "../../const";
-import {offersType, cityNameType, offerType} from "../../types";
+import {offersType, cityNameType, notRequiredOfferType} from "../../types";
 
 const ZOOM = 12;
 const PIN_SIZE = 30;
@@ -155,7 +155,7 @@ class Map extends React.PureComponent {
 
 Map.propTypes = {
   offers: offersType,
-  activeOffer: offerType,
+  activeOffer: notRequiredOfferType,
   activeCity: cityNameType,
 };
 
