@@ -1,37 +1,39 @@
 import React from "react";
-import {connect} from "react-redux";
-import OfferCardMain from "../offer-card-main/offer-card-main";
+import OffersListMain from "../offers-list-main/offers-list-main";
 import Map from "../map/map";
 import {
   offersType,
-  offerType,
   cityNameType,
   functionType,
+  notRequiredOfferType,
 } from "../../types";
-import {ActionCreater} from "../../store/action";
+import {extend} from "../../util";
 
-import withParentWrapping from "../../hocs/withParentWrapping/withParentWrapping";
+import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
-const OfferCardMainWrapped = withParentWrapping(OfferCardMain);
-
-
-class Cities extends React.PureComponent {
+class Places extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.handleOfferCardHover = this.handleOfferCardHover.bind(this);
-  }
-
-  handleOfferCardHover(chosenOffer) {
-    this.props.changeActiveOffer(chosenOffer);
+    this.city = props.activeCity;
   }
 
   render() {
+    const customProps = extend(
+        this.props,
+        {
+          activeOffer: this.props.activeItem,
+          onActiveCardChange: this.props.onItemChange,
+        }
+    );
+    delete customProps.activeItem;
+    delete customProps.onItemChange;
+
     const {
       offers,
-      activeOffer,
       activeCity,
-    } = this.props;
+      onActiveCardChange,
+    } = customProps;
 
     return (
       <div className="cities">
@@ -57,17 +59,15 @@ class Cities extends React.PureComponent {
                       <li className="places__option" tabIndex="0">Top rated first</li>
                     </ul>
                   </form>
-                  <OfferCardMainWrapped
-                    {...this.props}
-                    onMouseEnter={this.handleOfferCardHover}
-                    wrappingClass={`cities__places-list places__list tabs__content`}
+                  <OffersListMain
+                    onActiveCardChange={onActiveCardChange}
+                    {...customProps}
                   />
                 </section>
                 <div className="cities__right-section">
                   <section className="cities__map map">
                     <Map
-                      {...this.props}
-                      activeOffer={activeOffer}
+                      {...customProps}
                     />
                   </section>
                 </div>
@@ -93,22 +93,12 @@ class Cities extends React.PureComponent {
   }
 }
 
-Cities.propTypes = {
+Places.propTypes = {
   offers: offersType,
-  activeOffer: offerType,
   activeCity: cityNameType,
-  changeActiveOffer: functionType,
+  activeItem: notRequiredOfferType,
+  onItemChange: functionType,
 };
 
-const mapStateToProps = (state) => ({
-  activeOffer: state.activeOffer,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  changeActiveOffer(newOffer) {
-    dispatch(ActionCreater.changeActiveOffer(newOffer));
-  }
-});
-
-export {Cities};
-export default connect(mapStateToProps, mapDispatchToProps)(Cities);
+export {Places};
+export default withActiveItem(Places);

@@ -74,6 +74,7 @@ class App extends React.PureComponent {
             path={Path.MAIN}
             render={({history}) => (
               <Main
+                allOffers={allOffers}
                 favoriteOfferIds={this.state.favoriteOfferIds}
                 email={this.state.email}
                 onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}

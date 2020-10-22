@@ -1,8 +1,8 @@
 import leaflet from "leaflet";
-import "../../../node_modules/leaflet/dist/leaflet.css";
+import "leaflet/dist/leaflet.css";
 import React from "react";
 import {City} from "../../const";
-import {offersType, cityNameType, offerType} from "../../types";
+import {offersType, cityNameType, notRequiredOfferType} from "../../types";
 
 const ZOOM = 12;
 const PIN_SIZE = 30;
@@ -67,22 +67,23 @@ class Map extends React.PureComponent {
     }
   }
 
+  updateMarker(offer, icon) {
+    const coords = getCoords(offer);
+
+    this.markers.filter((marker) => compareСoords(marker, coords))
+      .forEach((marker) => {
+        marker.setIcon(icon);
+      });
+  }
+
   updateMarkers(oldActiveOffer, newActiveOffer) {
     if (oldActiveOffer) {
-      const oldCoords = getCoords(oldActiveOffer);
-
-      this.markers.filter((marker) => compareСoords(marker, oldCoords))
-        .forEach((marker) => {
-          marker.setIcon(iconMarker);
-        });
+      this.updateMarker(oldActiveOffer, iconMarker);
     }
 
-    const newCoords = getCoords(newActiveOffer);
-
-    this.markers.filter((marker) => compareСoords(marker, newCoords))
-      .forEach((marker) => {
-        marker.setIcon(iconMarkerActive);
-      });
+    if (newActiveOffer) {
+      this.updateMarker(newActiveOffer, iconMarkerActive);
+    }
   }
 
   componentDidMount() {
@@ -155,7 +156,7 @@ class Map extends React.PureComponent {
 
 Map.propTypes = {
   offers: offersType,
-  activeOffer: offerType,
+  activeOffer: notRequiredOfferType,
   activeCity: cityNameType,
 };
 

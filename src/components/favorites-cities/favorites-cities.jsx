@@ -1,12 +1,10 @@
 import React from "react";
-import OfferCardFavorite from "../offer-card-favorite/offer-card-favorite";
+import OffersListFavorite from "../offers-list-favorite/offers-list-favorite";
 import {
   offersType,
   favoriteOfferIdsType,
 } from "../../types";
-import withParentWrapping from "../../hocs/withParentWrapping/withParentWrapping";
 
-const OfferCardFavoriteWrapped = withParentWrapping(OfferCardFavorite);
 
 const getFavoriteOffersByCities = (offers, ids) => {
   const favoriteOffersByCities = new Map();
@@ -43,10 +41,9 @@ const FavoritesCities = (props) => {
                 </a>
               </div>
             </div>
-            <OfferCardFavoriteWrapped
-              {...props}
+            <OffersListFavorite
               offers={offers}
-              wrappingClass={`favorites__places`}
+              {...props}
             />
           </li>
         ))
