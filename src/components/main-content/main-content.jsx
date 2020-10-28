@@ -17,26 +17,20 @@ class MainContent extends React.PureComponent {
   }
 
   handleChangeActiveCity(evt) {
-    const {onItemChange} = this.props;
+    const {onChangeActiveCity} = this.props;
     const newCity = evt.target.textContent;
 
     evt.preventDefault();
 
-    onItemChange(newCity);
+    onChangeActiveCity(newCity);
   }
 
   render() {
-    const customProps = extend(
-        this.props,
-        {
-          activeCity: this.props.activeItem || getFirstNotEmptyCity(this.offersByCities),
-          onChangeActiveCity: this.props.onItemChange,
-        }
-    );
-    delete customProps.activeItem;
-    delete customProps.onItemChange;
-
-    const offers = this.offersByCities.get(customProps.activeCity);
+    const activeCity = this.props.activeCity
+      ? this.props.activeCity
+      : getFirstNotEmptyCity(this.offersByCities);
+    const customProps = extend(this.props, {activeCity});
+    const offers = this.offersByCities.get(activeCity);
 
     return (
       <main
@@ -64,10 +58,16 @@ class MainContent extends React.PureComponent {
 
 MainContent.propTypes = {
   allOffers: offersType,
-  activeItem: notRequiredCityNameType,
-  onItemChange: functionType,
+  activeCity: notRequiredCityNameType,
+  onChangeActiveCity: functionType,
 };
 
 export {MainContent};
-export default withActiveItem(MainContent);
+export default withActiveItem(
+    MainContent,
+    {
+      activeItemName: `activeCity`,
+      onItemChangeName: `onChangeActiveCity`,
+    }
+);
 

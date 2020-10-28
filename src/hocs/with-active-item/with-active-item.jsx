@@ -1,32 +1,41 @@
 import React from "react";
 import {anyType} from "../../types";
 
-const withActiveItem = (Component) => {
+const withActiveItem = (
+    Component,
+    {
+      initialActiveItem = null,
+      activeItemName = `activeItem`,
+      onItemChangeName = `onItemChange`,
+    }
+) => {
   class WithActiveItem extends React.PureComponent {
     constructor(props) {
       super(props);
 
       this.state = {
-        activeItem: props.activeItem,
+        [activeItemName]: props.activeItem ? props.activeItem : initialActiveItem,
       };
 
       this.handleChangeItem = this.handleChangeItem.bind(this);
     }
 
     handleChangeItem(newItem) {
-      if (newItem !== this.state.activeItem) {
-        this.setState({activeItem: newItem});
+      if (newItem !== this.state[activeItemName]) {
+        this.setState({[activeItemName]: newItem});
       }
     }
 
     render() {
-      const {activeItem} = this.state;
+      const newProps = {
+        [activeItemName]: this.state[activeItemName],
+        [onItemChangeName]: this.handleChangeItem,
+      };
 
       return (
         <Component
           {...this.props}
-          activeItem={activeItem}
-          onItemChange={this.handleChangeItem}
+          {...newProps}
         />
       );
     }

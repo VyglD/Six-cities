@@ -4,10 +4,7 @@ import Map from "../map/map";
 import {
   offersType,
   cityNameType,
-  functionType,
-  notRequiredOfferType,
 } from "../../types";
-import {extend} from "../../util";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
@@ -19,21 +16,11 @@ class Places extends React.PureComponent {
   }
 
   render() {
-    const customProps = extend(
-        this.props,
-        {
-          activeOffer: this.props.activeItem,
-          onActiveCardChange: this.props.onItemChange,
-        }
-    );
-    delete customProps.activeItem;
-    delete customProps.onItemChange;
 
     const {
       offers,
       activeCity,
-      onActiveCardChange,
-    } = customProps;
+    } = this.props;
 
     return (
       <div className="cities">
@@ -60,14 +47,13 @@ class Places extends React.PureComponent {
                     </ul>
                   </form>
                   <OffersListMain
-                    onActiveCardChange={onActiveCardChange}
-                    {...customProps}
+                    {...this.props}
                   />
                 </section>
                 <div className="cities__right-section">
                   <section className="cities__map map">
                     <Map
-                      {...customProps}
+                      {...this.props}
                     />
                   </section>
                 </div>
@@ -96,9 +82,13 @@ class Places extends React.PureComponent {
 Places.propTypes = {
   offers: offersType,
   activeCity: cityNameType,
-  activeItem: notRequiredOfferType,
-  onItemChange: functionType,
 };
 
 export {Places};
-export default withActiveItem(Places);
+export default withActiveItem(
+    Places,
+    {
+      activeItemName: `activeOffer`,
+      onItemChangeName: `onActiveCardChange`,
+    }
+);

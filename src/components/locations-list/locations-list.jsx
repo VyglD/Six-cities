@@ -2,8 +2,6 @@ import React from "react";
 import {cityNameType, functionType} from "../../types";
 import {City} from "../../const";
 
-import withActiveItem from "../../hocs/with-active-item/with-active-item";
-
 const LocationsList = (props) => {
   const {activeCity, onChangeActiveCity} = props;
 
@@ -41,5 +39,4 @@ LocationsList.propTypes = {
   onChangeActiveCity: functionType,
 };
 
-export {LocationsList};
-export default withActiveItem(LocationsList);
+export default LocationsList;
