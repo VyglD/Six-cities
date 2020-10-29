@@ -5,10 +5,11 @@ import Main from "../main/main";
 import Login from "../login/login";
 import Favorites from "../favorites/favorites";
 import Offer from "../offer/offer";
+import {changeFavorite} from "../../store/actions";
 import {
   offersType,
-  reviewsType,
   favoriteOfferIdsType,
+  functionType,
 } from "../../types";
 import {Path} from "../../const";
 
@@ -18,11 +19,7 @@ class App extends React.PureComponent {
 
     this.state = {
       email: ``,
-      favoriteOfferIds: this.props.favoriteOfferIds,
-      allReviews: this.props.allReviews,
     };
-
-    this.currentOfferId = ``;
 
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleFavoriteOfferIdsChange = this.handleFavoriteOfferIdsChange.bind(this);
@@ -34,19 +31,10 @@ class App extends React.PureComponent {
   }
 
   handleFavoriteOfferIdsChange(history, offer) {
+    const {changeFavorites} = this.props;
+
     if (this.state.email) {
-      this.setState((state) => {
-        const oldfavoriteOfferIds = state.favoriteOfferIds.slice();
-        const index = oldfavoriteOfferIds.findIndex((offerId) => offerId === offer.id);
-
-        if (index === -1) {
-          return {favoriteOfferIds: [...oldfavoriteOfferIds, offer.id]};
-        }
-
-        oldfavoriteOfferIds.splice(index, 1);
-
-        return {favoriteOfferIds: oldfavoriteOfferIds};
-      });
+      changeFavorites(offer);
     } else {
       history.push(Path.LOGIN);
     }
@@ -65,7 +53,7 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const {allOffers} = this.props;
+    const {allOffers, favoriteOfferIds} = this.props;
 
     return (
       <BrowserRouter>
@@ -75,7 +63,7 @@ class App extends React.PureComponent {
             render={({history}) => (
               <Main
                 allOffers={allOffers}
-                favoriteOfferIds={this.state.favoriteOfferIds}
+                favoriteOfferIds={favoriteOfferIds}
                 email={this.state.email}
                 onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
               />
@@ -102,7 +90,7 @@ class App extends React.PureComponent {
               return this.state.email
                 ? (
                   <Favorites
-                    favoriteOfferIds={this.state.favoriteOfferIds}
+                    favoriteOfferIds={favoriteOfferIds}
                     allOffers={allOffers}
                     email={this.state.email}
                     onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
@@ -119,18 +107,13 @@ class App extends React.PureComponent {
               const chosenOfferId = match.params[Path.OFFER_ID];
               const chosenOffer = allOffers.find((offer) => offer.id === chosenOfferId);
 
-              if (this.currentOfferId !== chosenOfferId) {
-                this.currentOfferId = chosenOfferId;
-                window.scrollTo(0, 0);
-              }
-
               return chosenOffer
                 ? (
                   <Offer
                     chosenOffer={chosenOffer}
                     allOffers={allOffers}
-                    favoriteOfferIds={this.state.favoriteOfferIds}
-                    allReviews={this.state.allReviews}
+                    favoriteOfferIds={favoriteOfferIds}
+                    allReviews={[]}
                     email={this.state.email}
                     onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
                     onReviewAdd = {this.handleReviewAdd}
@@ -151,12 +134,19 @@ class App extends React.PureComponent {
 App.propTypes = {
   allOffers: offersType,
   favoriteOfferIds: favoriteOfferIdsType,
-  allReviews: reviewsType,
+  changeFavorites: functionType,
 };
 
 const mapStateToProps = (state) => ({
   allOffers: state.allOffers,
+  favoriteOfferIds: state.favoriteOfferIds,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFavorites(offer) {
+    dispatch(changeFavorite(offer));
+  }
 });
 
 export {App};
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

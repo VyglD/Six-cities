@@ -16,3 +16,12 @@ export const getRateVisualisation = (rate) => {
 export const extend = (...args) => {
   return Object.assign({}, ...args);
 };
+
+export const getArraysDifference = (one, two) => {
+  return one.filter((i) => !two.includes(i))
+    .concat(two.filter((i) => !one.includes(i)));
+};
+
+export const isArraysEqual = (one, two) => {
+  return getArraysDifference(one, two).length === 0;
+};

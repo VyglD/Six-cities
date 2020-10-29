@@ -25,7 +25,7 @@ export const notRequiredOfferType = PropTypes.exact({
   longitude: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  description: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  description: PropTypes.string.isRequired,
   isPremium: PropTypes.bool.isRequired,
   housingType: PropTypes.oneOf(Object.values(HousingType)).isRequired,
   rate: PropTypes.number.isRequired,
