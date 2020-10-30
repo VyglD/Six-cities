@@ -1,5 +1,6 @@
 import React from "react";
 import {anyType} from "../../types";
+import getDisplayName from 'react-display-name';
 
 const withActiveItem = (
     Component,
@@ -44,6 +45,8 @@ const withActiveItem = (
   WithActiveItem.propTypes = {
     activeItem: anyType
   };
+
+  WithActiveItem.displayName = `With_${activeItemName}(${getDisplayName(Component)})`;
 
   return WithActiveItem;
 };
