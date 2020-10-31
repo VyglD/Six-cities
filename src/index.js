@@ -6,13 +6,13 @@ import {Provider} from "react-redux";
 import thunk from "redux-thunk";
 import {createAPI} from "./services/api";
 import App from "./components/app/app";
-import {reducer} from "./store/reducer";
+import rootReducer from "./store/root-reducer";
 import {fetchOffersList} from "./store/api-actions";
 
 const api = createAPI(() => {});
 
 const store = createStore(
-    reducer,
+    rootReducer,
     composeWithDevTools(
         applyMiddleware(thunk.withExtraArgument(api))
     )

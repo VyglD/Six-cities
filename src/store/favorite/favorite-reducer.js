@@ -1,22 +1,17 @@
-import {extend} from "../util";
-import {ActionType} from "./actions";
+import {extend} from "../../util";
+import {ActionType} from "./favorite-actions";
 
 const initialState = {
-  allOffers: [],
   favoriteOfferIds: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.LOAD_ALL_OFFERS:
-      return extend(state, {
-        allOffers: action.payload,
-      });
     case ActionType.ADD_FAVORITE:
       return extend(state, {
         favoriteOfferIds: [...state.favoriteOfferIds, action.payload],
       });
-    case ActionType.REMOVE_FAVORITE:
+    case ActionType.DELETE_FAVORITE:
       return extend(state, {
         favoriteOfferIds: state.favoriteOfferIds.filter((id) => action.payload !== id),
       });
@@ -25,4 +20,4 @@ const reducer = (state = initialState, action) => {
   return state;
 };
 
-export {reducer};
+export default reducer;

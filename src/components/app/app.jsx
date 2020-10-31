@@ -120,9 +120,9 @@ App.propTypes = {
   favoriteOfferIds: favoriteOfferIdsType,
 };
 
-const mapStateToProps = (state) => ({
-  allOffers: state.allOffers,
-  favoriteOfferIds: state.favoriteOfferIds,
+const mapStateToProps = ({FAVORITES, OFFERS}) => ({
+  allOffers: OFFERS.allOffers,
+  favoriteOfferIds: FAVORITES.favoriteOfferIds,
 });
 
 

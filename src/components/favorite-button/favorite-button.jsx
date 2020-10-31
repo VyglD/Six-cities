@@ -1,9 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {
-  addFavorite as addFavoriteAction,
-  removeFavorite as removeFavoriteAction
-} from "../../store/actions";
+import ActionCreator from "../../store/root-actions";
 import {
   offerType,
   favoriteOfferIdsType,
@@ -34,13 +31,13 @@ class FavoriteButton extends React.PureComponent {
       onFavoritesChange,
       email,
       offer,
-      removeFavorite,
+      deleteFavorite,
       addFavorite,
     } = this.props;
 
     if (email) {
       if (isFavorite) {
-        removeFavorite(offer.id);
+        deleteFavorite(offer.id);
       } else {
         addFavorite(offer.id);
       }
@@ -84,17 +81,17 @@ FavoriteButton.propTypes = {
   email: emailType,
   onFavoritesChange: functionType,
   isFavorite: boolType,
-  removeFavorite: functionType,
+  deleteFavorite: functionType,
   addFavorite: functionType,
   favoriteBtnStyle: favoriteBtnStyleType,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  removeFavorite(offerId) {
-    dispatch(removeFavoriteAction(offerId));
+  deleteFavorite(offerId) {
+    dispatch(ActionCreator.deleteFavorite(offerId));
   },
   addFavorite(offerId) {
-    dispatch(addFavoriteAction(offerId));
+    dispatch(ActionCreator.addFavorite(offerId));
   }
 });
 

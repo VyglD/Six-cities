@@ -13,6 +13,7 @@ class MainContent extends React.PureComponent {
 
     this.offersByCities = getOffersByCities(props.allOffers);
 
+
     this.handleChangeActiveCity = this.handleChangeActiveCity.bind(this);
   }
 
