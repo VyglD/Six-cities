@@ -1,6 +1,7 @@
 export const ActionType = {
   LOAD_ALL_OFFERS: `LOAD_ALL_OFFERS`,
-  CHANGE_FAVORITE: `CHANGE_FAVORITE`,
+  ADD_FAVORITE: `ADD_FAVORITE`,
+  REMOVE_FAVORITE: `REMOVE_FAVORITE`,
 };
 
 export const loadAllOffers = (AllOffers) => ({
@@ -8,7 +9,12 @@ export const loadAllOffers = (AllOffers) => ({
   payload: AllOffers,
 });
 
-export const changeFavorite = (offer) => ({
-  type: ActionType.CHANGE_FAVORITE,
-  payload: offer,
+export const addFavorite = (offerId) => ({
+  type: ActionType.ADD_FAVORITE,
+  payload: offerId,
+});
+
+export const removeFavorite = (offerId) => ({
+  type: ActionType.REMOVE_FAVORITE,
+  payload: offerId,
 });

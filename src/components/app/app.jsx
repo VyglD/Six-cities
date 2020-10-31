@@ -5,11 +5,9 @@ import Main from "../main/main";
 import Login from "../login/login";
 import Favorites from "../favorites/favorites";
 import Offer from "../offer/offer";
-import {changeFavorite} from "../../store/actions";
 import {
   offersType,
   favoriteOfferIdsType,
-  functionType,
 } from "../../types";
 import {Path} from "../../const";
 
@@ -22,22 +20,11 @@ class App extends React.PureComponent {
     };
 
     this.handleLogIn = this.handleLogIn.bind(this);
-    this.handleFavoriteOfferIdsChange = this.handleFavoriteOfferIdsChange.bind(this);
     this.handleReviewAdd = this.handleReviewAdd.bind(this);
   }
 
   handleLogIn(email) {
     this.setState({email});
-  }
-
-  handleFavoriteOfferIdsChange(history, offer) {
-    const {changeFavorites} = this.props;
-
-    if (this.state.email) {
-      changeFavorites(offer);
-    } else {
-      history.push(Path.LOGIN);
-    }
   }
 
   handleReviewAdd(review, callback) {
@@ -60,12 +47,11 @@ class App extends React.PureComponent {
         <Switch>
           <Route exact
             path={Path.MAIN}
-            render={({history}) => (
+            render={() => (
               <Main
                 allOffers={allOffers}
                 favoriteOfferIds={favoriteOfferIds}
                 email={this.state.email}
-                onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
               />
             )}
           />
@@ -86,14 +72,13 @@ class App extends React.PureComponent {
           />
           <Route exact
             path={Path.FAVORITES}
-            render={({history}) => {
+            render={() => {
               return this.state.email
                 ? (
                   <Favorites
                     favoriteOfferIds={favoriteOfferIds}
                     allOffers={allOffers}
                     email={this.state.email}
-                    onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
                   />
                 )
                 : (
@@ -103,7 +88,7 @@ class App extends React.PureComponent {
           />
           <Route exact
             path={`${Path.OFFER}/:${Path.OFFER_ID}`}
-            render={({history, match}) => {
+            render={({match}) => {
               const chosenOfferId = match.params[Path.OFFER_ID];
               const chosenOffer = allOffers.find((offer) => offer.id === chosenOfferId);
 
@@ -115,7 +100,6 @@ class App extends React.PureComponent {
                     favoriteOfferIds={favoriteOfferIds}
                     allReviews={[]}
                     email={this.state.email}
-                    onFavoritesChange = {this.handleFavoriteOfferIdsChange.bind(this, history)}
                     onReviewAdd = {this.handleReviewAdd}
                   />
                 )
@@ -134,7 +118,6 @@ class App extends React.PureComponent {
 App.propTypes = {
   allOffers: offersType,
   favoriteOfferIds: favoriteOfferIdsType,
-  changeFavorites: functionType,
 };
 
 const mapStateToProps = (state) => ({
@@ -142,11 +125,6 @@ const mapStateToProps = (state) => ({
   favoriteOfferIds: state.favoriteOfferIds,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  changeFavorites(offer) {
-    dispatch(changeFavorite(offer));
-  }
-});
 
 export {App};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

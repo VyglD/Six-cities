@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../header/header";
+import FavoriteButton from "../favorite-button/favorite-button";
 import ReviewsList from "../reviews-list/reviews-list";
 import ReviewForm from "../review-form/review-form";
 import Map from "../map/map";
@@ -8,7 +9,6 @@ import {
   offerType,
   favoriteOfferIdsType,
   reviewsType,
-  functionType,
   emailType,
   offersType,
 } from "../../types";
@@ -29,7 +29,6 @@ class Offer extends React.PureComponent {
       allOffers,
       allReviews,
       email,
-      onFavoritesChange,
     } = this.props;
 
     const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
@@ -84,21 +83,18 @@ class Offer extends React.PureComponent {
                   <h1 className="property__name">
                     {chosenOffer.title}
                   </h1>
-                  <button
-                    className={
-                      `property__bookmark-button button ${
-                        email && favoriteOfferIds.includes(chosenOffer.id)
-                          && `property__bookmark-button--active`
-                      }`
-                    }
-                    type="button"
-                    onClick={() => onFavoritesChange(chosenOffer)}
-                  >
-                    <svg className="property__bookmark-icon" width="31" height="33">
-                      <use xlinkHref="#icon-bookmark"></use>
-                    </svg>
-                    <span className="visually-hidden">To bookmarks</span>
-                  </button>
+                  <FavoriteButton
+                    favoriteBtnStyle={{
+                      btnClassName: `property__bookmark-button`,
+                      btnActiveClassName: `property__bookmark-button--active`,
+                      iconClassName: `property__bookmark-icon`,
+                      iconWidth: 31,
+                      iconHeight: 33,
+                    }}
+                    offer={chosenOffer}
+                    favoriteOfferIds={favoriteOfferIds}
+                    email={email}
+                  />
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
@@ -208,8 +204,6 @@ Offer.propTypes = {
   favoriteOfferIds: favoriteOfferIdsType,
   allReviews: reviewsType,
   email: emailType,
-  onFavoritesChange: functionType,
-  loadReviews: functionType,
 };
 
 export default Offer;

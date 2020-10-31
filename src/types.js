@@ -5,6 +5,10 @@ export const anyType = PropTypes.any;
 
 export const stringType = PropTypes.string.isRequired;
 
+export const numberType = PropTypes.number.isRequired;
+
+export const boolType = PropTypes.bool.isRequired;
+
 export const notRequiredCityNameType = PropTypes.oneOf(
     Object.values(City).map((properties) => properties.name)
 );
@@ -12,8 +16,8 @@ export const cityNameType = notRequiredCityNameType.isRequired;
 
 export const CityType = PropTypes.exact({
   name: cityNameType,
-  latitude: PropTypes.number.isRequired,
-  longitude: PropTypes.number.isRequired,
+  latitude: numberType,
+  longitude: numberType,
 }).isRequired;
 
 export const offerIdType = PropTypes.string.isRequired;
@@ -21,22 +25,22 @@ export const offerIdType = PropTypes.string.isRequired;
 export const notRequiredOfferType = PropTypes.exact({
   id: offerIdType,
   city: cityNameType,
-  latitude: PropTypes.number.isRequired,
-  longitude: PropTypes.number.isRequired,
+  latitude: numberType,
+  longitude: numberType,
   title: PropTypes.string.isRequired,
   photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   description: PropTypes.string.isRequired,
-  isPremium: PropTypes.bool.isRequired,
+  isPremium: boolType,
   housingType: PropTypes.oneOf(Object.values(HousingType)).isRequired,
-  rate: PropTypes.number.isRequired,
-  rooms: PropTypes.number.isRequired,
-  guests: PropTypes.number.isRequired,
-  cost: PropTypes.number.isRequired,
+  rate: numberType,
+  rooms: numberType,
+  guests: numberType,
+  cost: numberType,
   features: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   owner: PropTypes.exact({
     avatar: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    isSuper: PropTypes.bool.isRequired
+    isSuper: boolType,
   }).isRequired,
 });
 export const offerType = notRequiredOfferType.isRequired;
@@ -49,7 +53,7 @@ export const reviewType = PropTypes.exact({
   offerId: offerIdType,
   name: PropTypes.string.isRequired,
   photo: PropTypes.string.isRequired,
-  rate: PropTypes.number.isRequired,
+  rate: numberType,
   date: PropTypes.instanceOf(Date).isRequired,
   text: PropTypes.string.isRequired
 });
@@ -70,3 +74,11 @@ export const cardStyleType = PropTypes.shape({
   imgHeight: PropTypes.number,
   info: PropTypes.string,
 }).isRequired;
+
+export const favoriteBtnStyleType = PropTypes.shape({
+  btnClassName: PropTypes.string,
+  btnActiveClassName: PropTypes.string,
+  iconClassName: PropTypes.string,
+  iconWidth: PropTypes.number,
+  iconHeight: PropTypes.number,
+});
