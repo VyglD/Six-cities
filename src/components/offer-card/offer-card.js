@@ -3,36 +3,32 @@ import {Link} from "react-router-dom";
 import FavoriteButton from "../favorite-button/favorite-button";
 import {
   offerType,
-  favoriteOfferIdsType,
   notRequiredFunctionType,
-  emailType,
   cardStyleType
 } from "../../types";
 import {Path} from "../../const";
-import {getRateVisualisation, getArraysDifference} from "../../util";
+import {getRateVisualisation} from "../../util";
 
 class OfferCard extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    if (
-      nextProps.email
-      && getArraysDifference(
-          nextProps.favoriteOfferIds,
-          this.props.favoriteOfferIds
-      ).includes(nextProps.offer.id)
-    ) {
-      return true;
-    }
+  // shouldComponentUpdate(nextProps) {
+  //   if (
+  //     nextProps.email
+  //     && getArraysDifference(
+  //         nextProps.favoriteOfferIds,
+  //         this.props.favoriteOfferIds
+  //     ).includes(nextProps.offer.id)
+  //   ) {
+  //     return true;
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
   render() {
     const {
       offer,
       onActiveCardChange = (() => {}),
       cardStyle,
-      favoriteOfferIds,
-      email,
     } = this.props;
 
     const {
@@ -76,8 +72,6 @@ class OfferCard extends React.Component {
             </div>
             <FavoriteButton
               offer={offer}
-              favoriteOfferIds={favoriteOfferIds}
-              email={email}
             />
           </div>
           <div className="place-card__rating rating">
@@ -98,8 +92,6 @@ class OfferCard extends React.Component {
 
 OfferCard.propTypes = {
   offer: offerType,
-  favoriteOfferIds: favoriteOfferIdsType,
-  email: emailType,
   onActiveCardChange: notRequiredFunctionType,
   cardStyle: cardStyleType,
 };

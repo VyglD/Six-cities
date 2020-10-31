@@ -5,7 +5,6 @@ import {
   offerType,
   favoriteOfferIdsType,
   functionType,
-  emailType,
   boolType,
   favoriteBtnStyleType,
 } from "../../types";
@@ -16,9 +15,9 @@ class FavoriteButton extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {email, favoriteOfferIds, offer, onFavoritesChange} = props;
+    const {isLogin, favoriteOfferIds, offer, onFavoritesChange} = props;
 
-    if (email) {
+    if (isLogin) {
       onFavoritesChange(favoriteOfferIds.includes(offer.id));
     }
 
@@ -29,13 +28,13 @@ class FavoriteButton extends React.PureComponent {
     const {
       isFavorite,
       onFavoritesChange,
-      email,
+      isLogin,
       offer,
       deleteFavorite,
       addFavorite,
     } = this.props;
 
-    if (email) {
+    if (isLogin) {
       if (isFavorite) {
         deleteFavorite(offer.id);
       } else {
@@ -78,13 +77,18 @@ class FavoriteButton extends React.PureComponent {
 FavoriteButton.propTypes = {
   offer: offerType,
   favoriteOfferIds: favoriteOfferIdsType,
-  email: emailType,
+  isLogin: boolType,
   onFavoritesChange: functionType,
   isFavorite: boolType,
   deleteFavorite: functionType,
   addFavorite: functionType,
   favoriteBtnStyle: favoriteBtnStyleType,
 };
+
+const mapStateToProps = ({USER, FAVORITES}) => ({
+  isLogin: USER.isLogin,
+  favoriteOfferIds: FAVORITES.favoriteOfferIds,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   deleteFavorite(offerId) {
@@ -97,7 +101,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export {FavoriteButton};
 export default withActiveItem(
-    connect(null, mapDispatchToProps)(FavoriteButton),
+    connect(mapStateToProps, mapDispatchToProps)(FavoriteButton),
     {
       initialActiveItem: false,
       activeItemName: `isFavorite`,

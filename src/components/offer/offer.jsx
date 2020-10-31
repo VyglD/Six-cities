@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 import Header from "../header/header";
 import FavoriteButton from "../favorite-button/favorite-button";
 import ReviewsList from "../reviews-list/reviews-list";
@@ -7,13 +8,19 @@ import Map from "../map/map";
 import OffersListNear from "../offers-list-near/offers-list-near";
 import {
   offerType,
-  favoriteOfferIdsType,
-  reviewsType,
-  emailType,
   offersType,
+  boolType,
 } from "../../types";
 import {MAX_NEAR_OFFERS} from "../../const";
 import {getRateVisualisation} from "../../util";
+
+const favoriteBtnStyle = {
+  btnClassName: `property__bookmark-button`,
+  btnActiveClassName: `property__bookmark-button--active`,
+  iconClassName: `property__bookmark-icon`,
+  iconWidth: 31,
+  iconHeight: 33,
+};
 
 class Offer extends React.PureComponent {
   componentDidUpdate(nextProps) {
@@ -25,13 +32,12 @@ class Offer extends React.PureComponent {
   render() {
     const {
       chosenOffer,
-      favoriteOfferIds,
       allOffers,
-      allReviews,
-      email,
+      isLogin,
     } = this.props;
 
-    const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
+    // const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
+    const reviewsOfChosenOffer = [];
 
     const nearOffers = allOffers
       .filter((offer) => (offer.city === chosenOffer.city && offer.id !== chosenOffer.id))
@@ -39,9 +45,7 @@ class Offer extends React.PureComponent {
 
     return (
       <div className="page">
-        <Header
-          {...this.props}
-        />
+        <Header />
 
         <main className="page__main page__main--property">
           <section className="property">
@@ -84,16 +88,8 @@ class Offer extends React.PureComponent {
                     {chosenOffer.title}
                   </h1>
                   <FavoriteButton
-                    favoriteBtnStyle={{
-                      btnClassName: `property__bookmark-button`,
-                      btnActiveClassName: `property__bookmark-button--active`,
-                      iconClassName: `property__bookmark-icon`,
-                      iconWidth: 31,
-                      iconHeight: 33,
-                    }}
+                    favoriteBtnStyle={favoriteBtnStyle}
                     offer={chosenOffer}
-                    favoriteOfferIds={favoriteOfferIds}
-                    email={email}
                   />
                 </div>
                 <div className="property__rating rating">
@@ -166,7 +162,7 @@ class Offer extends React.PureComponent {
                     reviews={reviewsOfChosenOffer}
                   />
                   {
-                    email && (
+                    isLogin && (
                       <ReviewForm
                         {...this.props}
                       />
@@ -201,9 +197,13 @@ class Offer extends React.PureComponent {
 Offer.propTypes = {
   chosenOffer: offerType,
   allOffers: offersType,
-  favoriteOfferIds: favoriteOfferIdsType,
-  allReviews: reviewsType,
-  email: emailType,
+  isLogin: boolType,
 };
 
-export default Offer;
+const mapStateToProps = ({USER, OFFERS}) => ({
+  isLogin: USER.isLogin,
+  allOffers: OFFERS.allOffers,
+});
+
+export {Offer};
+export default connect(mapStateToProps)(Offer);

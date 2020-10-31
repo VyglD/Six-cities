@@ -1,12 +1,14 @@
 import React from "react";
+import {connect} from "react-redux";
 import Header from "../header/header";
+import ActionCreator from "../../store/root-actions";
 import {functionType} from "../../types";
 
 class Login extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.formRef = React.createRef();
+    this._formRef = React.createRef();
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -14,17 +16,14 @@ class Login extends React.PureComponent {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    this.props.onLogIn(
-        new FormData(this.formRef.current).get(`email`)
-    );
+    // Вызов метода авторизации на серевере
+    this.props.login(new FormData(this._formRef.current).get(`email`));
   }
 
   render() {
     return (
       <div className="page page--gray page--login">
-        <Header
-          {...this.props}
-        />
+        <Header />
 
         <main className="page__main page__main--login">
           <div className="page__login-container container">
@@ -34,7 +33,7 @@ class Login extends React.PureComponent {
                 className="login__form form"
                 action="#"
                 method="post"
-                ref={this.formRef}
+                ref={this._formRef}
                 onSubmit={this.handleSubmit}
               >
                 <div className="login__input-wrapper form__input-wrapper">
@@ -76,7 +75,14 @@ class Login extends React.PureComponent {
 }
 
 Login.propTypes = {
-  onLogIn: functionType,
+  login: functionType,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  login(email) {
+    dispatch(ActionCreator.login(email));
+  }
+});
+
+export {Login};
+export default connect(null, mapDispatchToProps)(Login);

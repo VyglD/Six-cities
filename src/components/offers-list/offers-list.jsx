@@ -1,5 +1,5 @@
 import React from "react";
-import {favoriteOfferIdsType, notRequiredCityNameType, offersType, stringType} from "../../types";
+import {offersType, stringType} from "../../types";
 import OfferCard from "../offer-card/offer-card";
 
 const OffersList = (props) => {
@@ -20,8 +20,6 @@ const OffersList = (props) => {
 OffersList.propTypes = {
   offers: offersType,
   className: stringType,
-  favoriteOfferIds: favoriteOfferIdsType,
-  activeCity: notRequiredCityNameType,
 };
 
 export default OffersList;

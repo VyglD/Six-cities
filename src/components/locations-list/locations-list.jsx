@@ -39,4 +39,5 @@ LocationsList.propTypes = {
   onChangeActiveCity: functionType,
 };
 
-export default LocationsList;
+export {LocationsList};
+export default React.memo(LocationsList);

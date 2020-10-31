@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 import OffersListFavorite from "../offers-list-favorite/offers-list-favorite";
 import {
   offersType,
@@ -57,4 +58,9 @@ FavoritesCities.propTypes = {
   favoriteOfferIds: favoriteOfferIdsType,
 };
 
-export default FavoritesCities;
+const mapStateToProps = ({OFFERS}) => ({
+  allOffers: OFFERS.allOffers,
+});
+
+export {FavoritesCities};
+export default connect(mapStateToProps)(FavoritesCities);
