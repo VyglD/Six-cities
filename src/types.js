@@ -52,7 +52,7 @@ export const offerType = notRequiredOfferType.isRequired;
 export const offersType = PropTypes.arrayOf(offerType).isRequired;
 
 export const reviewType = PropTypes.exact({
-  offerId: offerIdType,
+  id: stringType,
   name: PropTypes.string.isRequired,
   photo: PropTypes.string.isRequired,
   rate: numberType,

@@ -10,9 +10,13 @@ import {
   offersType,
   boolType,
   offerIdType,
+  functionType,
+  reviewsType,
 } from "../../types";
 import {MAX_NEAR_OFFERS} from "../../const";
 import {getRateVisualisation} from "../../util";
+import ActionCreator from "../../store/root-actions";
+import {fetchReviews} from "../../middlewares/thunk-api";
 
 const favoriteBtnStyle = {
   btnClassName: `property__bookmark-button`,
@@ -23,9 +27,21 @@ const favoriteBtnStyle = {
 };
 
 class Offer extends React.PureComponent {
-  componentDidUpdate(nextProps) {
-    if (nextProps.offerId !== this.props.offerId) {
+  constructor(props) {
+    super(props);
+
+    const {openOffer, offerId} = props;
+
+    openOffer(offerId);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.offerId !== this.props.offerId) {
       window.scrollTo(0, 0);
+
+      const {openOffer, offerId} = this.props;
+
+      openOffer(offerId);
     }
   }
 
@@ -34,10 +50,9 @@ class Offer extends React.PureComponent {
       offerId,
       allOffers,
       isLogin,
+      reviews,
     } = this.props;
 
-    // const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
-    const reviewsOfChosenOffer = [];
     const chosenOffer = allOffers.find((offer) => offer.id === offerId);
 
     const nearOffers = allOffers
@@ -157,10 +172,10 @@ class Offer extends React.PureComponent {
                 </div>
                 <section className="property__reviews reviews">
                   <h2 className="reviews__title">
-                    Reviews &middot; <span className="reviews__amount">{reviewsOfChosenOffer.length}</span>
+                    Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
                   </h2>
                   <ReviewsList
-                    reviews={reviewsOfChosenOffer}
+                    reviews={reviews}
                   />
                   {
                     isLogin && (
@@ -199,12 +214,22 @@ Offer.propTypes = {
   offerId: offerIdType,
   allOffers: offersType,
   isLogin: boolType,
+  openOffer: functionType,
+  reviews: reviewsType,
 };
 
-const mapStateToProps = ({USER, OFFERS}) => ({
+const mapStateToProps = ({USER, OFFERS, REVIEWS}) => ({
   isLogin: USER.isLogin,
   allOffers: OFFERS.allOffers,
+  reviews: REVIEWS.reviews,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  openOffer: (offerId) => {
+    dispatch(ActionCreator.openOffer(offerId));
+    dispatch(fetchReviews());
+  },
 });
 
 export {Offer};
-export default connect(mapStateToProps)(Offer);
+export default connect(mapStateToProps, mapDispatchToProps)(Offer);

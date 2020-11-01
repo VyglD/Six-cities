@@ -47,3 +47,25 @@ export const adaptOfferToClient = (serverOffer) => {
     }
   };
 };
+
+export const adaptReviewToClient = (serverReview) => {
+  const {
+    id,
+    user: {
+      "avatar_url": photo,
+      name
+    },
+    rating,
+    date,
+    comment,
+  } = serverReview;
+
+  return {
+    id: String(id),
+    name,
+    photo,
+    rate: rating,
+    date: new Date(date),
+    text: comment,
+  };
+};
