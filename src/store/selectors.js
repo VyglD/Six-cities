@@ -1,7 +1,7 @@
 import {createSelector} from "reselect";
-import {City} from "../const";
+import {CITIES as orderedCities} from "../const";
 
-export const allOffers = (state) => state.OFFERS.allOffers;
+const allOffers = (state) => state.OFFERS.allOffers;
 
 export const getAllOfferIds = createSelector(
     [allOffers],
@@ -10,11 +10,36 @@ export const getAllOfferIds = createSelector(
     }
 );
 
-export const getOffersByCities = createSelector(
+export const getCitiesInfo = createSelector(
     [allOffers],
     (offers) => {
+      const City = new Map(
+          orderedCities.map((city) => [city, null])
+      );
+
+      offers.forEach((offer) => {
+        const cityName = offer.cityInfo.name;
+        if (!City.get(cityName)) {
+          City.set(cityName, offer.cityInfo);
+        }
+      });
+
+      return City;
+    }
+);
+
+export const getCities = createSelector(
+    [getCitiesInfo],
+    (citiesInfo) => {
+      return Array.from(citiesInfo.entries()).map(([_, values]) => values.name);
+    }
+);
+
+export const getOffersByCities = createSelector(
+    [allOffers, getCities],
+    (offers, cities) => {
       const offersByCity = new Map(
-          Object.entries(City).map(([_, values]) => [values.name, []])
+          cities.map((city) => [city, []])
       );
 
       offers.forEach((offer) => {

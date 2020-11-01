@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {HousingType, City} from "./const";
+import {HousingType, CITIES} from "./const";
 
 export const anyType = PropTypes.any;
 
@@ -12,15 +12,16 @@ export const boolType = PropTypes.bool.isRequired;
 export const functionType = PropTypes.func.isRequired;
 export const notRequiredFunctionType = PropTypes.func;
 
-export const notRequiredCityNameType = PropTypes.oneOf(
-    Object.values(City).map((properties) => properties.name)
-);
+export const notRequiredCityNameType = PropTypes.oneOf(CITIES);
 export const cityNameType = notRequiredCityNameType.isRequired;
 
-export const CityType = PropTypes.exact({
+export const citiesType = PropTypes.arrayOf(cityNameType).isRequired;
+
+export const CityInfoType = PropTypes.exact({
   name: cityNameType,
   latitude: numberType,
   longitude: numberType,
+  zoom: numberType,
 }).isRequired;
 
 export const offerIdType = PropTypes.string.isRequired;
@@ -46,6 +47,7 @@ export const notRequiredOfferType = PropTypes.exact({
     name: PropTypes.string.isRequired,
     isSuper: boolType,
   }).isRequired,
+  cityInfo: CityInfoType,
 });
 export const offerType = notRequiredOfferType.isRequired;
 

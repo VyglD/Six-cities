@@ -1,11 +1,12 @@
 import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import React from "react";
-import {City} from "../../const";
-import {offersType, cityNameType, notRequiredOfferType} from "../../types";
+import {connect} from "react-redux";
+import {getCitiesInfo} from "../../store/selectors";
+import {offersType, cityNameType, notRequiredOfferType, mapType} from "../../types";
 
-const ZOOM = 12;
 const PIN_SIZE = 30;
+const ANIMATION_DURATION = 0.5;
 
 const IconPattern = leaflet.Icon.extend({
   options: {
@@ -39,10 +40,16 @@ class Map extends React.PureComponent {
   }
 
   getCurrentCityCoords() {
-    const {activeCity} = this.props;
-    const cityInfo = City[activeCity.toUpperCase()];
+    const {activeCity, citiesInfo} = this.props;
+    const cityInfo = citiesInfo.get(activeCity);
 
     return getCoords(cityInfo);
+  }
+
+  getCityZoom() {
+    const {citiesInfo, activeCity} = this.props;
+
+    return citiesInfo.get(activeCity).zoom;
   }
 
   setMarkers() {
@@ -87,11 +94,12 @@ class Map extends React.PureComponent {
   }
 
   componentDidMount() {
-    const currentCity = this.getCurrentCityCoords();
+    const currentCityCoords = this.getCurrentCityCoords();
+    const zoom = this.getCityZoom();
 
     const map = leaflet.map(`map`, {
-      center: currentCity,
-      zoom: ZOOM,
+      center: currentCityCoords,
+      zoom,
       zoomControl: false,
       marker: true
     });
@@ -115,7 +123,7 @@ class Map extends React.PureComponent {
 
     this.setMarkers();
 
-    map.setView(currentCity, ZOOM);
+    map.setView(currentCityCoords, zoom);
   }
 
   componentDidUpdate(prevProps) {
@@ -123,7 +131,10 @@ class Map extends React.PureComponent {
 
     if (activeCity !== prevProps.activeCity) {
       this.setMarkers();
-      this._map.flyTo(this.getCurrentCityCoords(), ZOOM, {duration: 0.5});
+      this._map.flyTo(
+          this.getCurrentCityCoords(),
+          this.getCityZoom(),
+          {duration: ANIMATION_DURATION});
     } else if (offers !== prevProps.offers) {
       this.setMarkers();
     } else if (activeOffer !== prevProps.activeOffer) {
@@ -149,6 +160,12 @@ Map.propTypes = {
   offers: offersType,
   activeOffer: notRequiredOfferType,
   activeCity: cityNameType,
+  citiesInfo: mapType,
 };
 
-export default Map;
+const mapStateToProps = (state) => ({
+  citiesInfo: getCitiesInfo(state),
+});
+
+export {Map};
+export default connect(mapStateToProps)(Map);
