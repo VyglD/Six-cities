@@ -33,9 +33,9 @@ class Map extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.mapRef = React.createRef();
+    this._mapRef = React.createRef();
 
-    this.markers = [];
+    this._markers = [];
   }
 
   getCurrentCityCoords() {
@@ -46,22 +46,22 @@ class Map extends React.PureComponent {
   }
 
   setMarkers() {
-    if (this.map) {
-      const {offers} = this.props;
+    if (this._map) {
+      const {offers, activeOffer} = this.props;
 
-      this.markers.forEach((marker) => {
-        this.map.removeLayer(marker);
+      this._markers.forEach((marker) => {
+        this._map.removeLayer(marker);
       });
 
       offers.map((offer) => {
-        this.markers.push(
-            leaflet.marker(getCoords(offer), {icon: iconMarker}).addTo(this.map)
+        this._markers.push(
+            leaflet.marker(getCoords(offer), {icon: iconMarker}).addTo(this._map)
         );
       });
 
-      if (this.activeOffer) {
-        this.markers.push(
-            leaflet.marker(getCoords(this.activeOffer), {icon: iconMarkerActive}).addTo(this.map)
+      if (activeOffer) {
+        this._markers.push(
+            leaflet.marker(getCoords(activeOffer), {icon: iconMarkerActive}).addTo(this._map)
         );
       }
     }
@@ -70,7 +70,7 @@ class Map extends React.PureComponent {
   updateMarker(offer, icon) {
     const coords = getCoords(offer);
 
-    this.markers.filter((marker) => compareСoords(marker, coords))
+    this._markers.filter((marker) => compareСoords(marker, coords))
       .forEach((marker) => {
         marker.setIcon(icon);
       });
@@ -87,10 +87,6 @@ class Map extends React.PureComponent {
   }
 
   componentDidMount() {
-    const {activeCity, activeOffer} = this.props;
-    this.activeCity = activeCity;
-    this.activeOffer = activeOffer;
-
     const currentCity = this.getCurrentCityCoords();
 
     const map = leaflet.map(`map`, {
@@ -100,7 +96,7 @@ class Map extends React.PureComponent {
       marker: true
     });
 
-    this.map = map;
+    this._map = map;
 
     leaflet
     .tileLayer(
@@ -122,34 +118,29 @@ class Map extends React.PureComponent {
     map.setView(currentCity, ZOOM);
   }
 
-  componentDidUpdate() {
-    const {activeCity, activeOffer} = this.props;
+  componentDidUpdate(prevProps) {
+    const {activeCity, activeOffer, offers} = this.props;
 
-    if (activeCity !== this.activeCity) {
-      this.activeCity = activeCity;
-      this.activeOffer = activeOffer;
-
+    if (activeCity !== prevProps.activeCity) {
       this.setMarkers();
-      this.map.setView(this.getCurrentCityCoords(), ZOOM);
-    } else if (activeOffer !== this.activeOffer) {
-      this.updateMarkers(this.activeOffer, activeOffer);
-
-      this.activeOffer = activeOffer;
+      this._map.flyTo(this.getCurrentCityCoords(), ZOOM, {duration: 0.5});
+    } else if (offers !== prevProps.offers) {
+      this.setMarkers();
+    } else if (activeOffer !== prevProps.activeOffer) {
+      this.updateMarkers(prevProps.activeOffer, activeOffer);
     }
   }
 
   componentWillUnmount() {
-    this.map.remove();
-    this.activeCity = null;
-    this.activeOffer = null;
-    this.markers = null;
-    this.map = null;
-    this.mapRef.current.remove();
+    this._map.remove();
+    this._markers = null;
+    this._map = null;
+    this._mapRef.current.remove();
   }
 
   render() {
     return (
-      <div ref={this.mapRef} id="map" style={{height: `100%`}}></div>
+      <div ref={this._mapRef} id="map" style={{height: `100%`}}></div>
     );
   }
 }
@@ -161,5 +152,3 @@ Map.propTypes = {
 };
 
 export default Map;
-
-
