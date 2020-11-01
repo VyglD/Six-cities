@@ -9,6 +9,9 @@ export const numberType = PropTypes.number.isRequired;
 
 export const boolType = PropTypes.bool.isRequired;
 
+export const functionType = PropTypes.func.isRequired;
+export const notRequiredFunctionType = PropTypes.func;
+
 export const notRequiredCityNameType = PropTypes.oneOf(
     Object.values(City).map((properties) => properties.name)
 );
@@ -59,9 +62,6 @@ export const reviewType = PropTypes.exact({
 });
 
 export const reviewsType = PropTypes.arrayOf(reviewType).isRequired;
-
-export const functionType = PropTypes.func.isRequired;
-export const notRequiredFunctionType = PropTypes.func;
 
 export const mapType = PropTypes.instanceOf(Map).isRequired;
 

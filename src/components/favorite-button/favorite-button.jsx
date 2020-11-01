@@ -8,6 +8,7 @@ import {
   boolType,
   favoriteBtnStyleType,
 } from "../../types";
+import {Path} from "../../const";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
@@ -32,6 +33,7 @@ class FavoriteButton extends React.PureComponent {
       offer,
       deleteFavorite,
       addFavorite,
+      redirectTo,
     } = this.props;
 
     if (isLogin) {
@@ -43,7 +45,7 @@ class FavoriteButton extends React.PureComponent {
 
       onFavoritesChange(!isFavorite);
     } else {
-      // перенаправление на страницу авторизации
+      redirectTo(Path.LOGIN);
     }
   }
 
@@ -82,6 +84,7 @@ FavoriteButton.propTypes = {
   isFavorite: boolType,
   deleteFavorite: functionType,
   addFavorite: functionType,
+  redirectTo: functionType,
   favoriteBtnStyle: favoriteBtnStyleType,
 };
 
@@ -96,6 +99,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   addFavorite(offerId) {
     dispatch(ActionCreator.addFavorite(offerId));
+  },
+  redirectTo(url) {
+    dispatch(ActionCreator.redirectTo(url));
   }
 });
 

@@ -7,14 +7,16 @@ import thunk from "redux-thunk";
 import {createAPI} from "./services/api";
 import App from "./components/app/app";
 import rootReducer from "./store/root-reducer";
-import {fetchOffersList} from "./store/api-actions";
+import {fetchOffersList} from "./middlewares/thunk-api";
+import {redirect} from "./middlewares/redirect";
 
 const api = createAPI(() => {});
 
 const store = createStore(
     rootReducer,
     composeWithDevTools(
-        applyMiddleware(thunk.withExtraArgument(api))
+        applyMiddleware(thunk.withExtraArgument(api)),
+        applyMiddleware(redirect)
     )
 );
 
@@ -31,4 +33,3 @@ Promise.resolve(
       document.querySelector(`#root`)
   );
 });
-

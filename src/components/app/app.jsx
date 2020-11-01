@@ -1,10 +1,11 @@
 import React from "react";
-import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
+import {Router, Switch, Route, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../main/main";
 import Login from "../login/login";
 import Favorites from "../favorites/favorites";
 import Offer from "../offer/offer";
+import browserHistory from "../../browser-history";
 import {
   boolType,
   offersType,
@@ -15,7 +16,7 @@ const App = (props) => {
   const {isLogin, allOffers} = props;
 
   return (
-    <BrowserRouter>
+    <Router history={browserHistory}>
       <Switch>
         <Route exact
           path={Path.MAIN}
@@ -66,7 +67,7 @@ const App = (props) => {
         />
         <Redirect to={Path.MAIN} />
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 };
 
