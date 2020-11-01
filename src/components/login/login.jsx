@@ -16,6 +16,7 @@ class Login extends React.PureComponent {
   handleSubmit(evt) {
     evt.preventDefault();
 
+    // ToDo:
     // Вызов метода авторизации на серевере
     this.props.login(new FormData(this._formRef.current).get(`email`));
   }

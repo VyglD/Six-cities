@@ -9,12 +9,22 @@ import {
   favoriteBtnStyleType,
 } from "../../types";
 import {Path} from "../../const";
+import {getArraysDifference} from "../../util";
 
-class FavoriteButton extends React.PureComponent {
+class FavoriteButton extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleFavoriteClick = this.handleFavoriteClick.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const {favoriteOfferIds, offer} = this.props;
+
+    return getArraysDifference(
+        nextProps.favoriteOfferIds,
+        favoriteOfferIds
+    ).includes(offer.id);
   }
 
   handleFavoriteClick() {

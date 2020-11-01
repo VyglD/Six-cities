@@ -27,3 +27,9 @@ export const Path = {
   OFFER: `/offer`,
   OFFER_ID: `offerId`
 };
+
+export const APIRoute = {
+  OFFERS: `/hotels`,
+  REVIEWS: `/comments`,
+  NEAR: `/nearby`,
+};

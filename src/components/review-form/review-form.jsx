@@ -52,17 +52,8 @@ class ReviewForm extends React.PureComponent {
     evt.preventDefault();
 
     if (this.isFormValidity()) {
-      // const {chosenOffer, email} = this.props;
-      // const newReview = {
-      //   offerId: chosenOffer.id,
-      //   name: email,
-      //   photo: ``,
-      //   rate: parseInt(this.ratingRef.current.querySelector(`.${rateInputClass}:checked`), 10),
-      //   date: new Date(),
-      //   text: this.reviewRef.current.value,
-      // };
-
-      // onReviewAdd(newReview, this.clearForm);
+      // ToDo:
+      // Отправка на сервер нового коммента
     }
   }
 
