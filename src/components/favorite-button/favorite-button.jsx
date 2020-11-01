@@ -10,25 +10,16 @@ import {
 } from "../../types";
 import {Path} from "../../const";
 
-import withActiveItem from "../../hocs/with-active-item/with-active-item";
-
 class FavoriteButton extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    const {isLogin, favoriteOfferIds, offer, onFavoritesChange} = props;
-
-    if (isLogin) {
-      onFavoritesChange(favoriteOfferIds.includes(offer.id));
-    }
 
     this.handleFavoriteClick = this.handleFavoriteClick.bind(this);
   }
 
   handleFavoriteClick() {
     const {
-      isFavorite,
-      onFavoritesChange,
+      favoriteOfferIds,
       isLogin,
       offer,
       deleteFavorite,
@@ -37,13 +28,11 @@ class FavoriteButton extends React.PureComponent {
     } = this.props;
 
     if (isLogin) {
-      if (isFavorite) {
+      if (favoriteOfferIds.includes(offer.id)) {
         deleteFavorite(offer.id);
       } else {
         addFavorite(offer.id);
       }
-
-      onFavoritesChange(!isFavorite);
     } else {
       redirectTo(Path.LOGIN);
     }
@@ -58,12 +47,15 @@ class FavoriteButton extends React.PureComponent {
         iconWidth = 18,
         iconHeight = 19,
       } = {},
-      isFavorite,
+      favoriteOfferIds,
+      offer,
     } = this.props;
 
     return (
       <button
-        className={`button ${btnClassName} ${isFavorite ? btnActiveClassName : ``}`}
+        className={`button ${btnClassName} ${
+          favoriteOfferIds.includes(offer.id) ? btnActiveClassName : ``
+        }`}
         type="button"
         onClick={this.handleFavoriteClick}
       >
@@ -80,8 +72,6 @@ FavoriteButton.propTypes = {
   offer: offerType,
   favoriteOfferIds: offerIdsType,
   isLogin: boolType,
-  onFavoritesChange: functionType,
-  isFavorite: boolType,
   deleteFavorite: functionType,
   addFavorite: functionType,
   redirectTo: functionType,
@@ -106,11 +96,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {FavoriteButton};
-export default withActiveItem(
-    connect(mapStateToProps, mapDispatchToProps)(FavoriteButton),
-    {
-      initialActiveItem: false,
-      activeItemName: `isFavorite`,
-      onItemChangeName: `onFavoritesChange`,
-    }
-);
+export default connect(mapStateToProps, mapDispatchToProps)(FavoriteButton);
