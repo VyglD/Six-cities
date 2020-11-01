@@ -16,7 +16,7 @@ import {
 import {MAX_NEAR_OFFERS} from "../../const";
 import {getRateVisualisation} from "../../util";
 import ActionCreator from "../../store/root-actions";
-import {fetchReviews} from "../../middlewares/thunk-api";
+import {fetchReviews, fetchNearOffers} from "../../middlewares/thunk-api";
 
 const favoriteBtnStyle = {
   btnClassName: `property__bookmark-button`,
@@ -51,13 +51,10 @@ class Offer extends React.PureComponent {
       allOffers,
       isLogin,
       reviews,
+      nearOffers,
     } = this.props;
 
     const chosenOffer = allOffers.find((offer) => offer.id === offerId);
-
-    const nearOffers = allOffers
-      .filter((offer) => (offer.city === chosenOffer.city && offer.id !== chosenOffer.id))
-      .slice(0, MAX_NEAR_OFFERS);
 
     return (
       <div className="page">
@@ -199,8 +196,7 @@ class Offer extends React.PureComponent {
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <OffersListNear
-                offers={nearOffers}
-                {...this.props}
+                offers={nearOffers.slice(0, MAX_NEAR_OFFERS)}
               />
             </section>
           </div>
@@ -216,18 +212,21 @@ Offer.propTypes = {
   isLogin: boolType,
   openOffer: functionType,
   reviews: reviewsType,
+  nearOffers: offersType,
 };
 
-const mapStateToProps = ({USER, OFFERS, REVIEWS}) => ({
+const mapStateToProps = ({USER, OFFERS, OFFER}) => ({
   isLogin: USER.isLogin,
   allOffers: OFFERS.allOffers,
-  reviews: REVIEWS.reviews,
+  reviews: OFFER.reviews,
+  nearOffers: OFFER.nearOffers,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   openOffer: (offerId) => {
     dispatch(ActionCreator.openOffer(offerId));
     dispatch(fetchReviews());
+    dispatch(fetchNearOffers());
   },
 });
 

@@ -1,17 +1,14 @@
 import {extend} from "../../util";
-import {ActionType} from "./reviews-actions";
+import {ActionType} from "./offer-actions";
 
 const initialState = {
   openedOfferId: null,
   reviews: [],
+  nearOffers: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.LOAD_REVIEWS:
-      return extend(state, {
-        reviews: action.payload,
-      });
     case ActionType.OPEN_OFFER:
       if (state.openedOfferId === action.payload) {
         return state;
@@ -20,6 +17,15 @@ const reducer = (state = initialState, action) => {
       return extend(state, {
         openedOfferId: action.payload,
         reviews: [],
+        nearOffers: [],
+      });
+    case ActionType.LOAD_REVIEWS:
+      return extend(state, {
+        reviews: action.payload,
+      });
+    case ActionType.LOAD_NEAR_OFFERS:
+      return extend(state, {
+        nearOffers: action.payload,
       });
   }
 
