@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import ActionCreator from "../../store/root-actions";
 import {
   offerType,
-  favoriteOfferIdsType,
+  offerIdsType,
   functionType,
   boolType,
   favoriteBtnStyleType,
@@ -78,7 +78,7 @@ class FavoriteButton extends React.PureComponent {
 
 FavoriteButton.propTypes = {
   offer: offerType,
-  favoriteOfferIds: favoriteOfferIdsType,
+  favoriteOfferIds: offerIdsType,
   isLogin: boolType,
   onFavoritesChange: functionType,
   isFavorite: boolType,

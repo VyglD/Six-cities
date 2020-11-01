@@ -6,14 +6,15 @@ import Login from "../login/login";
 import Favorites from "../favorites/favorites";
 import Offer from "../offer/offer";
 import browserHistory from "../../browser-history";
+import {getAllOfferIds} from "../../store/selectors";
 import {
   boolType,
-  offersType,
+  offerIdsType,
 } from "../../types";
 import {Path} from "../../const";
 
 const App = (props) => {
-  const {isLogin, allOffers} = props;
+  const {isLogin, allOffersIds} = props;
 
   return (
     <Router history={browserHistory}>
@@ -52,12 +53,11 @@ const App = (props) => {
           path={`${Path.OFFER}/:${Path.OFFER_ID}`}
           render={({match}) => {
             const chosenOfferId = match.params[Path.OFFER_ID];
-            const chosenOffer = allOffers.find((offer) => offer.id === chosenOfferId);
 
-            return chosenOffer
+            return allOffersIds.includes(chosenOfferId)
               ? (
                 <Offer
-                  chosenOffer={chosenOffer}
+                  offerId={chosenOfferId}
                 />
               )
               : (
@@ -73,14 +73,14 @@ const App = (props) => {
 
 App.propTypes = {
   isLogin: boolType,
-  allOffers: offersType,
+  allOffersIds: offerIdsType,
 };
 
-const mapStateToProps = ({OFFERS, USER}) => ({
-  isLogin: USER.isLogin,
-  allOffers: OFFERS.allOffers,
+const mapStateToProps = (state) => ({
+  isLogin: state.USER.isLogin,
+  allOffers: state.OFFERS.allOffers,
+  allOffersIds: getAllOfferIds(state),
 });
-
 
 export {App};
 export default connect(mapStateToProps)(App);

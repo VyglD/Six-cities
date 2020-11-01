@@ -2,16 +2,20 @@ import React from "react";
 import {connect} from "react-redux";
 import LocationsList from "../locations-list/locations-list";
 import Places from "../places/places";
-import {functionType, notRequiredCityNameType, offersType} from "../../types";
-import {getOffersByCities, getFirstNotEmptyCity} from "../../offers";
+import {
+  cityNameType,
+  functionType,
+  mapType,
+  notRequiredCityNameType,
+  offersType
+} from "../../types";
+import {getOffersByCities, getFirstNotEmptyCity} from "../../store/selectors";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
 class MainContent extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.offersByCities = getOffersByCities(props.allOffers);
 
     this.handleChangeActiveCity = this.handleChangeActiveCity.bind(this);
   }
@@ -26,10 +30,10 @@ class MainContent extends React.PureComponent {
   }
 
   render() {
-    const activeCity = this.props.activeCity
-      ? this.props.activeCity
-      : getFirstNotEmptyCity(this.offersByCities);
-    const offers = this.offersByCities.get(activeCity);
+    const {offersByCities, activeCity: city, firstNotEmptyCity} = this.props;
+
+    const activeCity = city ? city : firstNotEmptyCity;
+    const offers = offersByCities.get(activeCity);
 
     return (
       <main
@@ -59,10 +63,14 @@ MainContent.propTypes = {
   allOffers: offersType,
   activeCity: notRequiredCityNameType,
   onChangeActiveCity: functionType,
+  offersByCities: mapType,
+  firstNotEmptyCity: cityNameType,
 };
 
-const mapStateToProps = ({OFFERS}) => ({
-  allOffers: OFFERS.allOffers
+const mapStateToProps = (state) => ({
+  allOffers: state.OFFERS.allOffers,
+  offersByCities: getOffersByCities(state),
+  firstNotEmptyCity: getFirstNotEmptyCity(state),
 });
 
 export {MainContent};
@@ -73,4 +81,3 @@ export default withActiveItem(
       onItemChangeName: `onChangeActiveCity`,
     }
 );
-

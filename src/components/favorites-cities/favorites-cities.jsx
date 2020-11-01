@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import OffersListFavorite from "../offers-list-favorite/offers-list-favorite";
 import {
   offersType,
-  favoriteOfferIdsType,
+  offerIdsType,
 } from "../../types";
 
 
@@ -55,7 +55,7 @@ const FavoritesCities = (props) => {
 
 FavoritesCities.propTypes = {
   allOffers: offersType,
-  favoriteOfferIds: favoriteOfferIdsType,
+  favoriteOfferIds: offerIdsType,
 };
 
 const mapStateToProps = ({OFFERS}) => ({

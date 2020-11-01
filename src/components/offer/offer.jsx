@@ -7,9 +7,9 @@ import ReviewForm from "../review-form/review-form";
 import Map from "../map/map";
 import OffersListNear from "../offers-list-near/offers-list-near";
 import {
-  offerType,
   offersType,
   boolType,
+  offerIdType,
 } from "../../types";
 import {MAX_NEAR_OFFERS} from "../../const";
 import {getRateVisualisation} from "../../util";
@@ -24,20 +24,21 @@ const favoriteBtnStyle = {
 
 class Offer extends React.PureComponent {
   componentDidUpdate(nextProps) {
-    if (nextProps.chosenOffer.id !== this.props.chosenOffer.id) {
+    if (nextProps.offerId !== this.props.offerId) {
       window.scrollTo(0, 0);
     }
   }
 
   render() {
     const {
-      chosenOffer,
+      offerId,
       allOffers,
       isLogin,
     } = this.props;
 
     // const reviewsOfChosenOffer = allReviews.filter((review) => review.offerId === chosenOffer.id);
     const reviewsOfChosenOffer = [];
+    const chosenOffer = allOffers.find((offer) => offer.id === offerId);
 
     const nearOffers = allOffers
       .filter((offer) => (offer.city === chosenOffer.city && offer.id !== chosenOffer.id))
@@ -164,7 +165,7 @@ class Offer extends React.PureComponent {
                   {
                     isLogin && (
                       <ReviewForm
-                        {...this.props}
+                        chosenOffer={chosenOffer}
                       />
                     )
                   }
@@ -195,7 +196,7 @@ class Offer extends React.PureComponent {
 }
 
 Offer.propTypes = {
-  chosenOffer: offerType,
+  offerId: offerIdType,
   allOffers: offersType,
   isLogin: boolType,
 };

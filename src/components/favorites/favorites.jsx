@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import Header from "../header/header";
 import FavoritesCities from "../favorites-cities/favorites-cities";
 import {
-  favoriteOfferIdsType,
+  offerIdsType,
 } from "../../types";
 import {Path} from "../../const";
 
@@ -59,7 +59,7 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  favoriteOfferIds: favoriteOfferIdsType,
+  favoriteOfferIds: offerIdsType,
 };
 
 const mapStateToProps = ({FAVORITES}) => ({

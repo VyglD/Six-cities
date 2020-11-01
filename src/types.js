@@ -24,6 +24,7 @@ export const CityType = PropTypes.exact({
 }).isRequired;
 
 export const offerIdType = PropTypes.string.isRequired;
+export const offerIdsType = PropTypes.arrayOf(offerIdType).isRequired;
 
 export const notRequiredOfferType = PropTypes.exact({
   id: offerIdType,
@@ -49,8 +50,6 @@ export const notRequiredOfferType = PropTypes.exact({
 export const offerType = notRequiredOfferType.isRequired;
 
 export const offersType = PropTypes.arrayOf(offerType).isRequired;
-
-export const favoriteOfferIdsType = PropTypes.arrayOf(offerIdType).isRequired;
 
 export const reviewType = PropTypes.exact({
   offerId: offerIdType,
