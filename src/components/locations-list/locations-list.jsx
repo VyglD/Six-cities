@@ -1,18 +1,16 @@
 import React from "react";
-import {cityNameType, functionType} from "../../types";
-import {City} from "../../const";
-
-import withActiveItem from "../../hocs/with-active-item/with-active-item";
+import {connect} from "react-redux";
+import {cityNameType, functionType, citiesType} from "../../types";
+import {getCities} from "../../store/selectors";
 
 const LocationsList = (props) => {
-  const {activeCity, onChangeActiveCity} = props;
+  const {activeCity, onChangeActiveCity, cities} = props;
 
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {
-          Object.entries(City).map(([_, values]) => {
-            const city = values.name;
+          cities.map((city) => {
 
             return (
               <li className="locations__item" key={city}>
@@ -39,7 +37,12 @@ const LocationsList = (props) => {
 LocationsList.propTypes = {
   activeCity: cityNameType,
   onChangeActiveCity: functionType,
+  cities: citiesType,
 };
 
+const mapStateToProps = (state) => ({
+  cities: getCities(state),
+});
+
 export {LocationsList};
-export default withActiveItem(LocationsList);
+export default connect(mapStateToProps)(LocationsList);

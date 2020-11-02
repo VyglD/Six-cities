@@ -10,9 +10,9 @@ const ReviewsList = (props) => {
     <ul className="reviews__list">
       {
         reviews.slice(0, MAX_REVIEWS)
-          .map((review, index) => (
+          .map((review) => (
             <Review
-              key={index}
+              key={review.id}
               review={review}
             />
           ))

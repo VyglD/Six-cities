@@ -1,5 +1,5 @@
 import React from "react";
-import {offerType, functionType, emailType} from "../../types";
+import {offerType} from "../../types";
 
 const MIN_CHARACTERS = 50;
 const MAX_CHARACTERS = 300;
@@ -52,17 +52,8 @@ class ReviewForm extends React.PureComponent {
     evt.preventDefault();
 
     if (this.isFormValidity()) {
-      const {chosenOffer, email, onReviewAdd} = this.props;
-      const newReview = {
-        offerId: chosenOffer.id,
-        name: email,
-        photo: ``,
-        rate: parseInt(this.ratingRef.current.querySelector(`.${rateInputClass}:checked`), 10),
-        date: new Date(),
-        text: this.reviewRef.current.value,
-      };
-
-      onReviewAdd(newReview, this.clearForm);
+      // ToDo:
+      // Отправка на сервер нового коммента
     }
   }
 
@@ -177,8 +168,6 @@ class ReviewForm extends React.PureComponent {
 
 ReviewForm.propTypes = {
   chosenOffer: offerType,
-  email: emailType,
-  onReviewAdd: functionType,
 };
 
 export default ReviewForm;

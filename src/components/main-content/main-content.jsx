@@ -1,9 +1,15 @@
 import React from "react";
+import {connect} from "react-redux";
 import LocationsList from "../locations-list/locations-list";
 import Places from "../places/places";
-import {functionType, notRequiredCityNameType, offersType} from "../../types";
-import {extend} from "../../util";
-import {getOffersByCities, getFirstNotEmptyCity} from "../../offers";
+import {
+  cityNameType,
+  functionType,
+  mapType,
+  notRequiredCityNameType,
+  offersType
+} from "../../types";
+import {getOffersByCities, getFirstNotEmptyCity} from "../../store/selectors";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
@@ -11,32 +17,23 @@ class MainContent extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.offersByCities = getOffersByCities(props.allOffers);
-
     this.handleChangeActiveCity = this.handleChangeActiveCity.bind(this);
   }
 
   handleChangeActiveCity(evt) {
-    const {onItemChange} = this.props;
+    const {onChangeActiveCity} = this.props;
     const newCity = evt.target.textContent;
 
     evt.preventDefault();
 
-    onItemChange(newCity);
+    onChangeActiveCity(newCity);
   }
 
   render() {
-    const customProps = extend(
-        this.props,
-        {
-          activeCity: this.props.activeItem || getFirstNotEmptyCity(this.offersByCities),
-          onChangeActiveCity: this.props.onItemChange,
-        }
-    );
-    delete customProps.activeItem;
-    delete customProps.onItemChange;
+    const {offersByCities, activeCity: city, firstNotEmptyCity} = this.props;
 
-    const offers = this.offersByCities.get(customProps.activeCity);
+    const activeCity = city ? city : firstNotEmptyCity;
+    const offers = offersByCities.get(activeCity);
 
     return (
       <main
@@ -49,12 +46,12 @@ class MainContent extends React.PureComponent {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <LocationsList
-            {...customProps}
+            activeCity={activeCity}
             onChangeActiveCity={this.handleChangeActiveCity}
           />
         </div>
         <Places
-          {...customProps}
+          activeCity={activeCity}
           offers={offers}
         />
       </main>
@@ -64,10 +61,23 @@ class MainContent extends React.PureComponent {
 
 MainContent.propTypes = {
   allOffers: offersType,
-  activeItem: notRequiredCityNameType,
-  onItemChange: functionType,
+  activeCity: notRequiredCityNameType,
+  onChangeActiveCity: functionType,
+  offersByCities: mapType,
+  firstNotEmptyCity: cityNameType,
 };
 
-export {MainContent};
-export default withActiveItem(MainContent);
+const mapStateToProps = (state) => ({
+  allOffers: state.OFFERS.allOffers,
+  offersByCities: getOffersByCities(state),
+  firstNotEmptyCity: getFirstNotEmptyCity(state),
+});
 
+export {MainContent};
+export default withActiveItem(
+    connect(mapStateToProps)(MainContent),
+    {
+      activeItemName: `activeCity`,
+      onItemChangeName: `onChangeActiveCity`,
+    }
+);

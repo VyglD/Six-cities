@@ -1,11 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import FavoriteButton from "../favorite-button/favorite-button";
 import {
   offerType,
-  favoriteOfferIdsType,
-  functionType,
   notRequiredFunctionType,
-  emailType,
   cardStyleType
 } from "../../types";
 import {Path} from "../../const";
@@ -14,10 +12,7 @@ import {getRateVisualisation} from "../../util";
 const OfferCard = (props) => {
   const {
     offer,
-    favoriteOfferIds,
-    email,
     onActiveCardChange = (() => {}),
-    onFavoritesChange,
     cardStyle,
   } = props;
 
@@ -60,21 +55,9 @@ const OfferCard = (props) => {
             <b className="place-card__price-value">&euro;{offer.cost}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button
-            className={
-              `place-card__bookmark-button button ${
-                Boolean(email) && favoriteOfferIds.includes(offer.id)
-                && `place-card__bookmark-button--active`
-              }`
-            }
-            type="button"
-            onClick={() => onFavoritesChange(offer)}
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <FavoriteButton
+            offer={offer}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -93,10 +76,7 @@ const OfferCard = (props) => {
 
 OfferCard.propTypes = {
   offer: offerType,
-  favoriteOfferIds: favoriteOfferIdsType,
-  email: emailType,
   onActiveCardChange: notRequiredFunctionType,
-  onFavoritesChange: functionType,
   cardStyle: cardStyleType,
 };
 

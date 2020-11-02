@@ -1,14 +1,15 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {emailType} from "../../types";
+import {connect} from "react-redux";
+import {boolType, emailType} from "../../types";
 import {Path} from "../../const";
 
 const Header = (props) => {
-  const {email} = props;
+  const {isLogin, email} = props;
 
-  const loginHref = email ? Path.FAVORITES : Path.LOGIN;
+  const loginHref = isLogin ? Path.FAVORITES : Path.LOGIN;
   const loginInnards = (
-    email
+    isLogin
       ? <span className="header__user-name user__name">{email}</span>
       : <span className="header__login">Sign in</span>
   );
@@ -51,8 +52,14 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
+  isLogin: boolType,
   email: emailType,
 };
 
+const mapStateToProps = ({USER}) => ({
+  isLogin: USER.isLogin,
+  email: USER.email,
+});
+
 export {Header};
-export default React.memo(Header);
+export default connect(mapStateToProps)(Header);

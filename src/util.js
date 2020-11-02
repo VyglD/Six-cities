@@ -13,6 +13,15 @@ export const getRateVisualisation = (rate) => {
   return {width: `${rate * RATE_COEFFICIENT}%`};
 };
 
-export const extend = (a, b) => {
-  return Object.assign({}, a, b);
+export const extend = (...args) => {
+  return Object.assign({}, ...args);
+};
+
+export const getArraysDifference = (one, two) => {
+  return one.filter((i) => !two.includes(i))
+    .concat(two.filter((i) => !one.includes(i)));
+};
+
+export const isArraysEqual = (one, two) => {
+  return getArraysDifference(one, two).length === 0;
 };

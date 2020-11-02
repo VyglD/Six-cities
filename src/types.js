@@ -1,63 +1,68 @@
 import PropTypes from "prop-types";
-import {HousingType, City} from "./const";
+import {HousingType, CITIES} from "./const";
 
 export const anyType = PropTypes.any;
 
 export const stringType = PropTypes.string.isRequired;
 
-export const notRequiredCityNameType = PropTypes.oneOf(
-    Object.values(City).map((properties) => properties.name)
-);
+export const numberType = PropTypes.number.isRequired;
+
+export const boolType = PropTypes.bool.isRequired;
+
+export const functionType = PropTypes.func.isRequired;
+export const notRequiredFunctionType = PropTypes.func;
+
+export const notRequiredCityNameType = PropTypes.oneOf(CITIES);
 export const cityNameType = notRequiredCityNameType.isRequired;
 
-export const CityType = PropTypes.exact({
+export const citiesType = PropTypes.arrayOf(cityNameType).isRequired;
+
+export const CityInfoType = PropTypes.exact({
   name: cityNameType,
-  latitude: PropTypes.number.isRequired,
-  longitude: PropTypes.number.isRequired,
+  latitude: numberType,
+  longitude: numberType,
+  zoom: numberType,
 }).isRequired;
 
 export const offerIdType = PropTypes.string.isRequired;
+export const offerIdsType = PropTypes.arrayOf(offerIdType).isRequired;
 
 export const notRequiredOfferType = PropTypes.exact({
   id: offerIdType,
   city: cityNameType,
-  latitude: PropTypes.number.isRequired,
-  longitude: PropTypes.number.isRequired,
+  latitude: numberType,
+  longitude: numberType,
   title: PropTypes.string.isRequired,
   photos: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  description: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  isPremium: PropTypes.bool.isRequired,
+  description: PropTypes.string.isRequired,
+  isPremium: boolType,
   housingType: PropTypes.oneOf(Object.values(HousingType)).isRequired,
-  rate: PropTypes.number.isRequired,
-  rooms: PropTypes.number.isRequired,
-  guests: PropTypes.number.isRequired,
-  cost: PropTypes.number.isRequired,
+  rate: numberType,
+  rooms: numberType,
+  guests: numberType,
+  cost: numberType,
   features: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   owner: PropTypes.exact({
     avatar: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    isSuper: PropTypes.bool.isRequired
+    isSuper: boolType,
   }).isRequired,
+  cityInfo: CityInfoType,
 });
 export const offerType = notRequiredOfferType.isRequired;
 
 export const offersType = PropTypes.arrayOf(offerType).isRequired;
 
-export const favoriteOfferIdsType = PropTypes.arrayOf(offerIdType).isRequired;
-
 export const reviewType = PropTypes.exact({
-  offerId: offerIdType,
+  id: stringType,
   name: PropTypes.string.isRequired,
   photo: PropTypes.string.isRequired,
-  rate: PropTypes.number.isRequired,
+  rate: numberType,
   date: PropTypes.instanceOf(Date).isRequired,
   text: PropTypes.string.isRequired
 });
 
 export const reviewsType = PropTypes.arrayOf(reviewType).isRequired;
-
-export const functionType = PropTypes.func.isRequired;
-export const notRequiredFunctionType = PropTypes.func;
 
 export const mapType = PropTypes.instanceOf(Map).isRequired;
 
@@ -70,3 +75,11 @@ export const cardStyleType = PropTypes.shape({
   imgHeight: PropTypes.number,
   info: PropTypes.string,
 }).isRequired;
+
+export const favoriteBtnStyleType = PropTypes.shape({
+  btnClassName: PropTypes.string,
+  btnActiveClassName: PropTypes.string,
+  iconClassName: PropTypes.string,
+  iconWidth: PropTypes.number,
+  iconHeight: PropTypes.number,
+});

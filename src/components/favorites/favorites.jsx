@@ -1,9 +1,10 @@
 import React from "react";
+import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import Header from "../header/header";
 import FavoritesCities from "../favorites-cities/favorites-cities";
 import {
-  favoriteOfferIdsType,
+  offerIdsType,
 } from "../../types";
 import {Path} from "../../const";
 
@@ -16,9 +17,7 @@ const Favorites = (props) => {
 
   return (
     <div className={`page ${emptyTriger && `page--favorites-empty`}`}>
-      <Header
-        {...props}
-      />
+      <Header />
 
       <main
         className={
@@ -40,7 +39,7 @@ const Favorites = (props) => {
                 )
                 : (
                   <FavoritesCities
-                    {...props}
+                    favoriteOfferIds={favoriteOfferIds}
                   />
                 )
             }
@@ -60,7 +59,12 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  favoriteOfferIds: favoriteOfferIdsType,
+  favoriteOfferIds: offerIdsType,
 };
 
-export default Favorites;
+const mapStateToProps = ({FAVORITES}) => ({
+  favoriteOfferIds: FAVORITES.favoriteOfferIds,
+});
+
+export {Favorites};
+export default connect(mapStateToProps)(Favorites);

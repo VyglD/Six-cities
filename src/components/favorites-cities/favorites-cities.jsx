@@ -1,38 +1,22 @@
 import React from "react";
+import {connect} from "react-redux";
 import OffersListFavorite from "../offers-list-favorite/offers-list-favorite";
+import {getFavoriteOffersByCities} from "../../store/selectors";
 import {
   offersType,
-  favoriteOfferIdsType,
+  offerIdsType,
+  mapType,
 } from "../../types";
-
-
-const getFavoriteOffersByCities = (offers, ids) => {
-  const favoriteOffersByCities = new Map();
-
-  offers.filter((offer) => ids.includes(offer.id))
-    .forEach((offer) => {
-      if (favoriteOffersByCities.has(offer.city)) {
-        favoriteOffersByCities.get(offer.city).push(offer);
-      } else {
-        favoriteOffersByCities.set(offer.city, [offer]);
-      }
-    });
-
-  return favoriteOffersByCities;
-};
 
 const FavoritesCities = (props) => {
   const {
-    allOffers,
-    favoriteOfferIds,
+    favoriteOffersByCities,
   } = props;
-
-  const offersByCities = getFavoriteOffersByCities(allOffers, favoriteOfferIds);
 
   return (
     <ul className="favorites__list">
       {
-        Array.from(offersByCities.entries()).map(([city, offers]) => (
+        Array.from(favoriteOffersByCities.entries()).map(([city, offers]) => (
           <li className="favorites__locations-items" key={city}>
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
@@ -43,7 +27,6 @@ const FavoritesCities = (props) => {
             </div>
             <OffersListFavorite
               offers={offers}
-              {...props}
             />
           </li>
         ))
@@ -54,7 +37,14 @@ const FavoritesCities = (props) => {
 
 FavoritesCities.propTypes = {
   allOffers: offersType,
-  favoriteOfferIds: favoriteOfferIdsType,
+  favoriteOfferIds: offerIdsType,
+  favoriteOffersByCities: mapType,
 };
 
-export default FavoritesCities;
+const mapStateToProps = (state) => ({
+  allOffers: state.OFFERS.allOffers,
+  favoriteOffersByCities: getFavoriteOffersByCities(state),
+});
+
+export {FavoritesCities};
+export default connect(mapStateToProps)(FavoritesCities);
