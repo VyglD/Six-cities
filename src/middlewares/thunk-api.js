@@ -1,6 +1,19 @@
 import ActionCreator from "../store/root-actions";
+import {} from "../middlewares/redirect";
 import {adaptOfferToClient, adaptReviewToClient} from "../adapters";
-import {APIRoute} from "../const";
+import {APIRoute, Path} from "../const";
+
+const HttpCode = {
+  UNAUTHORIZED: 401
+};
+
+const getLoginData = (data) => {
+  return {
+    email: data.email,
+    avatar: data[`avatar_url`],
+    isSuper: data[`is_pro`],
+  };
+};
 
 export const fetchOffersList = () => (dispatch, _getState, api) => {
   return api.get(APIRoute.OFFERS)
@@ -22,5 +35,25 @@ export const fetchNearOffers = () => (dispatch, getState, api) => {
   )
     .then(({data}) => {
       dispatch(ActionCreator.loadNearOffers(data.map(adaptOfferToClient)));
+    });
+};
+
+export const checkAuth = () => (dispatch, _getState, api) => {
+  return api.get(APIRoute.LOGIN)
+    .then(({data}) => {
+      dispatch(ActionCreator.login(getLoginData(data)));
+    })
+    .catch(({response}) => {
+      if (response.status === HttpCode.UNAUTHORIZED) {
+        ActionCreator.logout();
+      }
+    });
+};
+
+export const tryLogin = ({email, password}) => (dispatch, _getState, api) => {
+  return api.post(APIRoute.LOGIN, {email, password})
+    .then(({data}) => {
+      dispatch(ActionCreator.login(getLoginData(data)));
+      dispatch(ActionCreator.redirectTo(Path.MAIN));
     });
 };
