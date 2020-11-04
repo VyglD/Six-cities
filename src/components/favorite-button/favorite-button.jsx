@@ -22,7 +22,7 @@ class FavoriteButton extends React.Component {
     return getArraysDifference(
         nextProps.favoriteIds,
         favoriteIds
-    ).includes(offer.id);
+    ).includes(offer.id) || offer.id !== nextProps.offer.id;
   }
 
   handleFavoriteClick() {
