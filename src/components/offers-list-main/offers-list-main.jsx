@@ -1,7 +1,7 @@
 import React from "react";
 import OffersList from "../offers-list/offers-list";
 import {SortType} from "../../const";
-import {cityNameType, sortType, offersType} from "../../types";
+import {cityNameType, sortType, offersType, functionType} from "../../types";
 
 const cardStyle = {
   article: `cities__place-card`,
@@ -23,7 +23,7 @@ class OffersListMain extends React.Component {
   }
 
   render() {
-    const {offers, activeSort} = this.props;
+    const {offers, activeSort, onActiveCardChange} = this.props;
 
     const sortMethod = Object.values(SortType)
       .find(({value}) => value === activeSort)
@@ -36,6 +36,7 @@ class OffersListMain extends React.Component {
         className={`cities__places-list places__list tabs__content`}
         cardStyle={cardStyle}
         offers={sortOffers}
+        onActiveCardChange={onActiveCardChange}
       />
     );
   }
@@ -45,6 +46,7 @@ OffersListMain.propTypes = {
   offers: offersType,
   activeCity: cityNameType,
   activeSort: sortType,
+  onActiveCardChange: functionType,
 };
 
 export default OffersListMain;
