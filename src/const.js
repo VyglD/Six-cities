@@ -4,6 +4,11 @@ export const RATE_COEFFICIENT = 100 / MAX_RATE;
 export const MAX_NEAR_OFFERS = 3;
 export const MAX_REVIEWS = 10;
 
+export const Key = {
+  ENTER: `Enter`,
+  ESC: `Escape`
+};
+
 export const HousingType = {
   APARTMENT: `Apartment`,
   ROOM: `Private Room`,
@@ -37,8 +42,20 @@ export const APIRoute = {
 };
 
 export const SortType = {
-  DEFAULT: `Popular`,
-  PRICE_TO_HIGH: `Price: low to high`,
-  PRICE_TO_LOW: `Price: high to low`,
-  RATE: `Top rated first`,
+  DEFAULT: {
+    value: `Popular`,
+    method: () => {},
+  },
+  PRICE_TO_HIGH: {
+    value: `Price: low to high`,
+    method: (i, j) => (i.cost - j.cost),
+  },
+  PRICE_TO_LOW: {
+    value: `Price: high to low`,
+    method: (i, j) => (j.cost - i.cost),
+  },
+  RATE: {
+    value: `Top rated first`,
+    method: (i, j) => (j.rate - i.rate),
+  },
 };

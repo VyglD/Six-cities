@@ -1,16 +1,12 @@
 import React from "react";
-import PlacesSorting from "../places-sorting/places-sorting";
-import OffersListMain from "../offers-list-main/offers-list-main";
+import OffersPanel from "../offers-panel/offers-panel";
 import Map from "../map/map";
-import {
-  offersType,
-  cityNameType,
-} from "../../types";
+import {offersType} from "../../types";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
 const Places = (props) => {
-  const {offers, activeCity} = props;
+  const {offers} = props;
 
   return (
     <div className="cities">
@@ -18,14 +14,9 @@ const Places = (props) => {
         offers.length > 0
           ? (
             <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in {activeCity}</b>
-                <PlacesSorting />
-                <OffersListMain
-                  {...props}
-                />
-              </section>
+              <OffersPanel
+                {...props}
+              />
               <div className="cities__right-section">
                 <section className="cities__map map">
                   <Map
@@ -56,7 +47,6 @@ const Places = (props) => {
 
 Places.propTypes = {
   offers: offersType,
-  activeCity: cityNameType,
 };
 
 export {Places};

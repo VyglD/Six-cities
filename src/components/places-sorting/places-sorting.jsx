@@ -1,15 +1,9 @@
 import React from "react";
-import {SortType} from "../../const";
+import {SortType, Key} from "../../const";
 import {functionType, sortType} from "../../types";
-
-import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
 const activeClass = `places__option--active`;
 const openClass = `places__options--opened`;
-const Key = {
-  ENTER: `Enter`,
-  ESC: `Escape`
-};
 
 class PlacesSorting extends React.PureComponent {
   constructor(props) {
@@ -44,12 +38,14 @@ class PlacesSorting extends React.PureComponent {
   }
 
   _changeSortType(chosenSortType) {
-    const newSortType = Object.values(SortType).find((name) => name === chosenSortType);
+    const newSortType = Object.values(SortType)
+      .map(({value}) => value)
+      .find((name) => name === chosenSortType);
 
     if (newSortType) {
       this.props.onChangeActiveSort(newSortType);
     } else {
-      this.props.onChangeActiveSort(SortType.DEFAULT);
+      this.props.onChangeActiveSort(SortType.DEFAULT.value);
     }
 
     this._closeMenu();
@@ -103,15 +99,15 @@ class PlacesSorting extends React.PureComponent {
           className="places__options places__options--custom"
         >
           {
-            Object.entries(SortType).map(([title, name]) => (
+            Object.entries(SortType).map(([title, {value}]) => (
               <li
                 key={title}
-                className={`places__option ${activeSort === name && activeClass}`}
+                className={`places__option ${activeSort === value && activeClass}`}
                 tabIndex="0"
                 onClick={this._onSortTypeClick}
                 onKeyDown={this._onSortTypeEnter}
               >
-                {name}
+                {value}
               </li>
             ))
           }
@@ -126,13 +122,4 @@ PlacesSorting.propTypes = {
   onChangeActiveSort: functionType,
 };
 
-export {PlacesSorting};
-export default withActiveItem(
-    PlacesSorting,
-    {
-      initialActiveItem: SortType.DEFAULT,
-      activeItemName: `activeSort`,
-      onItemChangeName: `onChangeActiveSort`,
-    }
-);
-
+export default PlacesSorting;

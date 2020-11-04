@@ -84,4 +84,6 @@ export const favoriteBtnStyleType = PropTypes.shape({
   iconHeight: PropTypes.number,
 });
 
-export const sortType = PropTypes.oneOf(Object.values(SortType)).isRequired;
+export const sortType = PropTypes.oneOf(
+    Object.values(SortType).map(({value}) => value)
+).isRequired;
