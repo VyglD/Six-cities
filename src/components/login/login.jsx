@@ -17,7 +17,7 @@ class Login extends React.PureComponent {
     this._emailFieldRef = React.createRef();
     this._passwordFieldRef = React.createRef();
 
-    this._handleSubmit = this._handleSubmit.bind(this);
+    this._onSubmitHandle = this._onSubmitHandle.bind(this);
     this._showServerError = this._showServerError.bind(this);
     this._onFieldValueChange = this._onFieldValueChange.bind(this);
   }
@@ -57,7 +57,7 @@ class Login extends React.PureComponent {
     this._passwordFieldRef.current.reportValidity();
   }
 
-  _handleSubmit(evt) {
+  _onSubmitHandle(evt) {
     if (this._isFormValid()) {
       evt.preventDefault();
 
@@ -119,7 +119,7 @@ class Login extends React.PureComponent {
                 <button
                   className="login__submit form__submit button"
                   type="submit"
-                  onClick={this._handleSubmit}
+                  onClick={this._onSubmitHandle}
                 >
                   Sign in
                 </button>

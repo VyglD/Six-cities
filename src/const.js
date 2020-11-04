@@ -35,3 +35,10 @@ export const APIRoute = {
   LOGIN: `/login`,
   FAVORITE: `/favorite`,
 };
+
+export const SortType = {
+  DEFAULT: `Popular`,
+  PRICE_TO_HIGH: `Price: low to high`,
+  PRICE_TO_LOW: `Price: high to low`,
+  RATE: `Top rated first`,
+};

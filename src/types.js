@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {HousingType, CITIES} from "./const";
+import {HousingType, CITIES, SortType} from "./const";
 
 export const anyType = PropTypes.any;
 
@@ -83,3 +83,5 @@ export const favoriteBtnStyleType = PropTypes.shape({
   iconWidth: PropTypes.number,
   iconHeight: PropTypes.number,
 });
+
+export const sortType = PropTypes.oneOf(Object.values(SortType)).isRequired;
