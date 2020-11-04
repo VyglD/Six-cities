@@ -10,13 +10,10 @@ import {
   offersType,
   boolType,
   offerIdType,
-  functionType,
   reviewsType,
 } from "../../types";
 import {MAX_NEAR_OFFERS} from "../../const";
 import {getRateVisualisation} from "../../util";
-import ActionCreator from "../../store/root-actions";
-import {fetchReviews, fetchNearOffers} from "../../middlewares/thunk-api";
 
 const favoriteBtnStyle = {
   btnClassName: `property__bookmark-button`,
@@ -27,21 +24,9 @@ const favoriteBtnStyle = {
 };
 
 class Offer extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    const {openOffer, offerId} = props;
-
-    openOffer(offerId);
-  }
-
   componentDidUpdate(prevProps) {
     if (prevProps.offerId !== this.props.offerId) {
       window.scrollTo(0, 0);
-
-      const {openOffer, offerId} = this.props;
-
-      openOffer(offerId);
     }
   }
 
@@ -210,7 +195,6 @@ Offer.propTypes = {
   offerId: offerIdType,
   allOffers: offersType,
   isLogin: boolType,
-  openOffer: functionType,
   reviews: reviewsType,
   nearOffers: offersType,
 };
@@ -222,13 +206,5 @@ const mapStateToProps = ({USER, OFFERS, OFFER}) => ({
   nearOffers: OFFER.nearOffers,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  openOffer: (offerId) => {
-    dispatch(ActionCreator.openOffer(offerId));
-    dispatch(fetchReviews());
-    dispatch(fetchNearOffers());
-  },
-});
-
 export {Offer};
-export default connect(mapStateToProps, mapDispatchToProps)(Offer);
+export default connect(mapStateToProps)(Offer);

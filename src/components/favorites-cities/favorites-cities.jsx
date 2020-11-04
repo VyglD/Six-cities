@@ -37,7 +37,7 @@ const FavoritesCities = (props) => {
 
 FavoritesCities.propTypes = {
   allOffers: offersType,
-  favoriteOfferIds: offerIdsType,
+  favoriteIds: offerIdsType,
   favoriteOffersByCities: mapType,
 };
 

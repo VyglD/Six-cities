@@ -2,18 +2,22 @@ import {extend} from "../../util";
 import {ActionType} from "./favorite-actions";
 
 const initialState = {
-  favoriteOfferIds: [],
+  favoriteIds: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.ADD_FAVORITE:
       return extend(state, {
-        favoriteOfferIds: [...state.favoriteOfferIds, action.payload],
+        favoriteIds: [...state.favoriteIds, action.payload],
       });
     case ActionType.DELETE_FAVORITE:
       return extend(state, {
-        favoriteOfferIds: state.favoriteOfferIds.filter((id) => action.payload !== id),
+        favoriteIds: state.favoriteIds.filter((id) => action.payload !== id),
+      });
+    case ActionType.UPDATE_FAVORITES:
+      return extend(state, {
+        favoriteIds: action.payload,
       });
   }
 

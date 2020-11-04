@@ -1,10 +1,14 @@
 export const ActionType = {
   LOGIN: `LOGIN`,
+  LOGOUT: `LOGOUT`,
 };
 
 export const ActionCreator = {
-  login: (email) => ({
+  login: (data) => ({
     type: ActionType.LOGIN,
-    payload: email,
+    payload: data,
+  }),
+  logout: () => ({
+    type: ActionType.LOGOUT,
   }),
 };

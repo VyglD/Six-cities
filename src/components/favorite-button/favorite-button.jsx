@@ -1,14 +1,12 @@
 import React from "react";
 import {connect} from "react-redux";
-import ActionCreator from "../../store/root-actions";
+import {changeFavorite} from "../../middlewares/thunk-api";
 import {
   offerType,
   offerIdsType,
   functionType,
-  boolType,
   favoriteBtnStyleType,
 } from "../../types";
-import {Path} from "../../const";
 import {getArraysDifference} from "../../util";
 
 class FavoriteButton extends React.Component {
@@ -19,32 +17,26 @@ class FavoriteButton extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const {favoriteOfferIds, offer} = this.props;
+    const {favoriteIds, offer} = this.props;
 
     return getArraysDifference(
-        nextProps.favoriteOfferIds,
-        favoriteOfferIds
-    ).includes(offer.id);
+        nextProps.favoriteIds,
+        favoriteIds
+    ).includes(offer.id) || offer.id !== nextProps.offer.id;
   }
 
   handleFavoriteClick() {
     const {
-      favoriteOfferIds,
-      isLogin,
+      favoriteIds,
       offer,
       deleteFavorite,
       addFavorite,
-      redirectTo,
     } = this.props;
 
-    if (isLogin) {
-      if (favoriteOfferIds.includes(offer.id)) {
-        deleteFavorite(offer.id);
-      } else {
-        addFavorite(offer.id);
-      }
+    if (favoriteIds.includes(offer.id)) {
+      deleteFavorite(offer.id);
     } else {
-      redirectTo(Path.LOGIN);
+      addFavorite(offer.id);
     }
   }
 
@@ -57,14 +49,14 @@ class FavoriteButton extends React.Component {
         iconWidth = 18,
         iconHeight = 19,
       } = {},
-      favoriteOfferIds,
+      favoriteIds,
       offer,
     } = this.props;
 
     return (
       <button
         className={`button ${btnClassName} ${
-          favoriteOfferIds.includes(offer.id) ? btnActiveClassName : ``
+          favoriteIds.includes(offer.id) ? btnActiveClassName : ``
         }`}
         type="button"
         onClick={this.handleFavoriteClick}
@@ -80,29 +72,23 @@ class FavoriteButton extends React.Component {
 
 FavoriteButton.propTypes = {
   offer: offerType,
-  favoriteOfferIds: offerIdsType,
-  isLogin: boolType,
+  favoriteIds: offerIdsType,
   deleteFavorite: functionType,
   addFavorite: functionType,
-  redirectTo: functionType,
   favoriteBtnStyle: favoriteBtnStyleType,
 };
 
-const mapStateToProps = ({USER, FAVORITES}) => ({
-  isLogin: USER.isLogin,
-  favoriteOfferIds: FAVORITES.favoriteOfferIds,
+const mapStateToProps = ({FAVORITES}) => ({
+  favoriteIds: FAVORITES.favoriteIds,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   deleteFavorite(offerId) {
-    dispatch(ActionCreator.deleteFavorite(offerId));
+    dispatch(changeFavorite({offerId, status: 0}));
   },
   addFavorite(offerId) {
-    dispatch(ActionCreator.addFavorite(offerId));
+    dispatch(changeFavorite({offerId, status: 1}));
   },
-  redirectTo(url) {
-    dispatch(ActionCreator.redirectTo(url));
-  }
 });
 
 export {FavoriteButton};
