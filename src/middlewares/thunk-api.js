@@ -38,10 +38,36 @@ export const fetchNearOffers = () => (dispatch, getState, api) => {
     });
 };
 
+export const getFavorites = () => (dispatch, getState, api) => {
+  return api.get(APIRoute.FAVORITE)
+    .then(({data}) => {
+      dispatch(ActionCreator.updateFavotites(data.map((offer) => String(offer.id))));
+    })
+    .catch(() => {
+      dispatch(ActionCreator.updateFavotites([]));
+    });
+};
+
+export const changeFavorite = ({offerId, status}) => (dispatch, getState, api) => {
+  if (getState().USER.isLogin) {
+    return api.post(`${APIRoute.FAVORITE}/${offerId}/${status}`)
+    .then(({data}) => {
+      if (data[`is_favorite`]) {
+        dispatch(ActionCreator.addFavorite(String(data.id)));
+      } else {
+        dispatch(ActionCreator.deleteFavorite(String(data.id)));
+      }
+    });
+  } else {
+    return dispatch(ActionCreator.redirectTo(Path.LOGIN));
+  }
+};
+
 export const checkAuth = () => (dispatch, _getState, api) => {
   return api.get(APIRoute.LOGIN)
     .then(({data}) => {
       dispatch(ActionCreator.login(getLoginData(data)));
+      dispatch(getFavorites());
     })
     .catch(({response}) => {
       if (response.status === HttpCode.UNAUTHORIZED) {
@@ -54,6 +80,7 @@ export const tryLogin = ({email, password}) => (dispatch, _getState, api) => {
   return api.post(APIRoute.LOGIN, {email, password})
     .then(({data}) => {
       dispatch(ActionCreator.login(getLoginData(data)));
+      dispatch(getFavorites());
       dispatch(ActionCreator.redirectTo(Path.MAIN));
     });
 };

@@ -33,4 +33,5 @@ export const APIRoute = {
   REVIEWS: `/comments`,
   NEAR: `/nearby`,
   LOGIN: `/login`,
+  FAVORITE: `/favorite`,
 };

@@ -10,10 +10,10 @@ import {Path} from "../../const";
 
 const Favorites = (props) => {
   const {
-    favoriteOfferIds,
+    favoriteIds,
   } = props;
 
-  const emptyTriger = favoriteOfferIds.length === 0;
+  const emptyTriger = favoriteIds.length === 0;
 
   return (
     <div className={`page ${emptyTriger && `page--favorites-empty`}`}>
@@ -39,7 +39,7 @@ const Favorites = (props) => {
                 )
                 : (
                   <FavoritesCities
-                    favoriteOfferIds={favoriteOfferIds}
+                    favoriteIds={favoriteIds}
                   />
                 )
             }
@@ -59,11 +59,11 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  favoriteOfferIds: offerIdsType,
+  favoriteIds: offerIdsType,
 };
 
 const mapStateToProps = ({FAVORITES}) => ({
-  favoriteOfferIds: FAVORITES.favoriteOfferIds,
+  favoriteIds: FAVORITES.favoriteIds,
 });
 
 export {Favorites};

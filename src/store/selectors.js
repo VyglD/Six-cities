@@ -2,7 +2,7 @@ import {createSelector} from "reselect";
 import {CITIES as orderedCities} from "../const";
 
 const allOffers = (state) => state.OFFERS.allOffers;
-const favoreiteOffersIds = (state) => state.FAVORITES.favoriteOfferIds;
+const favoreiteOffersIds = (state) => state.FAVORITES.favoriteIds;
 
 export const getAllOfferIds = createSelector(
     [allOffers],
