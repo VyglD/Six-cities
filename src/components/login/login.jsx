@@ -144,9 +144,9 @@ Login.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  login(data, callback) {
+  login(data, onFail) {
     dispatch(tryLogin(data))
-      .catch(() => callback());
+      .catch(() => onFail());
   }
 });
 

@@ -29,6 +29,13 @@ export const fetchReviews = () => (dispatch, getState, api) => {
     });
 };
 
+export const addNewReview = ({offerId, comment, rating}) => (dispatch, getState, api) => {
+  return api.post(`${APIRoute.REVIEWS}/${offerId}`, {comment, rating})
+    .then(({data}) => {
+      dispatch(ActionCreator.loadReviews(data.map(adaptReviewToClient)));
+    });
+};
+
 export const fetchNearOffers = () => (dispatch, getState, api) => {
   return api.get(
       `${APIRoute.OFFERS}/${getState().OFFER.openedOfferId}${APIRoute.NEAR}`

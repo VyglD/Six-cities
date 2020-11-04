@@ -6,15 +6,18 @@ import Login from "../login/login";
 import Favorites from "../favorites/favorites";
 import Offer from "../offer/offer";
 import browserHistory from "../../browser-history";
+import ActionCreator from "../../store/root-actions";
 import {getAllOfferIds} from "../../store/selectors";
+import {fetchReviews, fetchNearOffers} from "../../middlewares/thunk-api";
 import {
   boolType,
+  functionType,
   offerIdsType,
 } from "../../types";
 import {Path} from "../../const";
 
 const App = (props) => {
-  const {isLogin, allOffersIds} = props;
+  const {isLogin, allOffersIds, openOffer} = props;
 
   return (
     <Router history={browserHistory}>
@@ -54,15 +57,18 @@ const App = (props) => {
           render={({match}) => {
             const chosenOfferId = match.params[Path.OFFER_ID];
 
-            return allOffersIds.includes(chosenOfferId)
-              ? (
+            if (allOffersIds.includes(chosenOfferId)) {
+              openOffer(chosenOfferId);
+              return (
                 <Offer
                   offerId={chosenOfferId}
                 />
-              )
-              : (
-                <Redirect to={Path.MAIN} />
               );
+            }
+
+            return (
+              <Redirect to={Path.MAIN} />
+            );
           }}
         />
         <Redirect to={Path.MAIN} />
@@ -74,6 +80,7 @@ const App = (props) => {
 App.propTypes = {
   isLogin: boolType,
   allOffersIds: offerIdsType,
+  openOffer: functionType,
 };
 
 const mapStateToProps = (state) => ({
@@ -82,5 +89,13 @@ const mapStateToProps = (state) => ({
   allOffersIds: getAllOfferIds(state),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  openOffer: (offerId) => {
+    dispatch(ActionCreator.openOffer(offerId));
+    dispatch(fetchReviews());
+    dispatch(fetchNearOffers());
+  },
+});
+
 export {App};
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

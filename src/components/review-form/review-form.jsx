@@ -1,59 +1,92 @@
 import React from "react";
-import {offerType} from "../../types";
+import {connect} from "react-redux";
+import {addNewReview} from "../../middlewares/thunk-api";
+import {functionType, offerType} from "../../types";
 
 const MIN_CHARACTERS = 50;
 const MAX_CHARACTERS = 300;
 const rateInputClass = `form__rating-input`;
+const serverError = `Ошибка на сервере`;
 
 class ReviewForm extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.ratingRef = React.createRef();
-    this.reviewRef = React.createRef();
-    this.submitRef = React.createRef();
+    this._ratingRef = React.createRef();
+    this._reviewRef = React.createRef();
+    this._submitRef = React.createRef();
 
-    this.handleSubmitReview = this.handleSubmitReview.bind(this);
-    this.handleFieldChange = this.handleFieldChange.bind(this);
-    this.clearForm = this.clearForm.bind(this);
+    this._handleSubmitReview = this._handleSubmitReview.bind(this);
+    this._handleSubmitButtonClick = this._handleSubmitButtonClick.bind(this);
+    this._handleFieldChange = this._handleFieldChange.bind(this);
+    this._clearForm = this._clearForm.bind(this);
+    this._showServerError = this._showServerError.bind(this);
   }
 
-  clearForm() {
-    this.ratingRef.current.querySelector(`.${rateInputClass}:checked`).checked = false;
-    this.reviewRef.current.value = ``;
-    this.disableSubmitButton();
+  componentDidMount() {
+    // Кнопка деактивируется после установки, а не при помощи передачи props disabled,
+    // так как при передаче props disabled перестаёт вызываться метод onClick кнопки
+    // даже после её активации
+    this._disableSubmitButton();
   }
 
-  isReviewFieldValidity() {
-    const reviewTextLength = this.reviewRef.current.value.length;
+  _showServerError() {
+    this._reviewRef.current.setCustomValidity(serverError);
+    this._reviewRef.current.reportValidity();
+  }
+
+  _clearForm() {
+    this._ratingRef.current.querySelector(`.${rateInputClass}:checked`).checked = false;
+    this._reviewRef.current.value = ``;
+
+    this._reviewRef.current.setCustomValidity(``);
+
+    this._disableSubmitButton();
+  }
+
+  _isReviewFieldValidity() {
+    const reviewTextLength = this._reviewRef.current.value.length;
 
     return (reviewTextLength >= MIN_CHARACTERS) && (reviewTextLength < MAX_CHARACTERS);
   }
 
-  isRatingFieldValidity() {
-    const ratingInputs = this.ratingRef.current.querySelectorAll(`.${rateInputClass}`);
+  _isRatingFieldValidity() {
+    const ratingInputs = this._ratingRef.current.querySelectorAll(`.${rateInputClass}`);
 
     return Boolean(Array.from(ratingInputs).filter((input) => input.checked).length);
   }
 
-  isFormValidity() {
-    return this.isReviewFieldValidity() && this.isRatingFieldValidity();
+  _isFormValidity() {
+    return this._isReviewFieldValidity() && this._isRatingFieldValidity();
   }
 
-  disableSubmitButton() {
-    this.submitRef.current.disabled = !(this.isFormValidity());
+  _disableSubmitButton() {
+    this._submitRef.current.disabled = !(this._isFormValidity());
   }
 
-  handleFieldChange() {
-    this.disableSubmitButton();
+  _handleFieldChange() {
+    this._disableSubmitButton();
   }
 
-  handleSubmitReview(evt) {
-    evt.preventDefault();
+  _handleSubmitButtonClick() {
+    this._reviewRef.current.setCustomValidity(``);
+  }
 
-    if (this.isFormValidity()) {
-      // ToDo:
-      // Отправка на сервер нового коммента
+  _handleSubmitReview(evt) {
+    if (this._isFormValidity()) {
+      const {postNewReview, chosenOffer} = this.props;
+
+      evt.preventDefault();
+
+      postNewReview(
+          {
+            offerId: chosenOffer.id,
+            comment: this._reviewRef.current.value,
+            rating: parseInt(this._ratingRef.current.querySelector(`.${rateInputClass}:checked`).value, 10),
+          },
+          this._clearForm,
+          this._showServerError
+      );
     }
   }
 
@@ -63,12 +96,12 @@ class ReviewForm extends React.PureComponent {
         className="reviews__form form"
         action="#"
         method="post"
-        onSubmit={this.handleSubmitReview}
+        onSubmit={this._handleSubmitReview}
       >
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
         <div
           className="reviews__rating-form form__rating"
-          ref={this.ratingRef}
+          ref={this._ratingRef}
         >
           <input
             className={`${rateInputClass} visually-hidden`}
@@ -76,7 +109,7 @@ class ReviewForm extends React.PureComponent {
             value="5"
             id="stars-5"
             type="radio"
-            onChange={this.handleFieldChange}
+            onChange={this._handleFieldChange}
           />
           <label htmlFor="stars-5" className="reviews__rating-label form__rating-label" title="perfect">
             <svg className="form__star-image" width="37" height="33">
@@ -90,7 +123,7 @@ class ReviewForm extends React.PureComponent {
             value="4"
             id="stars-4"
             type="radio"
-            onChange={this.handleFieldChange}
+            onChange={this._handleFieldChange}
           />
           <label htmlFor="stars-4" className="reviews__rating-label form__rating-label" title="good">
             <svg className="form__star-image" width="37" height="33">
@@ -104,7 +137,7 @@ class ReviewForm extends React.PureComponent {
             value="3"
             id="stars-3"
             type="radio"
-            onChange={this.handleFieldChange}
+            onChange={this._handleFieldChange}
           />
           <label htmlFor="stars-3" className="reviews__rating-label form__rating-label" title="not bad">
             <svg className="form__star-image" width="37" height="33">
@@ -118,7 +151,7 @@ class ReviewForm extends React.PureComponent {
             value="2"
             id="stars-2"
             type="radio"
-            onChange={this.handleFieldChange}
+            onChange={this._handleFieldChange}
           />
           <label htmlFor="stars-2" className="reviews__rating-label form__rating-label" title="badly">
             <svg className="form__star-image" width="37" height="33">
@@ -132,7 +165,7 @@ class ReviewForm extends React.PureComponent {
             value="1"
             id="stars-1"
             type="radio"
-            onChange={this.handleFieldChange}
+            onChange={this._handleFieldChange}
           />
           <label htmlFor="stars-1" className="reviews__rating-label form__rating-label" title="terribly">
             <svg className="form__star-image" width="37" height="33">
@@ -142,10 +175,10 @@ class ReviewForm extends React.PureComponent {
         </div>
         <textarea
           className="reviews__textarea form__textarea"
-          ref={this.reviewRef}
+          ref={this._reviewRef}
           id="review"
           name="review"
-          onChange={this.handleFieldChange}
+          onChange={this._handleFieldChange}
           placeholder="Tell how was your stay, what you like and what can be improved">
         </textarea>
         <div className="reviews__button-wrapper">
@@ -155,8 +188,8 @@ class ReviewForm extends React.PureComponent {
           <button
             className="reviews__submit form__submit button"
             type="submit"
-            ref={this.submitRef}
-            disabled
+            ref={this._submitRef}
+            onClick={this._handleSubmitButtonClick}
           >
             Submit
           </button>
@@ -168,6 +201,16 @@ class ReviewForm extends React.PureComponent {
 
 ReviewForm.propTypes = {
   chosenOffer: offerType,
+  postNewReview: functionType,
 };
 
-export default ReviewForm;
+const mapDispatchToProps = (dispatch) => ({
+  postNewReview(data, onSuccess, onFail) {
+    dispatch(addNewReview(data))
+      .then(() => onSuccess())
+      .catch(() => onFail());
+  },
+});
+
+export {ReviewForm};
+export default connect(null, mapDispatchToProps)(ReviewForm);
