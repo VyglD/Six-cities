@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import LocationsList from "../locations-list/locations-list";
 import Places from "../places/places";
+import {getOffersByCities, getFirstNotEmptyCity} from "../../store/selectors";
 import {
   cityNameType,
   functionType,
@@ -9,7 +10,6 @@ import {
   notRequiredCityNameType,
   offersType
 } from "../../types";
-import {getOffersByCities, getFirstNotEmptyCity} from "../../store/selectors";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
@@ -17,10 +17,10 @@ class MainContent extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.handleChangeActiveCity = this.handleChangeActiveCity.bind(this);
+    this._handleChangeActiveCity = this._handleChangeActiveCity.bind(this);
   }
 
-  handleChangeActiveCity(evt) {
+  _handleChangeActiveCity(evt) {
     const {onChangeActiveCity} = this.props;
     const newCity = evt.target.textContent;
 
@@ -47,7 +47,7 @@ class MainContent extends React.PureComponent {
         <div className="tabs">
           <LocationsList
             activeCity={activeCity}
-            onChangeActiveCity={this.handleChangeActiveCity}
+            onChangeActiveCity={this._handleChangeActiveCity}
           />
         </div>
         <Places

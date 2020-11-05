@@ -6,7 +6,7 @@ import {functionType, offersType, cityNameType, sortType} from "../../types";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
-class OffersPanel extends React.Component {
+class PlacesOffers extends React.Component {
   shouldComponentUpdate(nextProps) {
     if (this.propsactiveSort !== nextProps.activeSort) {
       return true;
@@ -33,16 +33,16 @@ class OffersPanel extends React.Component {
   }
 }
 
-OffersPanel.propTypes = {
+PlacesOffers.propTypes = {
   offers: offersType,
   activeCity: cityNameType,
   activeSort: sortType,
   onChangeActiveSort: functionType,
 };
 
-export {OffersPanel};
+export {PlacesOffers};
 export default withActiveItem(
-    OffersPanel,
+    PlacesOffers,
     {
       initialActiveItem: SortType.DEFAULT.value,
       activeItemName: `activeSort`,

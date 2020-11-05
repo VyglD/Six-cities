@@ -1,7 +1,7 @@
 import React from "react";
+import Review from "../review/review";
 import {MAX_REVIEWS} from "../../const";
 import {reviewsType} from "../../types";
-import Review from "../review/review";
 
 const ReviewsList = (props) => {
   const {reviews} = props;

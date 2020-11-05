@@ -1,5 +1,5 @@
 import React from "react";
-import OffersPanel from "../offers-panel/offers-panel";
+import PlacesOffers from "../places-offers/places-offers";
 import Map from "../map/map";
 import {offersType} from "../../types";
 
@@ -14,7 +14,7 @@ const Places = (props) => {
         offers.length > 0
           ? (
             <div className="cities__places-container container">
-              <OffersPanel
+              <PlacesOffers
                 {...props}
               />
               <div className="cities__right-section">

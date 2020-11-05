@@ -1,22 +1,22 @@
-export const MAX_RATE = 5;
-export const RATE_COEFFICIENT = 100 / MAX_RATE;
+const MAX_RATE = 5;
+const RATE_COEFFICIENT = 100 / MAX_RATE;
 
-export const MAX_NEAR_OFFERS = 3;
-export const MAX_REVIEWS = 10;
+const MAX_NEAR_OFFERS = 3;
+const MAX_REVIEWS = 10;
 
-export const Key = {
+const Key = {
   ENTER: `Enter`,
   ESC: `Escape`
 };
 
-export const HousingType = {
+const HousingType = {
   APARTMENT: `Apartment`,
   ROOM: `Private Room`,
   HOUSE: `House`,
   HOTEL: `Hotel`
 };
 
-export const CITIES = [
+const CITIES = [
   `Paris`,
   `Cologne`,
   `Brussels`,
@@ -25,7 +25,7 @@ export const CITIES = [
   `Dusseldorf`
 ];
 
-export const Path = {
+const Path = {
   MAIN: `/`,
   LOGIN: `/login`,
   FAVORITES: `/favorites`,
@@ -33,7 +33,7 @@ export const Path = {
   OFFER_ID: `offerId`
 };
 
-export const APIRoute = {
+const APIRoute = {
   OFFERS: `/hotels`,
   REVIEWS: `/comments`,
   NEAR: `/nearby`,
@@ -41,7 +41,7 @@ export const APIRoute = {
   FAVORITE: `/favorite`,
 };
 
-export const SortType = {
+const SortType = {
   DEFAULT: {
     value: `Popular`,
     method: () => {},
@@ -58,4 +58,17 @@ export const SortType = {
     value: `Top rated first`,
     method: (i, j) => (j.rate - i.rate),
   },
+};
+
+export {
+  MAX_RATE,
+  RATE_COEFFICIENT,
+  MAX_NEAR_OFFERS,
+  MAX_REVIEWS,
+  Key,
+  HousingType,
+  CITIES,
+  Path,
+  APIRoute,
+  SortType,
 };

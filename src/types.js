@@ -1,33 +1,33 @@
 import PropTypes from "prop-types";
 import {HousingType, CITIES, SortType} from "./const";
 
-export const anyType = PropTypes.any;
+const anyType = PropTypes.any;
 
-export const stringType = PropTypes.string.isRequired;
+const stringType = PropTypes.string.isRequired;
 
-export const numberType = PropTypes.number.isRequired;
+const numberType = PropTypes.number.isRequired;
 
-export const boolType = PropTypes.bool.isRequired;
+const boolType = PropTypes.bool.isRequired;
 
-export const functionType = PropTypes.func.isRequired;
-export const notRequiredFunctionType = PropTypes.func;
+const notRequiredFunctionType = PropTypes.func;
+const functionType = notRequiredFunctionType.isRequired;
 
-export const notRequiredCityNameType = PropTypes.oneOf(CITIES);
-export const cityNameType = notRequiredCityNameType.isRequired;
+const notRequiredCityNameType = PropTypes.oneOf(CITIES);
+const cityNameType = notRequiredCityNameType.isRequired;
 
-export const citiesType = PropTypes.arrayOf(cityNameType).isRequired;
+const citiesType = PropTypes.arrayOf(cityNameType).isRequired;
 
-export const CityInfoType = PropTypes.exact({
+const CityInfoType = PropTypes.exact({
   name: cityNameType,
   latitude: numberType,
   longitude: numberType,
   zoom: numberType,
 }).isRequired;
 
-export const offerIdType = PropTypes.string.isRequired;
-export const offerIdsType = PropTypes.arrayOf(offerIdType).isRequired;
+const offerIdType = PropTypes.string.isRequired;
+const offerIdsType = PropTypes.arrayOf(offerIdType).isRequired;
 
-export const notRequiredOfferType = PropTypes.exact({
+const notRequiredOfferType = PropTypes.exact({
   id: offerIdType,
   city: cityNameType,
   latitude: numberType,
@@ -49,11 +49,11 @@ export const notRequiredOfferType = PropTypes.exact({
   }).isRequired,
   cityInfo: CityInfoType,
 });
-export const offerType = notRequiredOfferType.isRequired;
+const offerType = notRequiredOfferType.isRequired;
 
-export const offersType = PropTypes.arrayOf(offerType).isRequired;
+const offersType = PropTypes.arrayOf(offerType).isRequired;
 
-export const reviewType = PropTypes.exact({
+const reviewType = PropTypes.exact({
   id: stringType,
   name: PropTypes.string.isRequired,
   photo: PropTypes.string.isRequired,
@@ -62,13 +62,13 @@ export const reviewType = PropTypes.exact({
   text: PropTypes.string.isRequired
 });
 
-export const reviewsType = PropTypes.arrayOf(reviewType).isRequired;
+const reviewsType = PropTypes.arrayOf(reviewType).isRequired;
 
-export const mapType = PropTypes.instanceOf(Map).isRequired;
+const mapType = PropTypes.instanceOf(Map).isRequired;
 
-export const emailType = PropTypes.string.isRequired;
+const emailType = PropTypes.string.isRequired;
 
-export const cardStyleType = PropTypes.shape({
+const cardStyleType = PropTypes.shape({
   article: PropTypes.string,
   imgWrapper: PropTypes.string,
   imgWidth: PropTypes.number,
@@ -76,7 +76,7 @@ export const cardStyleType = PropTypes.shape({
   info: PropTypes.string,
 }).isRequired;
 
-export const favoriteBtnStyleType = PropTypes.shape({
+const favoriteBtnStyleType = PropTypes.shape({
   btnClassName: PropTypes.string,
   btnActiveClassName: PropTypes.string,
   iconClassName: PropTypes.string,
@@ -84,6 +84,31 @@ export const favoriteBtnStyleType = PropTypes.shape({
   iconHeight: PropTypes.number,
 });
 
-export const sortType = PropTypes.oneOf(
+const sortType = PropTypes.oneOf(
     Object.values(SortType).map(({value}) => value)
 ).isRequired;
+
+export {
+  anyType,
+  stringType,
+  numberType,
+  boolType,
+  notRequiredFunctionType,
+  functionType,
+  notRequiredCityNameType,
+  cityNameType,
+  citiesType,
+  CityInfoType,
+  offerIdType,
+  offerIdsType,
+  notRequiredOfferType,
+  offerType,
+  offersType,
+  reviewType,
+  reviewsType,
+  mapType,
+  emailType,
+  cardStyleType,
+  favoriteBtnStyleType,
+  sortType,
+};

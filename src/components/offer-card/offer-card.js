@@ -1,13 +1,13 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import FavoriteButton from "../favorite-button/favorite-button";
+import {getRateVisualisation} from "../../util";
+import {Path} from "../../const";
 import {
   offerType,
   notRequiredFunctionType,
   cardStyleType
 } from "../../types";
-import {Path} from "../../const";
-import {getRateVisualisation} from "../../util";
 
 const OfferCard = (props) => {
   const {

@@ -1,7 +1,7 @@
 import React from "react";
 import OffersList from "../offers-list/offers-list";
 
-const cardStyle = {
+const CARD_STYLE = {
   article: `favorites__card`,
   imgWrapper: `favorites__image-wrapper`,
   imgWidth: 150,
@@ -13,7 +13,7 @@ const OffersListFavorite = (props) => {
   return (
     <OffersList
       className={`favorites__places`}
-      cardStyle={cardStyle}
+      cardStyle={CARD_STYLE}
       {...props}
     />
   );

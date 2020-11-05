@@ -1,8 +1,8 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import {boolType, emailType} from "../../types";
 import {Path} from "../../const";
+import {boolType, emailType} from "../../types";
 
 const Header = (props) => {
   const {isLogin, email} = props;

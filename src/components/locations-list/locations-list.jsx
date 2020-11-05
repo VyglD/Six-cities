@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
-import {cityNameType, functionType, citiesType} from "../../types";
 import {getCities} from "../../store/selectors";
+import {cityNameType, functionType, citiesType} from "../../types";
 
 const LocationsList = (props) => {
   const {activeCity, onChangeActiveCity, cities} = props;

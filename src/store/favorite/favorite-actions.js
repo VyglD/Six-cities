@@ -1,10 +1,10 @@
-export const ActionType = {
+const ActionType = {
   ADD_FAVORITE: `ADD_FAVORITE`,
   DELETE_FAVORITE: `REMOVE_FAVORITE`,
   UPDATE_FAVORITES: `UPDATE_FAVORITES`,
 };
 
-export const ActionCreator = {
+const ActionCreator = {
   addFavorite: (offerId) => ({
     type: ActionType.ADD_FAVORITE,
     payload: offerId,
@@ -17,4 +17,9 @@ export const ActionCreator = {
     type: ActionType.UPDATE_FAVORITES,
     payload: offersIds,
   }),
+};
+
+export {
+  ActionType,
+  ActionCreator,
 };

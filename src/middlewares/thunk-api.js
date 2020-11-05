@@ -15,28 +15,28 @@ const getLoginData = (data) => {
   };
 };
 
-export const fetchOffersList = () => (dispatch, _getState, api) => {
+const fetchOffersList = () => (dispatch, _getState, api) => {
   return api.get(APIRoute.OFFERS)
     .then(({data}) => {
       dispatch(ActionCreator.loadOffers(data.map(adaptOfferToClient)));
     });
 };
 
-export const fetchReviews = () => (dispatch, getState, api) => {
+const fetchReviews = () => (dispatch, getState, api) => {
   return api.get(`${APIRoute.REVIEWS}/${getState().OFFER.openedOfferId}`)
     .then(({data}) => {
       dispatch(ActionCreator.loadReviews(data.map(adaptReviewToClient)));
     });
 };
 
-export const addNewReview = ({offerId, comment, rating}) => (dispatch, getState, api) => {
+const addNewReview = ({offerId, comment, rating}) => (dispatch, getState, api) => {
   return api.post(`${APIRoute.REVIEWS}/${offerId}`, {comment, rating})
     .then(({data}) => {
       dispatch(ActionCreator.loadReviews(data.map(adaptReviewToClient)));
     });
 };
 
-export const fetchNearOffers = () => (dispatch, getState, api) => {
+const fetchNearOffers = () => (dispatch, getState, api) => {
   return api.get(
       `${APIRoute.OFFERS}/${getState().OFFER.openedOfferId}${APIRoute.NEAR}`
   )
@@ -45,7 +45,7 @@ export const fetchNearOffers = () => (dispatch, getState, api) => {
     });
 };
 
-export const getFavorites = () => (dispatch, getState, api) => {
+const getFavorites = () => (dispatch, getState, api) => {
   return api.get(APIRoute.FAVORITE)
     .then(({data}) => {
       dispatch(ActionCreator.updateFavotites(data.map((offer) => String(offer.id))));
@@ -55,7 +55,7 @@ export const getFavorites = () => (dispatch, getState, api) => {
     });
 };
 
-export const changeFavorite = ({offerId, status}) => (dispatch, getState, api) => {
+const changeFavorite = ({offerId, status}) => (dispatch, getState, api) => {
   if (getState().USER.isLogin) {
     return api.post(`${APIRoute.FAVORITE}/${offerId}/${status}`)
     .then(({data}) => {
@@ -70,10 +70,10 @@ export const changeFavorite = ({offerId, status}) => (dispatch, getState, api) =
   }
 };
 
-export const checkAuth = () => (dispatch, _getState, api) => {
+const checkAuth = () => (dispatch, _getState, api) => {
   return api.get(APIRoute.LOGIN)
     .then(({data}) => {
-      dispatch(ActionCreator.login(getLoginData(data)));
+      dispatch(ActionCreator.logIn(getLoginData(data)));
       dispatch(getFavorites());
     })
     .catch(({response}) => {
@@ -83,11 +83,22 @@ export const checkAuth = () => (dispatch, _getState, api) => {
     });
 };
 
-export const tryLogin = ({email, password}) => (dispatch, _getState, api) => {
+const tryLogin = ({email, password}) => (dispatch, _getState, api) => {
   return api.post(APIRoute.LOGIN, {email, password})
     .then(({data}) => {
-      dispatch(ActionCreator.login(getLoginData(data)));
+      dispatch(ActionCreator.logIn(getLoginData(data)));
       dispatch(getFavorites());
       dispatch(ActionCreator.redirectTo(Path.MAIN));
     });
+};
+
+export {
+  fetchOffersList,
+  fetchReviews,
+  addNewReview,
+  fetchNearOffers,
+  getFavorites,
+  changeFavorite,
+  checkAuth,
+  tryLogin,
 };

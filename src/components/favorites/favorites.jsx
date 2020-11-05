@@ -3,10 +3,10 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import Header from "../header/header";
 import FavoritesCities from "../favorites-cities/favorites-cities";
+import {Path} from "../../const";
 import {
   offerIdsType,
 } from "../../types";
-import {Path} from "../../const";
 
 const Favorites = (props) => {
   const {

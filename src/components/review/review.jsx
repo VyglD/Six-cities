@@ -1,10 +1,10 @@
 import React from "react";
-import {reviewType} from "../../types";
 import {
   getSystemFormattedDate,
   getHumanFormattedDate,
   getRateVisualisation,
 } from "../../util";
+import {reviewType} from "../../types";
 
 const Review = (props) => {
   const {

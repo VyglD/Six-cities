@@ -1,10 +1,10 @@
-export const ActionType = {
+const ActionType = {
   OPEN_OFFER: `OPEN_OFFER`,
   LOAD_REVIEWS: `LOAD_REVIEWS`,
   LOAD_NEAR_OFFERS: `LOAD_NEAR_OFFERS`,
 };
 
-export const ActionCreator = {
+const ActionCreator = {
   openOffer: (offerId) => ({
     type: ActionType.OPEN_OFFER,
     payload: offerId,
@@ -17,4 +17,9 @@ export const ActionCreator = {
     type: ActionType.LOAD_NEAR_OFFERS,
     payload: offers,
   }),
+};
+
+export {
+  ActionType,
+  ActionCreator,
 };

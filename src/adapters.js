@@ -1,6 +1,6 @@
 import {HousingType} from "./const";
 
-export const adaptOfferToClient = (serverOffer) => {
+const adaptOfferToClient = (serverOffer) => {
   const {
     id,
     city: {
@@ -61,7 +61,7 @@ export const adaptOfferToClient = (serverOffer) => {
   };
 };
 
-export const adaptReviewToClient = (serverReview) => {
+const adaptReviewToClient = (serverReview) => {
   const {
     id,
     user: {
@@ -81,4 +81,9 @@ export const adaptReviewToClient = (serverReview) => {
     date: new Date(date),
     text: comment,
   };
+};
+
+export {
+  adaptOfferToClient,
+  adaptReviewToClient,
 };

@@ -1,22 +1,12 @@
-import leaflet from "leaflet";
-import "leaflet/dist/leaflet.css";
 import React from "react";
 import {connect} from "react-redux";
+import leaflet from "leaflet";
+import "leaflet/dist/leaflet.css";
 import {getCitiesInfo} from "../../store/selectors";
 import {offersType, cityNameType, notRequiredOfferType, mapType} from "../../types";
 
 const PIN_SIZE = 30;
 const ANIMATION_DURATION = 0.5;
-
-const IconPattern = leaflet.Icon.extend({
-  options: {
-    iconUrl: `/img/pin.svg`,
-    iconSize: [PIN_SIZE, PIN_SIZE]
-  }
-});
-
-const iconMarker = new IconPattern();
-const iconMarkerActive = new IconPattern({iconUrl: `/img/pin-active.svg`});
 
 const compareСoords = (marker, coords) => {
   const markerCoord = marker.getLatLng();
@@ -30,6 +20,16 @@ const getCoords = (coordStore) => {
   };
 };
 
+const IconPattern = leaflet.Icon.extend({
+  options: {
+    iconUrl: `/img/pin.svg`,
+    iconSize: [PIN_SIZE, PIN_SIZE]
+  }
+});
+
+const iconMarker = new IconPattern();
+const iconMarkerActive = new IconPattern({iconUrl: `/img/pin-active.svg`});
+
 class Map extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -39,63 +39,9 @@ class Map extends React.PureComponent {
     this._markers = [];
   }
 
-  getCurrentCityCoords() {
-    const {activeCity, citiesInfo} = this.props;
-    const cityInfo = citiesInfo.get(activeCity);
-
-    return getCoords(cityInfo);
-  }
-
-  getCityZoom() {
-    const {citiesInfo, activeCity} = this.props;
-
-    return citiesInfo.get(activeCity).zoom;
-  }
-
-  setMarkers() {
-    if (this._map) {
-      const {offers, activeOffer} = this.props;
-
-      this._markers.forEach((marker) => {
-        this._map.removeLayer(marker);
-      });
-
-      offers.map((offer) => {
-        this._markers.push(
-            leaflet.marker(getCoords(offer), {icon: iconMarker}).addTo(this._map)
-        );
-      });
-
-      if (activeOffer) {
-        this._markers.push(
-            leaflet.marker(getCoords(activeOffer), {icon: iconMarkerActive}).addTo(this._map)
-        );
-      }
-    }
-  }
-
-  updateMarker(offer, icon) {
-    const coords = getCoords(offer);
-
-    this._markers.filter((marker) => compareСoords(marker, coords))
-      .forEach((marker) => {
-        marker.setIcon(icon);
-      });
-  }
-
-  updateMarkers(oldActiveOffer, newActiveOffer) {
-    if (oldActiveOffer) {
-      this.updateMarker(oldActiveOffer, iconMarker);
-    }
-
-    if (newActiveOffer) {
-      this.updateMarker(newActiveOffer, iconMarkerActive);
-    }
-  }
-
   componentDidMount() {
-    const currentCityCoords = this.getCurrentCityCoords();
-    const zoom = this.getCityZoom();
+    const currentCityCoords = this._getCurrentCityCoords();
+    const zoom = this._getCityZoom();
 
     const map = leaflet.map(`map`, {
       center: currentCityCoords,
@@ -121,7 +67,7 @@ class Map extends React.PureComponent {
     )
     .addTo(map);
 
-    this.setMarkers();
+    this._setMarkers();
 
     map.setView(currentCityCoords, zoom);
   }
@@ -130,15 +76,15 @@ class Map extends React.PureComponent {
     const {activeCity, activeOffer, offers} = this.props;
 
     if (activeCity !== prevProps.activeCity) {
-      this.setMarkers();
+      this._setMarkers();
       this._map.flyTo(
-          this.getCurrentCityCoords(),
-          this.getCityZoom(),
+          this._getCurrentCityCoords(),
+          this._getCityZoom(),
           {duration: ANIMATION_DURATION});
     } else if (offers !== prevProps.offers) {
-      this.setMarkers();
+      this._setMarkers();
     } else if (activeOffer !== prevProps.activeOffer) {
-      this.updateMarkers(prevProps.activeOffer, activeOffer);
+      this._updateMarkers(prevProps.activeOffer, activeOffer);
     }
   }
 
@@ -147,6 +93,60 @@ class Map extends React.PureComponent {
     this._markers = null;
     this._map = null;
     this._mapRef.current.remove();
+  }
+
+  _getCurrentCityCoords() {
+    const {activeCity, citiesInfo} = this.props;
+    const cityInfo = citiesInfo.get(activeCity);
+
+    return getCoords(cityInfo);
+  }
+
+  _getCityZoom() {
+    const {citiesInfo, activeCity} = this.props;
+
+    return citiesInfo.get(activeCity).zoom;
+  }
+
+  _setMarkers() {
+    if (this._map) {
+      const {offers, activeOffer} = this.props;
+
+      this._markers.forEach((marker) => {
+        this._map.removeLayer(marker);
+      });
+
+      offers.map((offer) => {
+        this._markers.push(
+            leaflet.marker(getCoords(offer), {icon: iconMarker}).addTo(this._map)
+        );
+      });
+
+      if (activeOffer) {
+        this._markers.push(
+            leaflet.marker(getCoords(activeOffer), {icon: iconMarkerActive}).addTo(this._map)
+        );
+      }
+    }
+  }
+
+  _updateMarker(offer, icon) {
+    const coords = getCoords(offer);
+
+    this._markers.filter((marker) => compareСoords(marker, coords))
+      .forEach((marker) => {
+        marker.setIcon(icon);
+      });
+  }
+
+  _updateMarkers(oldActiveOffer, newActiveOffer) {
+    if (oldActiveOffer) {
+      this._updateMarker(oldActiveOffer, iconMarker);
+    }
+
+    if (newActiveOffer) {
+      this._updateMarker(newActiveOffer, iconMarkerActive);
+    }
   }
 
   render() {
