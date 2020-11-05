@@ -2,16 +2,13 @@ import React from "react";
 import {connect} from "react-redux";
 import LocationsList from "../locations-list/locations-list";
 import Places from "../places/places";
-import {getOffersByCities, getFirstNotEmptyCity} from "../../store/selectors";
+import ActionCreator from "../../store/root-actions";
+import {getOffersByCities} from "../../store/selectors";
 import {
   cityNameType,
   functionType,
   mapType,
-  notRequiredCityNameType,
-  offersType
 } from "../../types";
-
-import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
 class MainContent extends React.PureComponent {
   constructor(props) {
@@ -21,18 +18,16 @@ class MainContent extends React.PureComponent {
   }
 
   _handleChangeActiveCity(evt) {
-    const {onChangeActiveCity} = this.props;
     const newCity = evt.target.textContent;
 
     evt.preventDefault();
 
-    onChangeActiveCity(newCity);
+    this.propsюonChangeActiveCity(newCity);
   }
 
   render() {
-    const {offersByCities, activeCity: city, firstNotEmptyCity} = this.props;
+    const {offersByCities, activeCity} = this.props;
 
-    const activeCity = city ? city : firstNotEmptyCity;
     const offers = offersByCities.get(activeCity);
 
     return (
@@ -60,24 +55,21 @@ class MainContent extends React.PureComponent {
 }
 
 MainContent.propTypes = {
-  allOffers: offersType,
-  activeCity: notRequiredCityNameType,
+  activeCity: cityNameType,
   onChangeActiveCity: functionType,
   offersByCities: mapType,
-  firstNotEmptyCity: cityNameType,
 };
 
 const mapStateToProps = (state) => ({
-  allOffers: state.OFFERS.allOffers,
+  activeCity: state.CITY.activeCity,
   offersByCities: getOffersByCities(state),
-  firstNotEmptyCity: getFirstNotEmptyCity(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onChangeActiveCity: (newCity) => {
+    dispatch(ActionCreator.changeCity(newCity));
+  },
 });
 
 export {MainContent};
-export default withActiveItem(
-    connect(mapStateToProps)(MainContent),
-    {
-      activeItemName: `activeCity`,
-      onItemChangeName: `onChangeActiveCity`,
-    }
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MainContent);

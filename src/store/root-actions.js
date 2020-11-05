@@ -4,11 +4,13 @@ import {ActionCreator as FavoriteActionCreator} from "./favorite/favorite-action
 import {ActionCreator as OfferActionCreator} from "./offer/offer-actions";
 import {ActionCreator as UserActionCreator} from "./user/user-actions";
 import {ActionCreator as RedirectActionCreator} from "./redirect/redirect-actions";
+import {ActionCreator as CityActionCreator} from "./city/city-actions";
 
 export default extend(
     OffersActionCreatorr,
     FavoriteActionCreator,
     OfferActionCreator,
     UserActionCreator,
-    RedirectActionCreator
+    RedirectActionCreator,
+    CityActionCreator
 );

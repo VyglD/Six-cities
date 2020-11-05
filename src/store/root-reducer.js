@@ -4,6 +4,7 @@ import favoriteReducer from "./favorite/favorite-reducer";
 import offerReducer from "./offer/offer-reducer";
 import userReducer from "./user/user-reducer";
 import redirectReducer from "./redirect/redirect-reducer";
+import cityReducer from "./city/city-reducer";
 
 const NameSpace = {
   OFFERS: `OFFERS`,
@@ -11,6 +12,7 @@ const NameSpace = {
   OFFER: `OFFER`,
   USER: `USER`,
   REDIRECT: `REDIRECT`,
+  CITY: `CITY`,
 };
 
 export default combineReducers({
@@ -19,4 +21,5 @@ export default combineReducers({
   [NameSpace.OFFER]: offerReducer,
   [NameSpace.USER]: userReducer,
   [NameSpace.REDIRECT]: redirectReducer,
+  [NameSpace.CITY]: cityReducer,
 });

@@ -1,5 +1,5 @@
 import ActionCreator from "../store/root-actions";
-import {} from "../middlewares/redirect";
+import {getFirstNotEmptyCity} from "../store/selectors";
 import {adaptOfferToClient, adaptReviewToClient} from "../adapters";
 import {APIRoute, Path} from "../const";
 
@@ -15,10 +15,11 @@ const getLoginData = (data) => {
   };
 };
 
-const fetchOffersList = () => (dispatch, _getState, api) => {
+const fetchOffersList = () => (dispatch, getState, api) => {
   return api.get(APIRoute.OFFERS)
     .then(({data}) => {
       dispatch(ActionCreator.loadOffers(data.map(adaptOfferToClient)));
+      dispatch(ActionCreator.changeCity(getFirstNotEmptyCity(getState())));
     });
 };
 
