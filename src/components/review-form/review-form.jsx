@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {addNewReview} from "../../middlewares/thunk-api";
+import {MAX_RATE} from "../../const";
 import {functionType, offerType} from "../../types";
 
 const MIN_CHARACTERS = 50;
@@ -29,12 +30,14 @@ class ReviewForm extends React.PureComponent {
     // Кнопка деактивируется после установки, а не при помощи передачи props disabled,
     // так как при передаче props disabled перестаёт вызываться метод onClick кнопки
     // даже после её активации
-    this._disableSubmitButton();
+    this._togпleSubmitButton(false);
   }
 
   _showServerError() {
     this._reviewRef.current.setCustomValidity(SERVER_ERROR);
     this._reviewRef.current.reportValidity();
+
+    this._togпleSubmitButton(true);
   }
 
   _clearForm() {
@@ -43,7 +46,7 @@ class ReviewForm extends React.PureComponent {
 
     this._reviewRef.current.setCustomValidity(``);
 
-    this._disableSubmitButton();
+    this._togпleSubmitButton(false);
   }
 
   _isReviewFieldValidity() {
@@ -62,12 +65,12 @@ class ReviewForm extends React.PureComponent {
     return this._isReviewFieldValidity() && this._isRatingFieldValidity();
   }
 
-  _disableSubmitButton() {
-    this._submitRef.current.disabled = !(this._isFormValidity());
+  _togпleSubmitButton(enabled) {
+    this._submitRef.current.disabled = !enabled;
   }
 
   _handleFieldChange() {
-    this._disableSubmitButton();
+    this._togпleSubmitButton(this._isFormValidity());
   }
 
   _hundleSubmitButtonClick() {
@@ -79,6 +82,8 @@ class ReviewForm extends React.PureComponent {
       const {postNewReview, chosenOffer} = this.props;
 
       evt.preventDefault();
+
+      this._togпleSubmitButton(false);
 
       postNewReview(
           {
@@ -105,75 +110,34 @@ class ReviewForm extends React.PureComponent {
           className="reviews__rating-form form__rating"
           ref={this._ratingRef}
         >
-          <input
-            className={`${RATE_INPUT_CLASS} visually-hidden`}
-            name="rating"
-            value="5"
-            id="stars-5"
-            type="radio"
-            onChange={this._handleFieldChange}
-          />
-          <label htmlFor="stars-5" className="reviews__rating-label form__rating-label" title="perfect">
-            <svg className="form__star-image" width="37" height="33">
-              <use xlinkHref="#icon-star"></use>
-            </svg>
-          </label>
+          {
+            new Array(MAX_RATE)
+              .fill()
+              .map((_, index) => {
+                const number = MAX_RATE - index;
+                const id = `stars-${number}`;
 
-          <input
-            className={`${RATE_INPUT_CLASS} visually-hidden`}
-            name="rating"
-            value="4"
-            id="stars-4"
-            type="radio"
-            onChange={this._handleFieldChange}
-          />
-          <label htmlFor="stars-4" className="reviews__rating-label form__rating-label" title="good">
-            <svg className="form__star-image" width="37" height="33">
-              <use xlinkHref="#icon-star"></use>
-            </svg>
-          </label>
-
-          <input
-            className={`${RATE_INPUT_CLASS} visually-hidden`}
-            name="rating"
-            value="3"
-            id="stars-3"
-            type="radio"
-            onChange={this._handleFieldChange}
-          />
-          <label htmlFor="stars-3" className="reviews__rating-label form__rating-label" title="not bad">
-            <svg className="form__star-image" width="37" height="33">
-              <use xlinkHref="#icon-star"></use>
-            </svg>
-          </label>
-
-          <input
-            className={`${RATE_INPUT_CLASS} visually-hidden`}
-            name="rating"
-            value="2"
-            id="stars-2"
-            type="radio"
-            onChange={this._handleFieldChange}
-          />
-          <label htmlFor="stars-2" className="reviews__rating-label form__rating-label" title="badly">
-            <svg className="form__star-image" width="37" height="33">
-              <use xlinkHref="#icon-star"></use>
-            </svg>
-          </label>
-
-          <input
-            className={`${RATE_INPUT_CLASS} visually-hidden`}
-            name="rating"
-            value="1"
-            id="stars-1"
-            type="radio"
-            onChange={this._handleFieldChange}
-          />
-          <label htmlFor="stars-1" className="reviews__rating-label form__rating-label" title="terribly">
-            <svg className="form__star-image" width="37" height="33">
-              <use xlinkHref="#icon-star"></use>
-            </svg>
-          </label>
+                return (
+                  <React.Fragment
+                    key={id}
+                  >
+                    <input
+                      className={`${RATE_INPUT_CLASS} visually-hidden`}
+                      name="rating"
+                      value={number}
+                      id={id}
+                      type="radio"
+                      onChange={this._handleFieldChange}
+                    />
+                    <label htmlFor={id} className="reviews__rating-label form__rating-label" title="perfect">
+                      <svg className="form__star-image" width="37" height="33">
+                        <use xlinkHref="#icon-star"></use>
+                      </svg>
+                    </label>
+                  </React.Fragment>
+                );
+              })
+          }
         </div>
         <textarea
           className="reviews__textarea form__textarea"
