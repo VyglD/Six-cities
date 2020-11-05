@@ -1,5 +1,5 @@
 import React from "react";
-import Review from "../review/review";
+import ReviewsItem from "../reviews-item/reviews-item";
 import {MAX_REVIEWS} from "../../const";
 import {reviewsType} from "../../types";
 
@@ -11,7 +11,7 @@ const ReviewsList = (props) => {
       {
         reviews.slice(0, MAX_REVIEWS)
           .map((review) => (
-            <Review
+            <ReviewsItem
               key={review.id}
               review={review}
             />

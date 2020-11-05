@@ -7,7 +7,7 @@ const MIN_CHARACTERS = 50;
 const MAX_CHARACTERS = 300;
 
 const RATE_INPUT_CLASS = `form__rating-input`;
-const SERVER_ERRROR = `Ошибка на сервере`;
+const SERVER_ERROR = `Ошибка на сервере`;
 
 class ReviewForm extends React.PureComponent {
   constructor(props) {
@@ -33,7 +33,7 @@ class ReviewForm extends React.PureComponent {
   }
 
   _showServerError() {
-    this._reviewRef.current.setCustomValidity(SERVER_ERRROR);
+    this._reviewRef.current.setCustomValidity(SERVER_ERROR);
     this._reviewRef.current.reportValidity();
   }
 

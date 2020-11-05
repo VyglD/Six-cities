@@ -6,7 +6,7 @@ import {
 } from "../../util";
 import {reviewType} from "../../types";
 
-const Review = (props) => {
+const ReviewsItem = (props) => {
   const {
     review,
   } = props;
@@ -54,8 +54,8 @@ const Review = (props) => {
   );
 };
 
-Review.propTypes = {
+ReviewsItem.propTypes = {
   review: reviewType,
 };
 
-export default Review;
+export default ReviewsItem;
