@@ -16,9 +16,9 @@ class ReviewForm extends React.PureComponent {
     this._reviewRef = React.createRef();
     this._submitRef = React.createRef();
 
-    this._handleSubmitReview = this._handleSubmitReview.bind(this);
-    this._handleSubmitButtonClick = this._handleSubmitButtonClick.bind(this);
-    this._handleFieldChange = this._handleFieldChange.bind(this);
+    this._onSubmitReviewHandle = this._onSubmitReviewHandle.bind(this);
+    this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
+    this._onFieldChange = this._onFieldChange.bind(this);
     this._clearForm = this._clearForm.bind(this);
     this._showServerError = this._showServerError.bind(this);
   }
@@ -64,15 +64,15 @@ class ReviewForm extends React.PureComponent {
     this._submitRef.current.disabled = !(this._isFormValidity());
   }
 
-  _handleFieldChange() {
+  _onFieldChange() {
     this._disableSubmitButton();
   }
 
-  _handleSubmitButtonClick() {
+  _onSubmitButtonClick() {
     this._reviewRef.current.setCustomValidity(``);
   }
 
-  _handleSubmitReview(evt) {
+  _onSubmitReviewHandle(evt) {
     if (this._isFormValidity()) {
       const {postNewReview, chosenOffer} = this.props;
 
@@ -96,7 +96,7 @@ class ReviewForm extends React.PureComponent {
         className="reviews__form form"
         action="#"
         method="post"
-        onSubmit={this._handleSubmitReview}
+        onSubmit={this._onSubmitReviewHandle}
       >
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
         <div
@@ -109,7 +109,7 @@ class ReviewForm extends React.PureComponent {
             value="5"
             id="stars-5"
             type="radio"
-            onChange={this._handleFieldChange}
+            onChange={this._onFieldChange}
           />
           <label htmlFor="stars-5" className="reviews__rating-label form__rating-label" title="perfect">
             <svg className="form__star-image" width="37" height="33">
@@ -123,7 +123,7 @@ class ReviewForm extends React.PureComponent {
             value="4"
             id="stars-4"
             type="radio"
-            onChange={this._handleFieldChange}
+            onChange={this._onFieldChange}
           />
           <label htmlFor="stars-4" className="reviews__rating-label form__rating-label" title="good">
             <svg className="form__star-image" width="37" height="33">
@@ -137,7 +137,7 @@ class ReviewForm extends React.PureComponent {
             value="3"
             id="stars-3"
             type="radio"
-            onChange={this._handleFieldChange}
+            onChange={this._onFieldChange}
           />
           <label htmlFor="stars-3" className="reviews__rating-label form__rating-label" title="not bad">
             <svg className="form__star-image" width="37" height="33">
@@ -151,7 +151,7 @@ class ReviewForm extends React.PureComponent {
             value="2"
             id="stars-2"
             type="radio"
-            onChange={this._handleFieldChange}
+            onChange={this._onFieldChange}
           />
           <label htmlFor="stars-2" className="reviews__rating-label form__rating-label" title="badly">
             <svg className="form__star-image" width="37" height="33">
@@ -165,7 +165,7 @@ class ReviewForm extends React.PureComponent {
             value="1"
             id="stars-1"
             type="radio"
-            onChange={this._handleFieldChange}
+            onChange={this._onFieldChange}
           />
           <label htmlFor="stars-1" className="reviews__rating-label form__rating-label" title="terribly">
             <svg className="form__star-image" width="37" height="33">
@@ -178,7 +178,7 @@ class ReviewForm extends React.PureComponent {
           ref={this._reviewRef}
           id="review"
           name="review"
-          onChange={this._handleFieldChange}
+          onChange={this._onFieldChange}
           placeholder="Tell how was your stay, what you like and what can be improved">
         </textarea>
         <div className="reviews__button-wrapper">
@@ -189,7 +189,7 @@ class ReviewForm extends React.PureComponent {
             className="reviews__submit form__submit button"
             type="submit"
             ref={this._submitRef}
-            onClick={this._handleSubmitButtonClick}
+            onClick={this._onSubmitButtonClick}
           >
             Submit
           </button>
