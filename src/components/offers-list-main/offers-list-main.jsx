@@ -12,14 +12,7 @@ class OffersListMain extends React.Component {
   shouldComponentUpdate(nextProps) {
     const {activeCity, activeSort} = this.props;
 
-    if (
-      activeCity !== nextProps.activeCity
-      || activeSort !== nextProps.activeSort
-    ) {
-      return true;
-    }
-
-    return false;
+    return activeCity !== nextProps.activeCity || activeSort !== nextProps.activeSort;
   }
 
   render() {

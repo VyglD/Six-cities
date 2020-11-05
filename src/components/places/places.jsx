@@ -2,12 +2,12 @@ import React from "react";
 import PlacesEmpty from "../places-empty/places-empty";
 import PlacesOffers from "../places-offers/places-offers";
 import Map from "../map/map";
-import {offersType} from "../../types";
+import {cityNameType, functionType, offersType} from "../../types";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
 const Places = (props) => {
-  const {offers} = props;
+  const {offers, activeCity, onActiveCardChange} = props;
 
   const emptyTriger = offers.length === 0;
 
@@ -21,7 +21,9 @@ const Places = (props) => {
           : (
             <div className="cities__places-container container">
               <PlacesOffers
-                {...props}
+                offers={offers}
+                activeCity={activeCity}
+                onActiveCardChange={onActiveCardChange}
               />
               <div className="cities__right-section">
                 <section className="cities__map map">
@@ -40,6 +42,8 @@ const Places = (props) => {
 
 Places.propTypes = {
   offers: offersType,
+  activeCity: cityNameType,
+  onActiveCardChange: functionType,
 };
 
 export {Places};

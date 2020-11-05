@@ -19,10 +19,10 @@ class FavoriteButton extends React.Component {
   shouldComponentUpdate(nextProps) {
     const {favoriteIds, offer} = this.props;
 
-    return getArraysDifference(
-        nextProps.favoriteIds,
-        favoriteIds
-    ).includes(offer.id) || offer.id !== nextProps.offer.id;
+    return (
+      offer.id !== nextProps.offer.id
+      || getArraysDifference(nextProps.favoriteIds, favoriteIds).includes(offer.id)
+    );
   }
 
   _handleFavoriteClick() {

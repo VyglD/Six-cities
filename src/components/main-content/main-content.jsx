@@ -22,7 +22,7 @@ class MainContent extends React.PureComponent {
 
     evt.preventDefault();
 
-    this.propsюonChangeActiveCity(newCity);
+    this.props.onActiveCityChange(newCity);
   }
 
   render() {
@@ -42,7 +42,7 @@ class MainContent extends React.PureComponent {
         <div className="tabs">
           <LocationsList
             activeCity={activeCity}
-            onChangeActiveCity={this._handleChangeActiveCity}
+            onActiveCityChange={this._handleChangeActiveCity}
           />
         </div>
         <Places
@@ -56,7 +56,7 @@ class MainContent extends React.PureComponent {
 
 MainContent.propTypes = {
   activeCity: cityNameType,
-  onChangeActiveCity: functionType,
+  onActiveCityChange: functionType,
   offersByCities: mapType,
 };
 
@@ -66,7 +66,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onChangeActiveCity: (newCity) => {
+  onActiveCityChange: (newCity) => {
     dispatch(ActionCreator.changeCity(newCity));
   },
 });

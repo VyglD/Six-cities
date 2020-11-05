@@ -8,25 +8,33 @@ import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
 class PlacesOffers extends React.Component {
   shouldComponentUpdate(nextProps) {
-    if (this.propsactiveSort !== nextProps.activeSort) {
-      return true;
-    }
+    const {activeSort, activeCity} = this.props;
 
-    return false;
+    return activeSort !== nextProps.activeSort || activeCity !== nextProps.activeCity;
   }
 
   render() {
-    const {activeCity, offers} = this.props;
+    const {
+      activeCity,
+      offers,
+      activeSort,
+      onChangeActiveSort,
+      onActiveCardChange
+    } = this.props;
 
     return (
       <section className="cities__places places">
         <h2 className="visually-hidden">Places</h2>
         <b className="places__found">{offers.length} places to stay in {activeCity}</b>
         <PlacesSorting
-          {...this.props}
+          activeSort={activeSort}
+          onChangeActiveSort={onChangeActiveSort}
         />
         <OffersListMain
-          {...this.props}
+          activeCity={activeCity}
+          activeSort={activeSort}
+          offers={offers}
+          onActiveCardChange={onActiveCardChange}
         />
       </section>
     );
@@ -38,6 +46,7 @@ PlacesOffers.propTypes = {
   activeCity: cityNameType,
   activeSort: sortType,
   onChangeActiveSort: functionType,
+  onActiveCardChange: functionType,
 };
 
 export {PlacesOffers};

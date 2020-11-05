@@ -4,7 +4,7 @@ import {getCities} from "../../store/selectors";
 import {cityNameType, functionType, citiesType} from "../../types";
 
 const LocationsList = (props) => {
-  const {activeCity, onChangeActiveCity, cities} = props;
+  const {activeCity, onActiveCityChange, cities} = props;
 
   return (
     <section className="locations container">
@@ -21,7 +21,7 @@ const LocationsList = (props) => {
                     `}`
                   }
                   href="#"
-                  onClick={onChangeActiveCity}
+                  onClick={onActiveCityChange}
                 >
                   <span>{city}</span>
                 </a>
@@ -36,7 +36,7 @@ const LocationsList = (props) => {
 
 LocationsList.propTypes = {
   activeCity: cityNameType,
-  onChangeActiveCity: functionType,
+  onActiveCityChange: functionType,
   cities: citiesType,
 };
 
