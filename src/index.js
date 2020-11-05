@@ -24,7 +24,8 @@ Promise.all([
   store.dispatch(fetchOffersList()),
   store.dispatch(checkAuth())
 ])
-.then(() => {
+.catch(() => {})
+.finally(()=> {
   ReactDOM.render(
       (
         <Provider store={store}>

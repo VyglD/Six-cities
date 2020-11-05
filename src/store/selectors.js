@@ -32,7 +32,7 @@ export const getCitiesInfo = createSelector(
 export const getCities = createSelector(
     [getCitiesInfo],
     (citiesInfo) => {
-      return Array.from(citiesInfo.entries()).map(([_, values]) => values.name);
+      return Array.from(citiesInfo.keys());
     }
 );
 
