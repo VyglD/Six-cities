@@ -1,7 +1,10 @@
 import React from "react";
 import {connect} from "react-redux";
+import LocationsLink from "../locations-link/locations-link";
 import {getCities} from "../../store/selectors";
 import {cityNameType, functionType, citiesType} from "../../types";
+
+const CUSTOM_CLASS = `tabs__item`;
 
 const LocationsList = (props) => {
   const {activeCity, onActiveCityChange, cities} = props;
@@ -11,20 +14,14 @@ const LocationsList = (props) => {
       <ul className="locations__list tabs__list">
         {
           cities.map((city) => {
-
             return (
               <li className="locations__item" key={city}>
-                <a
-                  className={
-                    `locations__item-link tabs__item ${
-                      (city === activeCity) && `tabs__item--active
-                    `}`
-                  }
-                  href="#"
-                  onClick={onActiveCityChange}
-                >
-                  <span>{city}</span>
-                </a>
+                <LocationsLink
+                  city={city}
+                  activeCity={activeCity}
+                  onCityClick={onActiveCityChange}
+                  customClass={CUSTOM_CLASS}
+                />
               </li>
             );
           })

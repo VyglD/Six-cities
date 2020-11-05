@@ -16,11 +16,13 @@ const HousingType = {
   HOTEL: `Hotel`
 };
 
+const AMSTERDAM = `Amsterdam`;
+
 const CITIES = [
   `Paris`,
   `Cologne`,
   `Brussels`,
-  `Amsterdam`,
+  AMSTERDAM,
   `Hamburg`,
   `Dusseldorf`
 ];
@@ -67,6 +69,7 @@ export {
   MAX_REVIEWS,
   Key,
   HousingType,
+  AMSTERDAM,
   CITIES,
   Path,
   APIRoute,

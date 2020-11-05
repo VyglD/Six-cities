@@ -3,6 +3,7 @@ import {HousingType, CITIES, SortType} from "./const";
 
 const anyType = PropTypes.any;
 
+const notRequiredStringType = PropTypes.string;
 const stringType = PropTypes.string.isRequired;
 
 const numberType = PropTypes.number.isRequired;
@@ -90,6 +91,7 @@ const sortType = PropTypes.oneOf(
 
 export {
   anyType,
+  notRequiredStringType,
   stringType,
   numberType,
   boolType,

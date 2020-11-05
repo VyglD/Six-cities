@@ -1,8 +1,11 @@
 import React from "react";
 import {connect} from "react-redux";
 import Header from "../header/header";
+import LocationsLink from "../locations-link/locations-link";
+import ActionCreator from "../../store/root-actions";
 import {tryLogin} from "../../middlewares/thunk-api";
-import {functionType} from "../../types";
+import {AMSTERDAM, Path} from "../../const";
+import {cityNameType, functionType} from "../../types";
 
 const EMAIL_REGEX = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
 
@@ -18,6 +21,7 @@ class Login extends React.PureComponent {
     this._passwordFieldRef = React.createRef();
 
     this._handleSubmitButtonClick = this._handleSubmitButtonClick.bind(this);
+    this._handleAmsterdamClick = this._handleAmsterdamClick.bind(this);
 
     this._showServerError = this._showServerError.bind(this);
   }
@@ -71,7 +75,15 @@ class Login extends React.PureComponent {
     }
   }
 
+  _handleAmsterdamClick(evt) {
+    evt.preventDefault();
+
+    this.props.showAmsterdamOffers();
+  }
+
   render() {
+    const {activeCity} = this.props;
+
     return (
       <div className="page page--gray page--login">
         <Header />
@@ -119,9 +131,11 @@ class Login extends React.PureComponent {
             </section>
             <section className="locations locations--login locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#">
-                  <span>Amsterdam</span>
-                </a>
+                <LocationsLink
+                  city={AMSTERDAM}
+                  activeCity={activeCity}
+                  onCityClick={this._handleAmsterdamClick}
+                />
               </div>
             </section>
           </div>
@@ -133,14 +147,24 @@ class Login extends React.PureComponent {
 
 Login.propTypes = {
   logIn: functionType,
+  activeCity: cityNameType,
+  showAmsterdamOffers: functionType,
 };
+
+const mapStateToProps = (state) => ({
+  activeCity: state.CITY.activeCity,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   logIn(data, onFail) {
     dispatch(tryLogin(data))
       .catch(() => onFail());
+  },
+  showAmsterdamOffers() {
+    dispatch(ActionCreator.changeCity(AMSTERDAM));
+    dispatch(ActionCreator.redirectTo(Path.MAIN));
   }
 });
 
 export {Login};
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
