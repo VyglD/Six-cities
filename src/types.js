@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {HousingType, CITIES, SortType} from "./const";
+import {HousingType, CITIES, SortType, Path} from "./const";
 
 const anyType = PropTypes.any;
 
@@ -18,7 +18,7 @@ const cityNameType = notRequiredCityNameType.isRequired;
 
 const citiesType = PropTypes.arrayOf(cityNameType).isRequired;
 
-const CityInfoType = PropTypes.exact({
+const cityInfoType = PropTypes.exact({
   name: cityNameType,
   latitude: numberType,
   longitude: numberType,
@@ -48,7 +48,7 @@ const notRequiredOfferType = PropTypes.exact({
     name: PropTypes.string.isRequired,
     isSuper: boolType,
   }).isRequired,
-  cityInfo: CityInfoType,
+  cityInfo: cityInfoType,
 });
 const offerType = notRequiredOfferType.isRequired;
 
@@ -89,6 +89,8 @@ const sortType = PropTypes.oneOf(
     Object.values(SortType).map(({value}) => value)
 ).isRequired;
 
+const pathType = PropTypes.oneOf(Object.values(Path)).isRequired;
+
 export {
   anyType,
   notRequiredStringType,
@@ -100,7 +102,6 @@ export {
   notRequiredCityNameType,
   cityNameType,
   citiesType,
-  CityInfoType,
   offerIdType,
   offerIdsType,
   notRequiredOfferType,
@@ -113,4 +114,5 @@ export {
   cardStyleType,
   favoriteBtnStyleType,
   sortType,
+  pathType,
 };

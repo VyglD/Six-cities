@@ -1,6 +1,7 @@
 import React from "react";
 import {Router, Switch, Route, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
+import RestrictiveRoute from "../restrictive-route/restrictive-route";
 import Main from "../main/main";
 import Login from "../login/login";
 import Favorites from "../favorites/favorites";
@@ -24,33 +25,21 @@ const App = (props) => {
       <Switch>
         <Route exact
           path={Path.MAIN}
-          render={() => (
-            <Main />
-          )}
+          render={() => (<Main />)}
         />
-        <Route exact
+        <RestrictiveRoute
+          condition={!isLogin}
+          exact={true}
           path={Path.LOGIN}
-          render={()=> {
-            return isLogin
-              ? (
-                <Redirect to={Path.MAIN} />
-              )
-              : (
-                <Login />
-              );
-          }}
+          redirectPath={Path.MAIN}
+          render={() => (<Login />)}
         />
-        <Route exact
+        <RestrictiveRoute
+          condition={isLogin}
+          exact={true}
           path={Path.FAVORITES}
-          render={() => {
-            return isLogin
-              ? (
-                <Favorites />
-              )
-              : (
-                <Redirect to={Path.LOGIN} />
-              );
-          }}
+          redirectPath={Path.LOGIN}
+          render={() => (<Favorites />)}
         />
         <Route exact
           path={`${Path.OFFER}/:${Path.OFFER_ID}`}
