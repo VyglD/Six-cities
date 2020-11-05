@@ -1,4 +1,4 @@
-import {HousingType} from "./const";
+import {HousingType, MAX_REVIEWS} from "./const";
 
 const adaptOfferToClient = (serverOffer) => {
   const {
@@ -83,7 +83,14 @@ const adaptReviewToClient = (serverReview) => {
   };
 };
 
+const adaptReviewsToClient = (serverReviews) => {
+  return serverReviews
+    .map(adaptReviewToClient)
+    .sort((i, j) => new Date(j.date) - new Date(i.date))
+    .slice(0, MAX_REVIEWS);
+};
+
 export {
   adaptOfferToClient,
-  adaptReviewToClient,
+  adaptReviewsToClient,
 };

@@ -1,6 +1,6 @@
 import ActionCreator from "../store/root-actions";
 import {getFirstNotEmptyCity} from "../store/selectors";
-import {adaptOfferToClient, adaptReviewToClient} from "../adapters";
+import {adaptOfferToClient, adaptReviewsToClient} from "../adapters";
 import {APIRoute, Path} from "../const";
 
 const HttpCode = {
@@ -26,14 +26,14 @@ const fetchOffersList = () => (dispatch, getState, api) => {
 const fetchReviews = () => (dispatch, getState, api) => {
   return api.get(`${APIRoute.REVIEWS}/${getState().OFFER.openedOfferId}`)
     .then(({data}) => {
-      dispatch(ActionCreator.loadReviews(data.map(adaptReviewToClient)));
+      dispatch(ActionCreator.loadReviews(adaptReviewsToClient(data)));
     });
 };
 
-const addNewReview = ({offerId, comment, rating}) => (dispatch, getState, api) => {
+const addNewReview = ({offerId, comment, rating}) => (dispatch, _getState, api) => {
   return api.post(`${APIRoute.REVIEWS}/${offerId}`, {comment, rating})
     .then(({data}) => {
-      dispatch(ActionCreator.loadReviews(data.map(adaptReviewToClient)));
+      dispatch(ActionCreator.loadReviews(adaptReviewsToClient(data)));
     });
 };
 
@@ -46,7 +46,7 @@ const fetchNearOffers = () => (dispatch, getState, api) => {
     });
 };
 
-const getFavorites = () => (dispatch, getState, api) => {
+const getFavorites = () => (dispatch, _getState, api) => {
   return api.get(APIRoute.FAVORITE)
     .then(({data}) => {
       dispatch(ActionCreator.updateFavotites(data.map((offer) => String(offer.id))));
@@ -79,7 +79,7 @@ const checkAuth = () => (dispatch, _getState, api) => {
     })
     .catch(({response}) => {
       if (response.status === HttpCode.UNAUTHORIZED) {
-        ActionCreator.logout();
+        ActionCreator.logOut();
       }
     });
 };
