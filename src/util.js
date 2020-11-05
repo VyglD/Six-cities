@@ -10,7 +10,7 @@ const getHumanFormattedDate = (date) => {
 };
 
 const getRateVisualisation = (rate) => {
-  return {width: `${rate * RATE_COEFFICIENT}%`};
+  return {width: `${Math.round(rate) * RATE_COEFFICIENT}%`};
 };
 
 const extend = (...args) => {

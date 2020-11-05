@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import FavoriteButton from "../favorite-button/favorite-button";
+import Stars from "../stars/stars";
 import {getRateVisualisation} from "../../util";
 import {Path} from "../../const";
 import {
@@ -8,6 +9,8 @@ import {
   notRequiredFunctionType,
   cardStyleType
 } from "../../types";
+
+const STARS_CLASS = `place-card__stars`;
 
 const OfferCard = (props) => {
   const {
@@ -60,10 +63,10 @@ const OfferCard = (props) => {
           />
         </div>
         <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={getRateVisualisation(offer.rate)}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
+          <Stars
+            customClass={STARS_CLASS}
+            offer={offer}
+          />
         </div>
         <h2 className="place-card__name">
           <Link to={linkHref}>{offer.title}</Link>
