@@ -7,7 +7,12 @@ const MAX_REVIEWS = 10;
 
 const Key = {
   ENTER: `Enter`,
-  ESC: `Escape`
+  ESC: `Escape`,
+  SPACE: ` `,
+  TAB: `Tab`,
+  SHIFT: `Shift`,
+  UP: `ArrowUp`,
+  DOWN: `ArrowDown`,
 };
 
 const HousingType = {

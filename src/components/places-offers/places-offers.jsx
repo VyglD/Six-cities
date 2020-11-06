@@ -29,6 +29,7 @@ class PlacesOffers extends React.Component {
         <PlacesSorting
           activeSort={activeSort}
           onChangeActiveSort={onChangeActiveSort}
+          activeCity={activeCity}
         />
         <OffersListMain
           activeCity={activeCity}
