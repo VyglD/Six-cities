@@ -1,5 +1,6 @@
 import React from "react";
 import OffersList from "../offers-list/offers-list";
+import {offersType} from "../../types";
 
 const CARD_STYLE = {
   article: `near-places__card`,
@@ -11,9 +12,13 @@ const OffersListNear = (props) => {
     <OffersList
       className={`near-places__list places__list`}
       cardStyle={CARD_STYLE}
-      {...props}
+      offers={props.offers}
     />
   );
+};
+
+OffersListNear.propTypes = {
+  offers: offersType,
 };
 
 export default OffersListNear;

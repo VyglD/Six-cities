@@ -1,5 +1,6 @@
 import React from "react";
 import OffersList from "../offers-list/offers-list";
+import {offersType} from "../../types";
 
 const CARD_STYLE = {
   article: `favorites__card`,
@@ -14,9 +15,13 @@ const OffersListFavorite = (props) => {
     <OffersList
       className={`favorites__places`}
       cardStyle={CARD_STYLE}
-      {...props}
+      offers={props.offers}
     />
   );
+};
+
+OffersListFavorite.propTypes = {
+  offers: offersType,
 };
 
 export default OffersListFavorite;
