@@ -2,7 +2,6 @@ import React from "react";
 import {Link} from "react-router-dom";
 import FavoriteButton from "../favorite-button/favorite-button";
 import Stars from "../stars/stars";
-import {getRateVisualisation} from "../../util";
 import {Path} from "../../const";
 import {
   offerType,
@@ -29,11 +28,16 @@ const OfferCard = (props) => {
 
   const linkHref = `${Path.OFFER}/${offer.id}`;
 
+  const handleActiveCardSelect = () => onActiveCardChange(offer);
+  const handleActiveCardReset = () => onActiveCardChange(null);
+
   return (
     <article
       className={`place-card ${article}`}
-      onMouseEnter={() => onActiveCardChange(offer)}
-      onMouseLeave={() => onActiveCardChange(null)}
+      onMouseEnter={handleActiveCardSelect}
+      onFocus={handleActiveCardSelect}
+      onMouseLeave={handleActiveCardReset}
+      onBlur={handleActiveCardReset}
     >
       {offer.isPremium
         ?
