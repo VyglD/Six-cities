@@ -1,16 +1,18 @@
 import React from "react";
-import {isEnterKeyDown, isEscKeyDown, getNextArrayElement, getPrevArrayElement} from "../../util";
+import {isSelectKeyDown, isControlKeyDown, isEscKeyDown, getNextArrayElement, getPrevArrayElement} from "../../util";
 import {SortType, Key} from "../../const";
-import {cityNameType, functionType, sortType} from "../../types";
+import {boolType, functionType, sortType} from "../../types";
 
-const ACTIVE_CLASS = `places__option--active`;
+import withActiveItem from "../../hocs/with-active-item/with-active-item";
+
+const CONTAINER_CLASS = `places__options`;
+const BUTTON_CLASS = `places__sorting-type`;
+const FOCUS_CLASS = `places__option--focus`;
 const OPEN_CLASS = `places__options--opened`;
 
-class PlacesSorting extends React.Component {
+class PlacesSorting extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this._menuRef = React.createRef();
 
     this._sortTypeRefs = [];
     this._shiftPressed = false;
@@ -21,36 +23,39 @@ class PlacesSorting extends React.Component {
     this._handleSortTypeKeyDown = this._handleSortTypeKeyDown.bind(this);
     this._handleSortTypeKeyUp = this._handleSortTypeKeyUp.bind(this);
     this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
+    this._handleCloseClick = this._handleCloseClick.bind(this);
   }
 
-  shouldComponentUpdate(nextProps) {
-    const {activeCity} = this.props;
-
-    if (nextProps.activeCity !== activeCity) {
-      this._closeMenu();
+  componentDidUpdate() {
+    if (this.props.isMenuOpened) {
+      this._sortTypeRefs
+        .find((ref) => ref.current.classList.contains(FOCUS_CLASS))
+        .current
+        .focus();
     }
-
-    return true;
   }
 
   _closeMenu() {
-    const menu = this._menuRef.current;
-    menu.classList.remove(OPEN_CLASS);
-
     document.removeEventListener(`keydown`, this._handleEscKeyDown);
+    document.removeEventListener(`mousedown`, this._handleCloseClick);
     document.removeEventListener(`keyup`, this._handleSortTypeKeyUp);
+
+    this.props.onMenuVisibilityChange(false);
+  }
+
+  _openMenu() {
+    document.addEventListener(`keydown`, this._handleEscKeyDown);
+    document.addEventListener(`mousedown`, this._handleCloseClick);
+    document.addEventListener(`keyup`, this._handleSortTypeKeyUp);
+
+    this.props.onMenuVisibilityChange(true);
   }
 
   _toggleMenu() {
-    const menu = this._menuRef.current;
-
-    if (menu.classList.contains(OPEN_CLASS)) {
+    if (this.props.isMenuOpened) {
       this._closeMenu();
     } else {
-      menu.classList.add(OPEN_CLASS);
-
-      document.addEventListener(`keydown`, this._handleEscKeyDown);
-      document.addEventListener(`keyup`, this._handleSortTypeKeyUp);
+      this._openMenu();
     }
   }
 
@@ -60,9 +65,9 @@ class PlacesSorting extends React.Component {
       .find((name) => name === chosenSortType);
 
     if (newSortType) {
-      this.props.onChangeActiveSort(newSortType);
+      this.props.onActiveSortChange(newSortType);
     } else {
-      this.props.onChangeActiveSort(SortType.DEFAULT.value);
+      this.props.onActiveSortChange(SortType.DEFAULT.value);
     }
 
     this._closeMenu();
@@ -74,39 +79,21 @@ class PlacesSorting extends React.Component {
     }
   }
 
+  _handleCloseClick(evt) {
+    if (!evt.target.closest(`.${BUTTON_CLASS}`) && !evt.target.closest(`.${CONTAINER_CLASS}`)) {
+      this._closeMenu();
+    }
+  }
+
   _handleSortPanelClick() {
     this._toggleMenu();
   }
 
   _handleSortPanelKeyDown(evt) {
-    if (isEnterKeyDown(evt.key)) {
-
+    if (isSelectKeyDown(evt)) {
       evt.preventDefault();
 
       this._toggleMenu();
-    } else if (
-      evt.key === Key.DOWN
-      && this._menuRef.current.classList.contains(OPEN_CLASS)
-    ) {
-      evt.preventDefault();
-
-      this._sortTypeRefs[0].current.focus();
-    } else if (
-      evt.key === Key.UP
-      && this._menuRef.current.classList.contains(OPEN_CLASS)
-    ) {
-      evt.preventDefault();
-
-      this._sortTypeRefs[this._sortTypeRefs.length - 1].current.focus();
-    } else if (
-      evt.key === Key.TAB && this._shiftPressed
-      && this._menuRef.current.classList.contains(OPEN_CLASS)
-    ) {
-      evt.preventDefault();
-
-      this._sortTypeRefs[this._sortTypeRefs.length - 1].current.focus();
-    } else if (evt.key === Key.SHIFT) {
-      this._shiftPressed = true;
     }
   }
 
@@ -115,22 +102,21 @@ class PlacesSorting extends React.Component {
   }
 
   _handleSortTypeKeyDown(evt) {
-    if (isEnterKeyDown(evt.key)) {
+    if (isSelectKeyDown(evt)) {
+      evt.preventDefault();
+
       this._changeSortType(evt.target.textContent);
-    } else if (evt.key === Key.UP || evt.key === Key.TAB && this._shiftPressed) {
-      const index = this._sortTypeRefs
+    } else if (this.props.isMenuOpened && isControlKeyDown(evt)) {
+      const indexRef = this._sortTypeRefs
         .findIndex((ref) => ref.current === evt.target);
 
       evt.preventDefault();
 
-      getPrevArrayElement(index, this._sortTypeRefs).current.focus();
-    } else if (evt.key === Key.DOWN || evt.key === Key.TAB && !this._shiftPressed) {
-      const index = this._sortTypeRefs
-        .findIndex((ref) => ref.current === evt.target);
-
-      evt.preventDefault();
-
-      getNextArrayElement(index, this._sortTypeRefs).current.focus();
+      if (evt.key === Key.UP || evt.key === Key.TAB && this._shiftPressed) {
+        getPrevArrayElement(indexRef, this._sortTypeRefs).current.focus();
+      } else if (evt.key === Key.DOWN || evt.key === Key.TAB) {
+        getNextArrayElement(indexRef, this._sortTypeRefs).current.focus();
+      }
     } else if (evt.key === Key.SHIFT) {
       this._shiftPressed = true;
     }
@@ -143,7 +129,7 @@ class PlacesSorting extends React.Component {
   }
 
   render() {
-    const {activeSort} = this.props;
+    const {activeSort, isMenuOpened} = this.props;
 
     this._sortTypeRefs = [];
     this._shiftPressed = false;
@@ -152,7 +138,7 @@ class PlacesSorting extends React.Component {
       <form className="places__sorting" action="#" method="get">
         <span className="places__sorting-caption">Sort by</span>
         <span
-          className="places__sorting-type"
+          className={BUTTON_CLASS}
           tabIndex="0"
           onClick={this._handleSortPanelClick}
           onKeyDown={this._handleSortPanelKeyDown}
@@ -163,23 +149,21 @@ class PlacesSorting extends React.Component {
           </svg>
         </span>
         <ul
-          ref={this._menuRef}
-          className="places__options places__options--custom"
+          className={
+            `places__options places__options--custom ${isMenuOpened ? OPEN_CLASS : ``}`
+          }
         >
           {
             Object.entries(SortType).map(([title, {value}]) => {
-              const isActive = activeSort === value;
               const sortRef = React.createRef();
-              if (!isActive) {
-                this._sortTypeRefs.push(sortRef);
-              }
+              this._sortTypeRefs.push(sortRef);
 
               return (
                 <li
                   key={title}
                   ref={sortRef}
-                  className={`places__option ${isActive ? ACTIVE_CLASS : ``}`}
-                  tabIndex={isActive ? -1 : 0}
+                  className={`places__option ${activeSort === value ? FOCUS_CLASS : ``}`}
+                  tabIndex="0"
                   onClick={this._handleSortTypeClick}
                   onKeyDown={this._handleSortTypeKeyDown}
                 >
@@ -196,8 +180,17 @@ class PlacesSorting extends React.Component {
 
 PlacesSorting.propTypes = {
   activeSort: sortType,
-  onChangeActiveSort: functionType,
-  activeCity: cityNameType,
+  onActiveSortChange: functionType,
+  isMenuOpened: boolType,
+  onMenuVisibilityChange: functionType,
 };
 
-export default PlacesSorting;
+export {PlacesSorting};
+export default withActiveItem(
+    PlacesSorting,
+    {
+      initialActiveItem: false,
+      activeItemName: `isMenuOpened`,
+      onItemChangeName: `onMenuVisibilityChange`,
+    }
+);

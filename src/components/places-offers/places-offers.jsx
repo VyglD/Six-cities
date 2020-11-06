@@ -18,8 +18,8 @@ class PlacesOffers extends React.Component {
       activeCity,
       offers,
       activeSort,
-      onChangeActiveSort,
-      onActiveCardChange
+      onActiveSortChange,
+      onActiveCardChange,
     } = this.props;
 
     return (
@@ -28,8 +28,7 @@ class PlacesOffers extends React.Component {
         <b className="places__found">{offers.length} places to stay in {activeCity}</b>
         <PlacesSorting
           activeSort={activeSort}
-          onChangeActiveSort={onChangeActiveSort}
-          activeCity={activeCity}
+          onActiveSortChange={onActiveSortChange}
         />
         <OffersListMain
           activeCity={activeCity}
@@ -46,7 +45,7 @@ PlacesOffers.propTypes = {
   offers: offersType,
   activeCity: cityNameType,
   activeSort: sortType,
-  onChangeActiveSort: functionType,
+  onActiveSortChange: functionType,
   onActiveCardChange: functionType,
 };
 
@@ -56,6 +55,6 @@ export default withActiveItem(
     {
       initialActiveItem: SortType.DEFAULT.value,
       activeItemName: `activeSort`,
-      onItemChangeName: `onChangeActiveSort`,
+      onItemChangeName: `onActiveSortChange`,
     }
 );

@@ -22,8 +22,12 @@ const getArraysDifference = (one, two) => {
     .concat(two.filter((i) => !one.includes(i)));
 };
 
-const isEnterKeyDown = (evtKey) => {
-  return evtKey === Key.ENTER || evtKey === Key.SPACE;
+const isSelectKeyDown = (evt) => {
+  return evt.key === Key.ENTER || evt.key === Key.SPACE;
+};
+
+const isControlKeyDown = (evt) => {
+  return evt.key === Key.TAB || evt.key === Key.UP || evt.key === Key.DOWN;
 };
 
 const isEscKeyDown = (evtKey) => {
@@ -44,7 +48,8 @@ export {
   getRateVisualisation,
   extend,
   getArraysDifference,
-  isEnterKeyDown,
+  isSelectKeyDown,
+  isControlKeyDown,
   isEscKeyDown,
   getNextArrayElement,
   getPrevArrayElement,
