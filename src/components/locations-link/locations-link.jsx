@@ -8,7 +8,7 @@ const LocationsLink = (props) => {
       className={
         `locations__item-link
           ${customClass}
-          ${(city === activeCity) && `tabs__item--active`}`
+          ${(city === activeCity) ? `tabs__item--active` : ``}`
       }
       href="#"
       onClick={onCityClick}
@@ -23,6 +23,10 @@ LocationsLink.propTypes = {
   activeCity: cityNameType,
   onCityClick: functionType,
   customClass: notRequiredStringType,
+};
+
+LocationsLink.defaultProps = {
+  customClass: ``,
 };
 
 export default LocationsLink;
