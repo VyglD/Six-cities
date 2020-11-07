@@ -1,14 +1,17 @@
 import React from "react";
 import {connect} from "react-redux";
 import Header from "../header/header";
+import LocationsLink from "../locations-link/locations-link";
+import ActionCreator from "../../store/root-actions";
 import {tryLogin} from "../../middlewares/thunk-api";
-import {functionType} from "../../types";
+import {AMSTERDAM, Path} from "../../const";
+import {cityNameType, functionType} from "../../types";
 
 const EMAIL_REGEX = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
 
-const emailError = `Email введен неправильно`;
-const passwordError = `Пароль не введен`;
-const serverError = `Ошибка на сервере`;
+const EMAIL_ERROR = `Email введен неправильно`;
+const PASSWORD_ERROR = `Пароль не введен`;
+const SERVER_ERROR = `Ошибка на сервере`;
 
 class Login extends React.PureComponent {
   constructor(props) {
@@ -17,9 +20,10 @@ class Login extends React.PureComponent {
     this._emailFieldRef = React.createRef();
     this._passwordFieldRef = React.createRef();
 
-    this._onSubmitHandle = this._onSubmitHandle.bind(this);
+    this._handleSubmitButtonClick = this._handleSubmitButtonClick.bind(this);
+    this._handleAmsterdamClick = this._handleAmsterdamClick.bind(this);
+
     this._showServerError = this._showServerError.bind(this);
-    this._onFieldValueChange = this._onFieldValueChange.bind(this);
   }
 
   _isFieldValid(field, condition, errorMessage) {
@@ -36,7 +40,7 @@ class Login extends React.PureComponent {
     return this._isFieldValid(
         this._emailFieldRef.current,
         EMAIL_REGEX.exec(this._emailFieldRef.current.value),
-        emailError
+        EMAIL_ERROR
     );
   }
 
@@ -44,7 +48,7 @@ class Login extends React.PureComponent {
     return this._isFieldValid(
         this._passwordFieldRef.current,
         this._passwordFieldRef.current.value.length > 0,
-        passwordError
+        PASSWORD_ERROR
     );
   }
 
@@ -53,15 +57,15 @@ class Login extends React.PureComponent {
   }
 
   _showServerError() {
-    this._passwordFieldRef.current.setCustomValidity(serverError);
+    this._passwordFieldRef.current.setCustomValidity(SERVER_ERROR);
     this._passwordFieldRef.current.reportValidity();
   }
 
-  _onSubmitHandle(evt) {
+  _handleSubmitButtonClick(evt) {
     if (this._isFormValid()) {
       evt.preventDefault();
 
-      this.props.login(
+      this.props.logIn(
           {
             email: this._emailFieldRef.current.value,
             password: this._passwordFieldRef.current.value,
@@ -71,15 +75,15 @@ class Login extends React.PureComponent {
     }
   }
 
-  _onFieldValueChange(evt) {
-    const input = evt.target;
+  _handleAmsterdamClick(evt) {
+    evt.preventDefault();
 
-    this.setState({
-      [input.name]: input.value,
-    });
+    this.props.showAmsterdamOffers();
   }
 
   render() {
+    const {activeCity} = this.props;
+
     return (
       <div className="page page--gray page--login">
         <Header />
@@ -119,7 +123,7 @@ class Login extends React.PureComponent {
                 <button
                   className="login__submit form__submit button"
                   type="submit"
-                  onClick={this._onSubmitHandle}
+                  onClick={this._handleSubmitButtonClick}
                 >
                   Sign in
                 </button>
@@ -127,9 +131,11 @@ class Login extends React.PureComponent {
             </section>
             <section className="locations locations--login locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#">
-                  <span>Amsterdam</span>
-                </a>
+                <LocationsLink
+                  city={AMSTERDAM}
+                  activeCity={activeCity}
+                  onCityClick={this._handleAmsterdamClick}
+                />
               </div>
             </section>
           </div>
@@ -140,15 +146,25 @@ class Login extends React.PureComponent {
 }
 
 Login.propTypes = {
-  login: functionType,
+  logIn: functionType,
+  activeCity: cityNameType,
+  showAmsterdamOffers: functionType,
 };
 
+const mapStateToProps = (state) => ({
+  activeCity: state.CITY.activeCity,
+});
+
 const mapDispatchToProps = (dispatch) => ({
-  login(data, onFail) {
+  logIn(data, onFail) {
     dispatch(tryLogin(data))
       .catch(() => onFail());
+  },
+  showAmsterdamOffers() {
+    dispatch(ActionCreator.changeCity(AMSTERDAM));
+    dispatch(ActionCreator.redirectTo(Path.MAIN));
   }
 });
 
 export {Login};
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -3,7 +3,7 @@ import OffersList from "../offers-list/offers-list";
 import {SortType} from "../../const";
 import {cityNameType, sortType, offersType, functionType} from "../../types";
 
-const cardStyle = {
+const CARD_STYLE = {
   article: `cities__place-card`,
   imgWrapper: `cities__image-wrapper`,
 };
@@ -12,14 +12,7 @@ class OffersListMain extends React.Component {
   shouldComponentUpdate(nextProps) {
     const {activeCity, activeSort} = this.props;
 
-    if (
-      activeCity !== nextProps.activeCity
-      || activeSort !== nextProps.activeSort
-    ) {
-      return true;
-    }
-
-    return false;
+    return activeCity !== nextProps.activeCity || activeSort !== nextProps.activeSort;
   }
 
   render() {
@@ -34,7 +27,7 @@ class OffersListMain extends React.Component {
     return (
       <OffersList
         className={`cities__places-list places__list tabs__content`}
-        cardStyle={cardStyle}
+        cardStyle={CARD_STYLE}
         offers={sortOffers}
         onActiveCardChange={onActiveCardChange}
       />

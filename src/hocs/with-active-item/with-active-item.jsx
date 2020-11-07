@@ -1,6 +1,6 @@
 import React from "react";
-import {anyType} from "../../types";
 import getDisplayName from 'react-display-name';
+import {anyType} from "../../types";
 
 const withActiveItem = (
     Component,
@@ -18,10 +18,10 @@ const withActiveItem = (
         [activeItemName]: props.activeItem ? props.activeItem : initialActiveItem,
       };
 
-      this.handleChangeItem = this.handleChangeItem.bind(this);
+      this._handleChangeItem = this._handleChangeItem.bind(this);
     }
 
-    handleChangeItem(newItem) {
+    _handleChangeItem(newItem) {
       if (newItem !== this.state[activeItemName]) {
         this.setState({[activeItemName]: newItem});
       }
@@ -30,7 +30,7 @@ const withActiveItem = (
     render() {
       const newProps = {
         [activeItemName]: this.state[activeItemName],
-        [onItemChangeName]: this.handleChangeItem,
+        [onItemChangeName]: this._handleChangeItem,
       };
 
       return (

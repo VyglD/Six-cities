@@ -6,43 +6,52 @@ import {functionType, offersType, cityNameType, sortType} from "../../types";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item";
 
-class OffersPanel extends React.Component {
+class PlacesOffers extends React.Component {
   shouldComponentUpdate(nextProps) {
-    if (this.propsactiveSort !== nextProps.activeSort) {
-      return true;
-    }
+    const {activeSort, activeCity} = this.props;
 
-    return false;
+    return activeSort !== nextProps.activeSort || activeCity !== nextProps.activeCity;
   }
 
   render() {
-    const {activeCity, offers} = this.props;
+    const {
+      activeCity,
+      offers,
+      activeSort,
+      onChangeActiveSort,
+      onActiveCardChange
+    } = this.props;
 
     return (
       <section className="cities__places places">
         <h2 className="visually-hidden">Places</h2>
         <b className="places__found">{offers.length} places to stay in {activeCity}</b>
         <PlacesSorting
-          {...this.props}
+          activeSort={activeSort}
+          onChangeActiveSort={onChangeActiveSort}
         />
         <OffersListMain
-          {...this.props}
+          activeCity={activeCity}
+          activeSort={activeSort}
+          offers={offers}
+          onActiveCardChange={onActiveCardChange}
         />
       </section>
     );
   }
 }
 
-OffersPanel.propTypes = {
+PlacesOffers.propTypes = {
   offers: offersType,
   activeCity: cityNameType,
   activeSort: sortType,
   onChangeActiveSort: functionType,
+  onActiveCardChange: functionType,
 };
 
-export {OffersPanel};
+export {PlacesOffers};
 export default withActiveItem(
-    OffersPanel,
+    PlacesOffers,
     {
       initialActiveItem: SortType.DEFAULT.value,
       activeItemName: `activeSort`,

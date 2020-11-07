@@ -2,11 +2,12 @@ import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import Header from "../header/header";
+import FavoritesEmpty from "../favorites-empty/favorites-empty";
 import FavoritesCities from "../favorites-cities/favorites-cities";
+import {Path} from "../../const";
 import {
   offerIdsType,
 } from "../../types";
-import {Path} from "../../const";
 
 const Favorites = (props) => {
   const {
@@ -30,12 +31,7 @@ const Favorites = (props) => {
             {
               emptyTriger
                 ? (
-                  <div className="favorites__status-wrapper">
-                    <b className="favorites__status">Nothing yet saved.</b>
-                    <p className="favorites__status-description">
-                      Save properties to narrow down search or plan yor future trips.
-                    </p>
-                  </div>
+                  <FavoritesEmpty />
                 )
                 : (
                   <FavoritesCities

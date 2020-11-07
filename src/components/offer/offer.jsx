@@ -6,16 +6,16 @@ import ReviewsList from "../reviews-list/reviews-list";
 import ReviewForm from "../review-form/review-form";
 import Map from "../map/map";
 import OffersListNear from "../offers-list-near/offers-list-near";
+import {getRateVisualisation} from "../../util";
+import {MAX_NEAR_OFFERS} from "../../const";
 import {
   offersType,
   boolType,
   offerIdType,
   reviewsType,
 } from "../../types";
-import {MAX_NEAR_OFFERS} from "../../const";
-import {getRateVisualisation} from "../../util";
 
-const favoriteBtnStyle = {
+const FAVORITE_BTN_STYLE = {
   btnClassName: `property__bookmark-button`,
   btnActiveClassName: `property__bookmark-button--active`,
   iconClassName: `property__bookmark-icon`,
@@ -86,7 +86,7 @@ class Offer extends React.PureComponent {
                     {chosenOffer.title}
                   </h1>
                   <FavoriteButton
-                    favoriteBtnStyle={favoriteBtnStyle}
+                    favoriteBtnStyle={FAVORITE_BTN_STYLE}
                     offer={chosenOffer}
                   />
                 </div>

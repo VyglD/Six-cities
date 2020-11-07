@@ -2,8 +2,8 @@ import React from "react";
 import {SortType, Key} from "../../const";
 import {functionType, sortType} from "../../types";
 
-const activeClass = `places__option--active`;
-const openClass = `places__options--opened`;
+const ACTIVE_CLASS = `places__option--active`;
+const OPEN_CLASS = `places__options--opened`;
 
 class PlacesSorting extends React.PureComponent {
   constructor(props) {
@@ -11,29 +11,29 @@ class PlacesSorting extends React.PureComponent {
 
     this._menuRef = React.createRef();
 
-    this._onSortPanelClick = this._onSortPanelClick.bind(this);
-    this._onSortTypeClick = this._onSortTypeClick.bind(this);
-    this._onSortPanelEnter = this._onSortPanelEnter.bind(this);
-    this._onSortTypeEnter = this._onSortTypeEnter.bind(this);
-    this._onEscKeyDown = this._onEscKeyDown.bind(this);
+    this._handleSortPanelClick = this._handleSortPanelClick.bind(this);
+    this._handleSortTypeClick = this._handleSortTypeClick.bind(this);
+    this._handleSortPanelKeyDown = this._handleSortPanelKeyDown.bind(this);
+    this._handleSortTypeKeyDown = this._handleSortTypeKeyDown.bind(this);
+    this._handleEscKeyDown = this._handleEscKeyDown.bind(this);
   }
 
   _closeMenu() {
     const menu = this._menuRef.current;
-    menu.classList.remove(openClass);
+    menu.classList.remove(OPEN_CLASS);
 
-    document.removeEventListener(`keydown`, this._onEscKeyDown);
+    document.removeEventListener(`keydown`, this._handleEscKeyDown);
   }
 
   _toggleMenu() {
     const menu = this._menuRef.current;
 
-    if (menu.classList.contains(openClass)) {
+    if (menu.classList.contains(OPEN_CLASS)) {
       this._closeMenu();
     } else {
-      menu.classList.add(openClass);
+      menu.classList.add(OPEN_CLASS);
 
-      document.addEventListener(`keydown`, this._onEscKeyDown);
+      document.addEventListener(`keydown`, this._handleEscKeyDown);
     }
   }
 
@@ -51,27 +51,27 @@ class PlacesSorting extends React.PureComponent {
     this._closeMenu();
   }
 
-  _onEscKeyDown(evt) {
+  _handleEscKeyDown(evt) {
     if (evt.key === Key.ESC) {
       this._closeMenu();
     }
   }
 
-  _onSortPanelClick() {
+  _handleSortPanelClick() {
     this._toggleMenu();
   }
 
-  _onSortPanelEnter(evt) {
+  _handleSortPanelKeyDown(evt) {
     if (evt.key === Key.ENTER) {
       this._toggleMenu();
     }
   }
 
-  _onSortTypeClick(evt) {
+  _handleSortTypeClick(evt) {
     this._changeSortType(evt.target.textContent);
   }
 
-  _onSortTypeEnter(evt) {
+  _handleSortTypeKeyDown(evt) {
     if (evt.key === Key.ENTER) {
       this._changeSortType(evt.target.textContent);
     }
@@ -86,8 +86,8 @@ class PlacesSorting extends React.PureComponent {
         <span
           className="places__sorting-type"
           tabIndex="0"
-          onClick={this._onSortPanelClick}
-          onKeyDown={this._onSortPanelEnter}
+          onClick={this._handleSortPanelClick}
+          onKeyDown={this._handleSortPanelKeyDown}
         >
           {activeSort}
           <svg className="places__sorting-arrow" width="7" height="4">
@@ -102,10 +102,10 @@ class PlacesSorting extends React.PureComponent {
             Object.entries(SortType).map(([title, {value}]) => (
               <li
                 key={title}
-                className={`places__option ${activeSort === value && activeClass}`}
+                className={`places__option ${activeSort === value && ACTIVE_CLASS}`}
                 tabIndex="0"
-                onClick={this._onSortTypeClick}
-                onKeyDown={this._onSortTypeEnter}
+                onClick={this._handleSortTypeClick}
+                onKeyDown={this._handleSortTypeKeyDown}
               >
                 {value}
               </li>

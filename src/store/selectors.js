@@ -4,14 +4,14 @@ import {CITIES as orderedCities} from "../const";
 const allOffers = (state) => state.OFFERS.allOffers;
 const favoreiteOffersIds = (state) => state.FAVORITES.favoriteIds;
 
-export const getAllOfferIds = createSelector(
+const getAllOfferIds = createSelector(
     [allOffers],
     (offers) => {
       return offers.map((offer) => offer.id);
     }
 );
 
-export const getCitiesInfo = createSelector(
+const getCitiesInfo = createSelector(
     [allOffers],
     (offers) => {
       const City = new Map(
@@ -29,14 +29,14 @@ export const getCitiesInfo = createSelector(
     }
 );
 
-export const getCities = createSelector(
+const getCities = createSelector(
     [getCitiesInfo],
     (citiesInfo) => {
-      return Array.from(citiesInfo.entries()).map(([_, values]) => values.name);
+      return Array.from(citiesInfo.keys());
     }
 );
 
-export const getOffersByCities = createSelector(
+const getOffersByCities = createSelector(
     [allOffers, getCities],
     (offers, cities) => {
       const offersByCity = new Map(
@@ -51,7 +51,7 @@ export const getOffersByCities = createSelector(
     }
 );
 
-export const getFirstNotEmptyCity = createSelector(
+const getFirstNotEmptyCity = createSelector(
     [getOffersByCities],
     (offersByCity) => {
       const cities = Array.from(offersByCity.keys());
@@ -61,7 +61,7 @@ export const getFirstNotEmptyCity = createSelector(
     }
 );
 
-export const getFavoriteOffersByCities = createSelector(
+const getFavoriteOffersByCities = createSelector(
     [allOffers, favoreiteOffersIds],
     (offers, offersIds) => {
       const favoriteOffersByCities = new Map();
@@ -78,3 +78,12 @@ export const getFavoriteOffersByCities = createSelector(
       return favoriteOffersByCities;
     }
 );
+
+export {
+  getAllOfferIds,
+  getCitiesInfo,
+  getCities,
+  getOffersByCities,
+  getFirstNotEmptyCity,
+  getFavoriteOffersByCities,
+};

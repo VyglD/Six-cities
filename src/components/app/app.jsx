@@ -9,12 +9,12 @@ import browserHistory from "../../browser-history";
 import ActionCreator from "../../store/root-actions";
 import {getAllOfferIds} from "../../store/selectors";
 import {fetchReviews, fetchNearOffers} from "../../middlewares/thunk-api";
+import {Path} from "../../const";
 import {
   boolType,
   functionType,
   offerIdsType,
 } from "../../types";
-import {Path} from "../../const";
 
 const App = (props) => {
   const {isLogin, allOffersIds, openOffer} = props;

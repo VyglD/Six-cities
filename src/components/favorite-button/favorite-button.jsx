@@ -1,31 +1,31 @@
 import React from "react";
 import {connect} from "react-redux";
 import {changeFavorite} from "../../middlewares/thunk-api";
+import {getArraysDifference} from "../../util";
 import {
   offerType,
   offerIdsType,
   functionType,
   favoriteBtnStyleType,
 } from "../../types";
-import {getArraysDifference} from "../../util";
 
 class FavoriteButton extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleFavoriteClick = this.handleFavoriteClick.bind(this);
+    this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
     const {favoriteIds, offer} = this.props;
 
-    return getArraysDifference(
-        nextProps.favoriteIds,
-        favoriteIds
-    ).includes(offer.id) || offer.id !== nextProps.offer.id;
+    return (
+      offer.id !== nextProps.offer.id
+      || getArraysDifference(nextProps.favoriteIds, favoriteIds).includes(offer.id)
+    );
   }
 
-  handleFavoriteClick() {
+  _handleFavoriteClick() {
     const {
       favoriteIds,
       offer,
@@ -59,7 +59,7 @@ class FavoriteButton extends React.Component {
           favoriteIds.includes(offer.id) ? btnActiveClassName : ``
         }`}
         type="button"
-        onClick={this.handleFavoriteClick}
+        onClick={this._handleFavoriteClick}
       >
         <svg className={iconClassName} width={iconWidth} height={iconHeight}>
           <use xlinkHref="#icon-bookmark"></use>
