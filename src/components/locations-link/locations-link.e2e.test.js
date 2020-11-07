@@ -6,7 +6,7 @@ import {city, activeCity} from "../../tests/mock-data";
 
 configure({adapter: new Adapter()});
 
-it(`Click by link calls callback`, () => {
+it(`Click on link calls callback`, () => {
   const handleLinkClick = jest.fn();
 
   const wrapper = shallow(

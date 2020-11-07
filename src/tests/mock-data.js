@@ -1,4 +1,12 @@
-const mockFunction = () => {};
+const Key = {
+  ENTER: `Enter`,
+  ESC: `Escape`,
+  SPACE: ` `,
+  TAB: `Tab`,
+  SHIFT: `Shift`,
+  UP: `ArrowUp`,
+  DOWN: `ArrowDown`,
+};
 
 const CITIES = [
   `Paris`,
@@ -31,10 +39,27 @@ const SortType = {
   },
 };
 
+const mockFunction = () => {};
+
+const mockEvent = {
+  preventDefault: mockFunction,
+};
+
+const mockEscKeyEvent = Object.assign(
+    {},
+    mockEvent,
+    {
+      key: Key.ESC,
+    }
+);
+
 export {
-  mockFunction,
+  Key,
   city,
   activeCity,
   CITIES,
   SortType,
+  mockFunction,
+  mockEvent,
+  mockEscKeyEvent,
 };
