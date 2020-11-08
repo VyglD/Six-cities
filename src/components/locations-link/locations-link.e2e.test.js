@@ -2,7 +2,7 @@ import React from "react";
 import {configure, shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import LocationsLink from "./locations-link";
-import {city, activeCity} from "../../tests/mock-data";
+import {city, activeCity} from "../../mocks/mock-data";
 
 configure({adapter: new Adapter()});
 

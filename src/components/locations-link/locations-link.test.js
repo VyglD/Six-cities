@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import LocationsLink from "./locations-link";
-import {mockFunction, city, activeCity} from "../../tests/mock-data";
+import {mockFunction, city, activeCity} from "../../mocks/mock-data";
 
 describe(`Render correctly component LocationsLink`, () => {
   it(`Render LocationsLink`, () => {

@@ -7,8 +7,8 @@ import {
   Key,
   SortType,
   mockEvent,
-  mockEscKeyEvent
-} from "../../tests/mock-data";
+  mockEscKeyEvent,
+} from "../../mocks/mock-data";
 
 configure({adapter: new Adapter()});
 
@@ -447,13 +447,14 @@ describe(`Checking focus`, () => {
     expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
       .toBe(true);
 
-    map.keydown(Object.assign({}, mockEvent, {key: Key.SHIFT}));
+    currentFocusItem.simulate(`keydown`, {key: Key.SHIFT});
     currentFocusItem.simulate(`keydown`, {key: Key.TAB});
+    map.keyup(Object.assign({}, mockEvent, {key: Key.SHIFT}));
 
     expect(currentFocusItem.instance().focus).toHaveBeenCalledTimes(1);
     expect(previousFocusItem.instance().focus).toHaveBeenCalledTimes(1);
 
-    currentFocusItem.simulate(`keydown`, {key: Key.TAB});
+    previousFocusItem.simulate(`keydown`, {key: Key.TAB});
 
     expect(currentFocusItem.instance().focus).toHaveBeenCalledTimes(2);
 
@@ -461,8 +462,8 @@ describe(`Checking focus`, () => {
 
     expect(nextFocusItem.instance().focus).toHaveBeenCalledTimes(1);
 
-    map.keydown(Object.assign({}, mockEvent, {key: Key.SHIFT}));
-    currentFocusItem.simulate(`keydown`, {key: Key.TAB});
+    nextFocusItem.simulate(`keydown`, {key: Key.SHIFT});
+    nextFocusItem.simulate(`keydown`, {key: Key.TAB});
 
     expect(currentFocusItem.instance().focus).toHaveBeenCalledTimes(3);
   });

@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import {PlacesSorting} from "./places-sorting";
-import {mockFunction, SortType} from "../../tests/mock-data";
+import {mockFunction, SortType} from "../../mocks/mock-data";
 
 describe(`Render correctly component PlacesSorting`, () => {
   it(`Render PlacesSorting with closed menu`, () => {
