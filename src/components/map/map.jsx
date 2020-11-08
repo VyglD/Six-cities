@@ -46,8 +46,9 @@ class Map extends React.PureComponent {
     const map = leaflet.map(`map`, {
       center: currentCityCoords,
       zoom,
-      zoomControl: false,
-      marker: true
+      zoomControl: true,
+      marker: true,
+      scrollWheelZoom: false,
     });
 
     this._map = map;

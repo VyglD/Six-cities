@@ -1,12 +1,18 @@
 const MAX_RATE = 5;
 const RATE_COEFFICIENT = 100 / MAX_RATE;
 
+const MAX_OFFER_PHOTO = 6;
 const MAX_NEAR_OFFERS = 3;
 const MAX_REVIEWS = 10;
 
 const Key = {
   ENTER: `Enter`,
-  ESC: `Escape`
+  ESC: `Escape`,
+  SPACE: ` `,
+  TAB: `Tab`,
+  SHIFT: `Shift`,
+  UP: `ArrowUp`,
+  DOWN: `ArrowDown`,
 };
 
 const HousingType = {
@@ -65,6 +71,7 @@ const SortType = {
 export {
   MAX_RATE,
   RATE_COEFFICIENT,
+  MAX_OFFER_PHOTO,
   MAX_NEAR_OFFERS,
   MAX_REVIEWS,
   Key,

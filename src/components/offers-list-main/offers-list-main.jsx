@@ -8,32 +8,24 @@ const CARD_STYLE = {
   imgWrapper: `cities__image-wrapper`,
 };
 
-class OffersListMain extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    const {activeCity, activeSort} = this.props;
+const OffersListMain = (props) => {
+  const {offers, activeSort, onActiveCardChange} = props;
 
-    return activeCity !== nextProps.activeCity || activeSort !== nextProps.activeSort;
-  }
+  const sortMethod = Object.values(SortType)
+    .find(({value}) => value === activeSort)
+    .method;
 
-  render() {
-    const {offers, activeSort, onActiveCardChange} = this.props;
+  const sortOffers = offers.slice().sort(sortMethod);
 
-    const sortMethod = Object.values(SortType)
-      .find(({value}) => value === activeSort)
-      .method;
-
-    const sortOffers = offers.slice().sort(sortMethod);
-
-    return (
-      <OffersList
-        className={`cities__places-list places__list tabs__content`}
-        cardStyle={CARD_STYLE}
-        offers={sortOffers}
-        onActiveCardChange={onActiveCardChange}
-      />
-    );
-  }
-}
+  return (
+    <OffersList
+      className={`cities__places-list places__list tabs__content`}
+      cardStyle={CARD_STYLE}
+      offers={sortOffers}
+      onActiveCardChange={onActiveCardChange}
+    />
+  );
+};
 
 OffersListMain.propTypes = {
   offers: offersType,

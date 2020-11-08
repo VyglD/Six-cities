@@ -2,18 +2,20 @@ import React from "react";
 import {connect} from "react-redux";
 import Header from "../header/header";
 import FavoriteButton from "../favorite-button/favorite-button";
+import Stars from "../stars/stars";
 import ReviewsList from "../reviews-list/reviews-list";
 import ReviewForm from "../review-form/review-form";
 import Map from "../map/map";
 import OffersListNear from "../offers-list-near/offers-list-near";
-import {getRateVisualisation} from "../../util";
-import {MAX_NEAR_OFFERS} from "../../const";
+import {MAX_NEAR_OFFERS, MAX_OFFER_PHOTO} from "../../const";
 import {
   offersType,
   boolType,
   offerIdType,
   reviewsType,
 } from "../../types";
+
+const STARS_CLASS = `property__stars`;
 
 const FAVORITE_BTN_STYLE = {
   btnClassName: `property__bookmark-button`,
@@ -49,38 +51,35 @@ class Offer extends React.PureComponent {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-
                 {
-                  chosenOffer.photos.map((photo, index) => {
-                    return (
-                      <div className="property__image-wrapper" key={index}>
-                        <img
-                          className="property__image"
-                          src={photo}
-                          width="260"
-                          height="200"
-                          alt="Photo studio"
-                        />
-                      </div>
-                    );
-                  })
+                  chosenOffer.photos
+                    .slice(0, MAX_OFFER_PHOTO)
+                    .map((photo, index) => {
+                      return (
+                        <div className="property__image-wrapper" key={index}>
+                          <img
+                            className="property__image"
+                            src={photo}
+                            width="260"
+                            height="200"
+                            alt="Photo studio"
+                          />
+                        </div>
+                      );
+                    })
                 }
-
               </div>
             </div>
             <div className="property__container container">
               <div className="property__wrapper">
-
                 {
-                  chosenOffer.isPremium
-                    ? (
+                  chosenOffer.isPremium &&
+                    (
                       <div className="property__mark">
                         <span>Premium</span>
                       </div>
                     )
-                    : ``
                 }
-
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
                     {chosenOffer.title}
@@ -91,10 +90,10 @@ class Offer extends React.PureComponent {
                   />
                 </div>
                 <div className="property__rating rating">
-                  <div className="property__stars rating__stars">
-                    <span style={getRateVisualisation(chosenOffer.rate)}></span>
-                    <span className="visually-hidden">Rating</span>
-                  </div>
+                  <Stars
+                    customClass={STARS_CLASS}
+                    offer={chosenOffer}
+                  />
                   <span className="property__rating-value rating__value">
                     {chosenOffer.rate}
                   </span>

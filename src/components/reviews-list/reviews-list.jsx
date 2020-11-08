@@ -9,7 +9,8 @@ const ReviewsList = (props) => {
   return (
     <ul className="reviews__list">
       {
-        reviews.slice(0, MAX_REVIEWS)
+        reviews
+          .slice(0, MAX_REVIEWS)
           .map((review) => (
             <ReviewsItem
               key={review.id}

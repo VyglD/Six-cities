@@ -1,13 +1,15 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import FavoriteButton from "../favorite-button/favorite-button";
-import {getRateVisualisation} from "../../util";
+import Stars from "../stars/stars";
 import {Path} from "../../const";
 import {
   offerType,
   notRequiredFunctionType,
   cardStyleType
 } from "../../types";
+
+const STARS_CLASS = `place-card__stars`;
 
 const OfferCard = (props) => {
   const {
@@ -26,11 +28,16 @@ const OfferCard = (props) => {
 
   const linkHref = `${Path.OFFER}/${offer.id}`;
 
+  const handleActiveCardSelect = () => onActiveCardChange(offer);
+  const handleActiveCardReset = () => onActiveCardChange(null);
+
   return (
     <article
       className={`place-card ${article}`}
-      onMouseEnter={() => onActiveCardChange(offer)}
-      onMouseLeave={() => onActiveCardChange(null)}
+      onMouseEnter={handleActiveCardSelect}
+      onFocus={handleActiveCardSelect}
+      onMouseLeave={handleActiveCardReset}
+      onBlur={handleActiveCardReset}
     >
       {offer.isPremium
         ?
@@ -60,10 +67,10 @@ const OfferCard = (props) => {
           />
         </div>
         <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={getRateVisualisation(offer.rate)}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
+          <Stars
+            customClass={STARS_CLASS}
+            offer={offer}
+          />
         </div>
         <h2 className="place-card__name">
           <Link to={linkHref}>{offer.title}</Link>

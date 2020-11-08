@@ -83,7 +83,13 @@ const adaptReviewToClient = (serverReview) => {
   };
 };
 
+const adaptReviewsToClient = (serverReviews) => {
+  return serverReviews
+    .map(adaptReviewToClient)
+    .sort((i, j) => new Date(j.date) - new Date(i.date));
+};
+
 export {
   adaptOfferToClient,
-  adaptReviewToClient,
+  adaptReviewsToClient,
 };
