@@ -1,5 +1,11 @@
 import React from "react";
-import {isSelectKeyDown, isControlKeyDown, isEscKeyDown, getNextArrayElement, getPrevArrayElement} from "../../util";
+import {
+  isSelectKeyDown,
+  isControlKeyDown,
+  isEscKeyDown,
+  getNextArrayElement,
+  getPreviousArrayElement
+} from "../../util";
 import {SortType, Key} from "../../const";
 import {boolType, functionType, sortType} from "../../types";
 
@@ -113,7 +119,7 @@ class PlacesSorting extends React.PureComponent {
       evt.preventDefault();
 
       if (evt.key === Key.UP || evt.key === Key.TAB && this._shiftPressed) {
-        getPrevArrayElement(indexRef, this._sortTypeRefs).current.focus();
+        getPreviousArrayElement(indexRef, this._sortTypeRefs).current.focus();
       } else if (evt.key === Key.DOWN || evt.key === Key.TAB) {
         getNextArrayElement(indexRef, this._sortTypeRefs).current.focus();
       }

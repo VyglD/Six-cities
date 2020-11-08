@@ -30,14 +30,14 @@ class ReviewForm extends React.PureComponent {
     // Кнопка деактивируется после установки, а не при помощи передачи props disabled,
     // так как при передаче props disabled перестаёт вызываться метод onClick кнопки
     // даже после её активации
-    this._togпleSubmitButton(false);
+    this._toggleSubmitButton(false);
   }
 
   _showServerError() {
     this._reviewRef.current.setCustomValidity(SERVER_ERROR);
     this._reviewRef.current.reportValidity();
 
-    this._togпleSubmitButton(true);
+    this._toggleSubmitButton(true);
   }
 
   _clearForm() {
@@ -46,7 +46,7 @@ class ReviewForm extends React.PureComponent {
 
     this._reviewRef.current.setCustomValidity(``);
 
-    this._togпleSubmitButton(false);
+    this._toggleSubmitButton(false);
   }
 
   _isReviewFieldValidity() {
@@ -65,12 +65,12 @@ class ReviewForm extends React.PureComponent {
     return this._isReviewFieldValidity() && this._isRatingFieldValidity();
   }
 
-  _togпleSubmitButton(enabled) {
+  _toggleSubmitButton(enabled) {
     this._submitRef.current.disabled = !enabled;
   }
 
   _handleFieldChange() {
-    this._togпleSubmitButton(this._isFormValidity());
+    this._toggleSubmitButton(this._isFormValidity());
   }
 
   _hundleSubmitButtonClick() {
@@ -83,7 +83,7 @@ class ReviewForm extends React.PureComponent {
 
       evt.preventDefault();
 
-      this._togпleSubmitButton(false);
+      this._toggleSubmitButton(false);
 
       postNewReview(
           {

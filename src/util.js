@@ -34,11 +34,11 @@ const isEscKeyDown = (evtKey) => {
   return evtKey === Key.ESC;
 };
 
-const getNextArrayElement = function (currentIndex, arr) {
+const getNextArrayElement = (currentIndex, arr) => {
   return arr[(currentIndex + 1) % arr.length];
 };
 
-const getPrevArrayElement = function (currentIndex, arr) {
+const getPreviousArrayElement = (currentIndex, arr) => {
   return arr[(currentIndex + (arr.length - 1)) % arr.length];
 };
 
@@ -52,5 +52,5 @@ export {
   isControlKeyDown,
   isEscKeyDown,
   getNextArrayElement,
-  getPrevArrayElement,
+  getPreviousArrayElement,
 };
