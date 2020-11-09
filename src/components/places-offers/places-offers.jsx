@@ -24,7 +24,6 @@ const PlacesOffers = (props) => {
         onActiveSortChange={onActiveSortChange}
       />
       <OffersListMain
-        activeCity={activeCity}
         activeSort={activeSort}
         offers={offers}
         onActiveCardChange={onActiveCardChange}
