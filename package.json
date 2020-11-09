@@ -24,6 +24,7 @@
     "eslint-plugin-react": "7.18.3",
     "file-loader": "6.1.1",
     "jest": "25.1.0",
+    "jest-css-modules": "2.1.0",
     "moment-locales-webpack-plugin": "1.2.0",
     "react-display-name": "0.2.5",
     "react-test-renderer": "16.12.0",
