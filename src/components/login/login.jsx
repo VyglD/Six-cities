@@ -5,7 +5,7 @@ import LoginForm from "../login-form/login-form";
 import LocationsLink from "../locations-link/locations-link";
 import ActionCreator from "../../store/root-actions";
 import {AMSTERDAM, Path} from "../../const";
-import {cityNameType, functionType} from "../../types";
+import {functionType} from "../../types";
 
 class Login extends React.PureComponent {
   constructor(props) {
@@ -21,8 +21,6 @@ class Login extends React.PureComponent {
   }
 
   render() {
-    const {activeCity} = this.props;
-
     return (
       <div className="page page--gray page--login">
         <Header />
@@ -37,7 +35,7 @@ class Login extends React.PureComponent {
               <div className="locations__item">
                 <LocationsLink
                   city={AMSTERDAM}
-                  activeCity={activeCity}
+                  activeCity={AMSTERDAM}
                   onCityClick={this._handleAmsterdamClick}
                 />
               </div>
@@ -50,13 +48,8 @@ class Login extends React.PureComponent {
 }
 
 Login.propTypes = {
-  activeCity: cityNameType,
   showAmsterdamOffers: functionType,
 };
-
-const mapStateToProps = (state) => ({
-  activeCity: state.CITY.activeCity,
-});
 
 const mapDispatchToProps = (dispatch) => ({
   showAmsterdamOffers() {
@@ -66,4 +59,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {Login};
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
