@@ -159,6 +159,15 @@ const mockOffers = [
 
 const mockOffersFavoriteIds = [`1`, `2`];
 
+const mockReview = {
+  id: `1`,
+  name: `Bob`,
+  photo: `img/photo`,
+  rate: 3,
+  date: new Date(0),
+  text: `comment`,
+};
+
 const mockFunction = () => {};
 
 const mockEvent = {
@@ -181,6 +190,7 @@ export {
   SortType,
   mockOffers,
   mockOffersFavoriteIds,
+  mockReview,
   mockFunction,
   mockEvent,
   mockEscKeyEvent,
