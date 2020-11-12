@@ -5,7 +5,7 @@ import {LoginForm} from "./login-form";
 
 configure({adapter: new Adapter()});
 
-it(`Checking correction of submit data`, () => {
+it(`Checking correction of submit data in LoginForm`, () => {
   const handleSumbitForm = jest.fn();
 
   const wrapper = mount(

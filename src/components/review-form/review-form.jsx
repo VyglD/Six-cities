@@ -73,8 +73,12 @@ class ReviewForm extends React.PureComponent {
     this._toggleSubmitButton(this._isFormValidity());
   }
 
-  _hundleSubmitButtonClick() {
+  _hundleSubmitButtonClick(evt) {
+    evt.preventDefault();
+
     this._reviewRef.current.setCustomValidity(``);
+
+    this._handleNewReviewSubmit(evt);
   }
 
   _handleNewReviewSubmit(evt) {
