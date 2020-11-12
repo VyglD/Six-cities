@@ -3,7 +3,6 @@ import {Provider} from 'react-redux';
 import {MemoryRouter} from "react-router-dom";
 import renderer from "react-test-renderer";
 import {Header} from "./header";
-import {} from "../../mocks/mock-data";
 import {mockStore} from "../../mocks/mock-store";
 
 describe(`Render correctly component Header`, () => {
