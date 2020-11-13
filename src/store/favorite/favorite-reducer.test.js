@@ -49,5 +49,4 @@ describe(`Checking favorite reducer`, () => {
       favoriteIds: [`1`, `2`, `3`],
     });
   });
-
 });
