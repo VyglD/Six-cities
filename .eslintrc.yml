@@ -4,7 +4,11 @@ env:
   commonjs: true
   jest: true
 
-extends: ['htmlacademy/es6', 'plugin:react/recommended']
+extends: [
+  'htmlacademy/es6',
+  'plugin:react/recommended',
+  'plugin:react-hooks/recommended'
+]
 
 parserOptions:
   ecmaFeatures:
@@ -12,7 +16,11 @@ parserOptions:
   ecmaVersion: 6
   sourceType: module
 
-plugins: ['react']
+plugins: ['react', 'react-hooks']
+
+rules:
+  "react-hooks/rules-of-hooks": error
+  "react-hooks/exhaustive-deps": warn
 
 settings:
   react:
