@@ -2,7 +2,7 @@ import React from "react";
 import {Provider} from 'react-redux';
 import {MemoryRouter} from "react-router-dom";
 import renderer from "react-test-renderer";
-import {PlacesOffers} from "./places-offers";
+import PlacesOffers from "./places-offers";
 import {mockFunction, mockOffers, activeCity, SortType} from "../../mocks/mock-data";
 import {mockStore} from "../../mocks/mock-store";
 
