@@ -8,7 +8,7 @@ const withActiveItem = (
       initialActiveItem = null,
       activeItemName = `activeItem`,
       onItemChangeName = `onItemChange`,
-    }
+    } = {}
 ) => {
   class WithActiveItem extends React.PureComponent {
     constructor(props) {

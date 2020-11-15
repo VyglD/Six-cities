@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render correctly component RestrictiveRoute Render RestrictiveRoute with access 1`] = `null`;
+
+exports[`Render correctly component RestrictiveRoute Render RestrictiveRoute without access 1`] = `null`;

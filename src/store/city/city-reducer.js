@@ -3,7 +3,7 @@ import {ActionType} from "./city-actions";
 import {CITIES} from "../../const";
 
 const initialState = {
-  activeCity: CITIES[1],
+  activeCity: CITIES[0],
 };
 
 const reducer = (state = initialState, action) => {

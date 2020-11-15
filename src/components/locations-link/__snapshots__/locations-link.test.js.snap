@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render correctly component LocationsLink Render LocationsLink 1`] = `
+<a
+  className="locations__item-link
+          
+          "
+  href="#"
+  onClick={[Function]}
+>
+  <span>
+    Amsterdam
+  </span>
+</a>
+`;
+
+exports[`Render correctly component LocationsLink Render LocationsLink with activeCity 1`] = `
+<a
+  className="locations__item-link
+          
+          tabs__item--active"
+  href="#"
+  onClick={[Function]}
+>
+  <span>
+    Paris
+  </span>
+</a>
+`;
+
+exports[`Render correctly component LocationsLink Render LocationsLink with activeCity and cusomClass 1`] = `
+<a
+  className="locations__item-link
+          tabs__item
+          tabs__item--active"
+  href="#"
+  onClick={[Function]}
+>
+  <span>
+    Paris
+  </span>
+</a>
+`;
+
+exports[`Render correctly component LocationsLink Render LocationsLink with cusomClass 1`] = `
+<a
+  className="locations__item-link
+          tabs__item
+          "
+  href="#"
+  onClick={[Function]}
+>
+  <span>
+    Amsterdam
+  </span>
+</a>
+`;

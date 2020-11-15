@@ -1,7 +1,7 @@
 import React from "react";
 import OffersList from "../offers-list/offers-list";
 import {SortType} from "../../const";
-import {cityNameType, sortType, offersType, functionType} from "../../types";
+import {sortType, offersType, functionType} from "../../types";
 
 const CARD_STYLE = {
   article: `cities__place-card`,
@@ -29,7 +29,6 @@ const OffersListMain = (props) => {
 
 OffersListMain.propTypes = {
   offers: offersType,
-  activeCity: cityNameType,
   activeSort: sortType,
   onActiveCardChange: functionType,
 };

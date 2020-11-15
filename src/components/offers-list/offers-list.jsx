@@ -1,9 +1,14 @@
 import React from "react";
 import OfferCard from "../offer-card/offer-card";
-import {offersType, stringType} from "../../types";
+import {
+  cardStyleType,
+  notRequiredFunctionType,
+  offersType,
+  stringType
+} from "../../types";
 
 const OffersList = (props) => {
-  const {className, offers} = props;
+  const {className, offers, onActiveCardChange, cardStyle} = props;
 
   return (
     <div className={className}>
@@ -11,7 +16,8 @@ const OffersList = (props) => {
         <OfferCard
           key={offer.id}
           offer={offer}
-          {...props}
+          cardStyle={cardStyle}
+          onActiveCardChange={onActiveCardChange}
         />
       ))}
     </div>
@@ -21,6 +27,8 @@ const OffersList = (props) => {
 OffersList.propTypes = {
   offers: offersType,
   className: stringType,
+  cardStyle: cardStyleType,
+  onActiveCardChange: notRequiredFunctionType
 };
 
 export default OffersList;
