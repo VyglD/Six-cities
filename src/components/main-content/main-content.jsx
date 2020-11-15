@@ -10,49 +10,47 @@ import {
   mapType,
 } from "../../types";
 
-class MainContent extends React.PureComponent {
-  constructor(props) {
-    super(props);
+const MainContent = (props) => {
+  const {offersByCities, activeCity, onActiveCityChange} = props;
 
-    this._handleChangeActiveCity = this._handleChangeActiveCity.bind(this);
-  }
+  const handleChangeActiveCity = React.useCallback(
+      (evt) => {
+        const newCity = evt.target.textContent;
 
-  _handleChangeActiveCity(evt) {
-    const newCity = evt.target.textContent;
+        evt.preventDefault();
 
-    evt.preventDefault();
+        onActiveCityChange(newCity);
+      },
+      [onActiveCityChange]
+  );
 
-    this.props.onActiveCityChange(newCity);
-  }
+  const offers = React.useMemo(
+      () => offersByCities.get(activeCity),
+      [offersByCities, activeCity]
+  );
 
-  render() {
-    const {offersByCities, activeCity} = this.props;
-
-    const offers = offersByCities.get(activeCity);
-
-    return (
-      <main
-        className={
-          `page__main page__main--index ${
-            offers.length === 0 && `page__main--index-empty`
-          }`
-        }
-      >
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <LocationsList
-            activeCity={activeCity}
-            onActiveCityChange={this._handleChangeActiveCity}
-          />
-        </div>
-        <Places
+  return (
+    <main
+      className={
+        `page__main page__main--index ${
+          offers.length === 0 && `page__main--index-empty`
+        }`
+      }
+    >
+      <h1 className="visually-hidden">Cities</h1>
+      <div className="tabs">
+        <LocationsList
           activeCity={activeCity}
-          offers={offers}
+          onActiveCityChange={handleChangeActiveCity}
         />
-      </main>
-    );
-  }
-}
+      </div>
+      <Places
+        activeCity={activeCity}
+        offers={offers}
+      />
+    </main>
+  );
+};
 
 MainContent.propTypes = {
   activeCity: cityNameType,
