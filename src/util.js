@@ -30,8 +30,8 @@ const isControlKeyDown = (evt) => {
   return evt.key === Key.TAB || evt.key === Key.UP || evt.key === Key.DOWN;
 };
 
-const isEscKeyDown = (evtKey) => {
-  return evtKey === Key.ESC;
+const isEscKeyDown = (evt) => {
+  return evt.key === Key.ESC;
 };
 
 const getNextArrayElement = (currentIndex, arr) => {
