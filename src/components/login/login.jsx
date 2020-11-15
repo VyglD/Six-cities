@@ -7,45 +7,42 @@ import ActionCreator from "../../store/root-actions";
 import {AMSTERDAM, Path} from "../../const";
 import {functionType} from "../../types";
 
-class Login extends React.PureComponent {
-  constructor(props) {
-    super(props);
+const Login = (props) => {
+  const {showAmsterdamOffers} = props;
 
-    this._handleAmsterdamClick = this._handleAmsterdamClick.bind(this);
-  }
+  const handleAmsterdamClick = React.useCallback(
+      (evt) => {
+        evt.preventDefault();
 
-  _handleAmsterdamClick(evt) {
-    evt.preventDefault();
+        showAmsterdamOffers();
+      },
+      [showAmsterdamOffers]
+  );
 
-    this.props.showAmsterdamOffers();
-  }
+  return (
+    <div className="page page--gray page--login">
+      <Header />
 
-  render() {
-    return (
-      <div className="page page--gray page--login">
-        <Header />
-
-        <main className="page__main page__main--login">
-          <div className="page__login-container container">
-            <section className="login">
-              <h1 className="login__title">Sign in</h1>
-              <LoginForm />
-            </section>
-            <section className="locations locations--login locations--current">
-              <div className="locations__item">
-                <LocationsLink
-                  city={AMSTERDAM}
-                  activeCity={AMSTERDAM}
-                  onCityClick={this._handleAmsterdamClick}
-                />
-              </div>
-            </section>
-          </div>
-        </main>
-      </div>
-    );
-  }
-}
+      <main className="page__main page__main--login">
+        <div className="page__login-container container">
+          <section className="login">
+            <h1 className="login__title">Sign in</h1>
+            <LoginForm />
+          </section>
+          <section className="locations locations--login locations--current">
+            <div className="locations__item">
+              <LocationsLink
+                city={AMSTERDAM}
+                activeCity={AMSTERDAM}
+                onCityClick={handleAmsterdamClick}
+              />
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+};
 
 Login.propTypes = {
   showAmsterdamOffers: functionType,
