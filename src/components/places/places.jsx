@@ -2,12 +2,11 @@ import React from "react";
 import PlacesEmpty from "../places-empty/places-empty";
 import PlacesOffers from "../places-offers/places-offers";
 import Map from "../map/map";
-import {cityNameType, functionType, notRequiredOfferType, offersType} from "../../types";
-
-import withActiveItem from "../../hocs/with-active-item/with-active-item";
+import {cityNameType, offersType} from "../../types";
 
 const Places = (props) => {
-  const {offers, activeCity, activeOffer, onActiveCardChange} = props;
+  const {offers, activeCity} = props;
+  const [activeOffer, setActiveOffer] = React.useState();
 
   const emptyTriger = offers.length === 0;
 
@@ -23,7 +22,7 @@ const Places = (props) => {
               <PlacesOffers
                 offers={offers}
                 activeCity={activeCity}
-                onActiveCardChange={onActiveCardChange}
+                onActiveCardChange={setActiveOffer}
               />
               <div className="cities__right-section">
                 <section className="cities__map map">
@@ -36,7 +35,6 @@ const Places = (props) => {
               </div>
             </div>
           )
-
       }
     </div>
   );
@@ -45,15 +43,6 @@ const Places = (props) => {
 Places.propTypes = {
   offers: offersType,
   activeCity: cityNameType,
-  activeOffer: notRequiredOfferType,
-  onActiveCardChange: functionType,
 };
 
-export {Places};
-export default withActiveItem(
-    Places,
-    {
-      activeItemName: `activeOffer`,
-      onItemChangeName: `onActiveCardChange`,
-    }
-);
+export default Places;
