@@ -86,8 +86,11 @@ exports[`Render correctly component Favorites Render Favorites 1`] = `
                 className="locations__item"
               >
                 <a
-                  className="locations__item-link"
+                  className="locations__item-link
+          
+          tabs__item--active"
                   href="#"
+                  onClick={[Function]}
                 >
                   <span>
                     Paris
@@ -421,8 +424,11 @@ exports[`Render correctly component Favorites Render Favorites without favorites
                 className="locations__item"
               >
                 <a
-                  className="locations__item-link"
+                  className="locations__item-link
+          
+          tabs__item--active"
                   href="#"
+                  onClick={[Function]}
                 >
                   <span>
                     Paris

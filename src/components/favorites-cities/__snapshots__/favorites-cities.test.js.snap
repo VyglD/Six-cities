@@ -14,8 +14,11 @@ exports[`Render correctly component FavoritesCities 1`] = `
         className="locations__item"
       >
         <a
-          className="locations__item-link"
+          className="locations__item-link
+          
+          tabs__item--active"
           href="#"
+          onClick={[Function]}
         >
           <span>
             Paris
