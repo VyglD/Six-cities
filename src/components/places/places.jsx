@@ -1,7 +1,7 @@
 import React from "react";
 import PlacesEmpty from "../places-empty/places-empty";
 import PlacesOffers from "../places-offers/places-offers";
-import Map from "../map/map";
+import ContainerMap from "../container-map/container-map";
 import {cityNameType, offersType} from "../../types";
 
 const Places = (props) => {
@@ -26,7 +26,7 @@ const Places = (props) => {
               />
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map
+                  <ContainerMap
                     offers={offers}
                     activeCity={activeCity}
                     activeOffer={activeOffer}

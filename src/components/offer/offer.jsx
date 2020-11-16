@@ -5,7 +5,7 @@ import FavoriteButton from "../favorite-button/favorite-button";
 import Stars from "../stars/stars";
 import ReviewsList from "../reviews-list/reviews-list";
 import ReviewForm from "../review-form/review-form";
-import Map from "../map/map";
+import ContainerMap from "../container-map/container-map";
 import OffersListNear from "../offers-list-near/offers-list-near";
 import {MAX_NEAR_OFFERS, MAX_OFFER_PHOTO} from "../../const";
 import {
@@ -174,7 +174,7 @@ const Offer = (props) => {
             </div>
           </div>
           <section className="property__map map">
-            <Map
+            <ContainerMap
               offers={nearOffers}
               activeOffer={chosenOffer}
               activeCity={chosenOffer.city}

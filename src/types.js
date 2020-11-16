@@ -91,6 +91,10 @@ const sortType = PropTypes.oneOf(
 
 const pathType = PropTypes.oneOf(Object.values(Path)).isRequired;
 
+const styleType = PropTypes.shape({
+  height: notRequiredStringType,
+});
+
 export {
   anyType,
   notRequiredStringType,
@@ -115,4 +119,5 @@ export {
   favoriteBtnStyleType,
   sortType,
   pathType,
+  styleType,
 };
