@@ -2,20 +2,24 @@ import React from "react";
 import {Provider} from 'react-redux';
 import {MemoryRouter} from "react-router-dom";
 import renderer from "react-test-renderer";
-import PlacesOffers from "./places-offers";
-import {mockFunction, mockOffers, activeCity, SortType} from "../../mocks/mock-data";
+import ContainerMap from "./container-map";
+import {mockOffers, activeCity} from "../../mocks/mock-data";
 import {mockStore} from "../../mocks/mock-store";
 
-it(`Render correctly component PlacesOffers`, () => {
+it(`Render correctly component ContainerMap`, () => {
+  const div = document.createElement(`div`);
+  div.id = `map`;
+  document.body.appendChild(div);
+
   const component = renderer.create(
       <Provider store={mockStore}>
         <MemoryRouter>
-          <PlacesOffers
+          <ContainerMap
+            id={`id`}
+            style={{}}
             offers={mockOffers}
+            activeOffer={mockOffers[0]}
             activeCity={activeCity}
-            activeSort={SortType.DEFAULT.value}
-            onActiveSortChange={mockFunction}
-            onActiveCardChange={mockFunction}
           />
         </MemoryRouter>
       </Provider>

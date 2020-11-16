@@ -1,17 +1,28 @@
 import React from "react";
 import {connect} from "react-redux";
+import LocationsLink from "../locations-link/locations-link";
 import OffersListFavorite from "../offers-list-favorite/offers-list-favorite";
+import ActionCreator from "../../store/root-actions";
 import {getFavoriteOffersByCities} from "../../store/selectors";
+import {Path} from "../../const";
 import {
-  offersType,
-  offerIdsType,
   mapType,
+  functionType,
 } from "../../types";
 
 const FavoritesCities = (props) => {
   const {
     favoriteOffersByCities,
+    showCityOffers,
   } = props;
+
+  const handleCityClick = React.useCallback(
+      (evt) => {
+        showCityOffers(evt.target.textContent);
+      },
+      [showCityOffers]
+  );
+
 
   return (
     <ul className="favorites__list">
@@ -20,9 +31,11 @@ const FavoritesCities = (props) => {
           <li className="favorites__locations-items" key={city}>
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#">
-                  <span>{city}</span>
-                </a>
+                <LocationsLink
+                  city={city}
+                  activeCity={city}
+                  onCityClick={handleCityClick}
+                />
               </div>
             </div>
             <OffersListFavorite
@@ -36,15 +49,20 @@ const FavoritesCities = (props) => {
 };
 
 FavoritesCities.propTypes = {
-  allOffers: offersType,
-  favoriteIds: offerIdsType,
   favoriteOffersByCities: mapType,
+  showCityOffers: functionType,
 };
 
 const mapStateToProps = (state) => ({
-  allOffers: state.OFFERS.allOffers,
   favoriteOffersByCities: getFavoriteOffersByCities(state),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  showCityOffers(city) {
+    dispatch(ActionCreator.changeCity(city));
+    dispatch(ActionCreator.redirectTo(Path.MAIN));
+  }
+});
+
 export {FavoritesCities};
-export default connect(mapStateToProps)(FavoritesCities);
+export default connect(mapStateToProps, mapDispatchToProps)(FavoritesCities);

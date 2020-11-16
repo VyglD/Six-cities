@@ -14,31 +14,36 @@ it(`Checking correction of submit data in LoginForm`, () => {
       />
   );
 
-  wrapper.instance()._emailFieldRef.current.value = ``;
-  wrapper.instance()._passwordFieldRef.current.value = ``;
+
+  const container = wrapper.find(`.login__form`).instance();
+  const emailField = container.querySelector(`[name=email]`);
+  const passwordField = container.querySelector(`[name=password]`);
+
+  emailField.value = ``;
+  passwordField.value = ``;
   wrapper.find(`.login__submit`).simulate(`click`);
   expect(handleSumbitForm).toHaveBeenCalledTimes(0);
 
-  wrapper.instance()._emailFieldRef.current.value = `randomValue`;
-  wrapper.instance()._passwordFieldRef.current.value = `randomValue`;
+  emailField.value = `randomValue`;
+  passwordField.value = `randomValue`;
   wrapper.find(`.login__submit`).simulate(`click`);
   expect(handleSumbitForm).toHaveBeenCalledTimes(0);
 
-  wrapper.instance()._emailFieldRef.current.value = `random@mail`;
+  emailField.value = `random@mail`;
   wrapper.find(`.login__submit`).simulate(`click`);
   expect(handleSumbitForm).toHaveBeenCalledTimes(0);
 
-  wrapper.instance()._emailFieldRef.current.value = `@mail.ru`;
+  emailField.value = `@mail.ru`;
   wrapper.find(`.login__submit`).simulate(`click`);
   expect(handleSumbitForm).toHaveBeenCalledTimes(0);
 
-  wrapper.instance()._emailFieldRef.current.value = `random@mail.ru`;
-  wrapper.instance()._passwordFieldRef.current.value = ``;
+  emailField.value = `random@mail.ru`;
+  passwordField.value = ``;
   wrapper.find(`.login__submit`).simulate(`click`);
   expect(handleSumbitForm).toHaveBeenCalledTimes(0);
 
-  wrapper.instance()._emailFieldRef.current.value = `random@mail.ru`;
-  wrapper.instance()._passwordFieldRef.current.value = `randomValue`;
+  emailField.value = `random@mail.ru`;
+  passwordField.value = `randomValue`;
   wrapper.find(`.login__submit`).simulate(`click`);
   expect(handleSumbitForm).toHaveBeenCalledTimes(1);
 });

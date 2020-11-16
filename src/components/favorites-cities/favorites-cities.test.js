@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import {MemoryRouter} from "react-router-dom";
 import renderer from "react-test-renderer";
 import {FavoritesCities} from "./favorites-cities";
-import {mockOffers, mockOffersFavoriteIds} from "../../mocks/mock-data";
+import {mockFunction, mockOffers, mockOffersFavoriteIds} from "../../mocks/mock-data";
 import {mockStore} from "../../mocks/mock-store";
 
 const getFavoriteOffersByCities = (offers, offersIds) => {
@@ -26,11 +26,10 @@ it(`Render correctly component FavoritesCities`, () => {
       <Provider store={mockStore}>
         <MemoryRouter>
           <FavoritesCities
-            allOffers={mockOffers}
-            favoriteIds={mockOffersFavoriteIds}
             favoriteOffersByCities={
               getFavoriteOffersByCities(mockOffers, mockOffersFavoriteIds)
             }
+            showCityOffers={mockFunction}
           />
         </MemoryRouter>
       </Provider>

@@ -9,115 +9,123 @@ const EMAIL_ERROR = `Email введен неправильно`;
 const PASSWORD_ERROR = `Пароль не введен`;
 const SERVER_ERROR = `Ошибка на сервере`;
 
-class LoginForm extends React.PureComponent {
-  constructor(props) {
-    super(props);
+const LoginForm = (props) => {
+  const {logIn} = props;
 
-    this._emailFieldRef = React.createRef();
-    this._passwordFieldRef = React.createRef();
+  const emailFieldRef = React.useRef();
+  const passwordFieldRef = React.useRef();
 
-    this._handleSubmitButtonClick = this._handleSubmitButtonClick.bind(this);
-    this._handleFieldValueChange = this._handleFieldValueChange.bind(this);
+  const showServerError = React.useCallback(
+      () => {
+        passwordFieldRef.current.setCustomValidity(SERVER_ERROR);
+        passwordFieldRef.current.reportValidity();
+      },
+      []
+  );
 
-    this._showServerError = this._showServerError.bind(this);
-  }
+  const isFieldValid = React.useCallback(
+      (field, condition, errorMessage) => {
+        if (condition) {
+          field.setCustomValidity(``);
+        } else {
+          field.setCustomValidity(errorMessage);
+        }
 
-  _isFieldValid(field, condition, errorMessage) {
-    if (condition) {
-      field.setCustomValidity(``);
-    } else {
-      field.setCustomValidity(errorMessage);
-    }
+        return condition;
+      },
+      []
+  );
 
-    return condition;
-  }
+  const isEmailValid = React.useCallback(
+      () => isFieldValid(
+          emailFieldRef.current,
+          EMAIL_REGEX.exec(emailFieldRef.current.value),
+          EMAIL_ERROR
+      ),
+      [isFieldValid]
+  );
 
-  _isEmailValid() {
-    return this._isFieldValid(
-        this._emailFieldRef.current,
-        EMAIL_REGEX.exec(this._emailFieldRef.current.value),
-        EMAIL_ERROR
-    );
-  }
+  const isPasswordValid = React.useCallback(
+      () => isFieldValid(
+          passwordFieldRef.current,
+          passwordFieldRef.current.value.length > 0,
+          PASSWORD_ERROR
+      ),
+      [isFieldValid]
+  );
 
-  _isPasswordValid() {
-    return this._isFieldValid(
-        this._passwordFieldRef.current,
-        this._passwordFieldRef.current.value.length > 0,
-        PASSWORD_ERROR
-    );
-  }
+  const isFormValid = React.useCallback(
+      () => {
+        return isEmailValid() && isPasswordValid();
+      },
+      [isEmailValid, isPasswordValid]
+  );
 
-  _isFormValid() {
-    return this._isEmailValid() && this._isPasswordValid();
-  }
+  const handleFieldValueChange = React.useCallback(
+      () => {
+        return isFormValid();
+      },
+      [isFormValid]
+  );
 
-  _showServerError() {
-    this._passwordFieldRef.current.setCustomValidity(SERVER_ERROR);
-    this._passwordFieldRef.current.reportValidity();
-  }
+  const handleSubmitButtonClick = React.useCallback(
+      (evt) => {
+        if (isFormValid()) {
+          evt.preventDefault();
 
-  _handleFieldValueChange() {
-    this._isFormValid();
-  }
+          logIn(
+              {
+                email: emailFieldRef.current.value,
+                password: passwordFieldRef.current.value,
+              },
+              showServerError
+          );
+        }
+      },
+      [logIn, isFormValid, showServerError]
+  );
 
-  _handleSubmitButtonClick(evt) {
-    if (this._isFormValid()) {
-      evt.preventDefault();
-
-      this.props.logIn(
-          {
-            email: this._emailFieldRef.current.value,
-            password: this._passwordFieldRef.current.value,
-          },
-          this._showServerError
-      );
-    }
-  }
-
-  render() {
-    return (
-      <form
-        className="login__form form"
-        action="#"
-        method="post"
+  return (
+    <form
+      className="login__form form"
+      action="#"
+      method="post"
+    >
+      <div className="login__input-wrapper form__input-wrapper">
+        <label className="visually-hidden">E-mail</label>
+        <input
+          className="login__input form__input"
+          type="email"
+          name="email"
+          placeholder="Email"
+          ref={emailFieldRef}
+          onChange={handleFieldValueChange}
+          required
+        />
+      </div>
+      <div className="login__input-wrapper form__input-wrapper">
+        <label className="visually-hidden">Password</label>
+        <input
+          className="login__input form__input"
+          type="password"
+          name="password"
+          placeholder="Password"
+          ref={passwordFieldRef}
+          onChange={handleFieldValueChange}
+          autoComplete="off"
+          required
+        />
+      </div>
+      <button
+        className="login__submit form__submit button"
+        type="submit"
+        onClick={handleSubmitButtonClick}
       >
-        <div className="login__input-wrapper form__input-wrapper">
-          <label className="visually-hidden">E-mail</label>
-          <input
-            className="login__input form__input"
-            type="email"
-            name="email"
-            placeholder="Email"
-            ref={this._emailFieldRef}
-            onChange={this._handleFieldValueChange}
-            required
-          />
-        </div>
-        <div className="login__input-wrapper form__input-wrapper">
-          <label className="visually-hidden">Password</label>
-          <input
-            className="login__input form__input"
-            type="password"
-            name="password"
-            placeholder="Password"
-            ref={this._passwordFieldRef}
-            onChange={this._handleFieldValueChange}
-            autoComplete="off"
-            required
-          />
-        </div>
-        <button
-          className="login__submit form__submit button"
-          type="submit"
-          onClick={this._handleSubmitButtonClick}
-        >
-          Sign in
-        </button>
-      </form>
-    );
-  }
-}
+        Sign in
+      </button>
+    </form>
+  );
+};
 
 LoginForm.propTypes = {
   logIn: functionType,

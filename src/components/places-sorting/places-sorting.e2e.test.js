@@ -1,7 +1,8 @@
 import React from "react";
-import {configure, shallow, mount} from "enzyme";
+import {act} from "react-dom/test-utils";
+import {configure, mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import {PlacesSorting} from "./places-sorting";
+import PlacesSorting from "./places-sorting";
 import {
   mockFunction,
   Key,
@@ -19,34 +20,11 @@ const SORT_TYPE_CLASS = `places__option`;
 const SORT_TYPE_FOCUS_CLASS = `places__option--focus`;
 
 describe(`Toggling visibility menu of PlacesSorting`, () => {
-  it(`Click on toggleMenuButton calls callback`, () => {
-    const handleSortPanelClick = jest.fn();
-    const wrapper = shallow(
-        <PlacesSorting
-          activeSort={SortType.DEFAULT.value}
-          onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleSortPanelClick}
-        />
-    );
-
-    wrapper.find(`.${TOGGLE_MENU_BUTTON_CLASS}`).simulate(`click`);
-    expect(handleSortPanelClick).toHaveBeenCalledTimes(1);
-
-    wrapper.find(`.${TOGGLE_MENU_BUTTON_CLASS}`).simulate(`click`);
-    expect(handleSortPanelClick).toHaveBeenCalledTimes(2);
-  });
-
   it(`Opening and closing menu by click`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -63,15 +41,10 @@ describe(`Toggling visibility menu of PlacesSorting`, () => {
   });
 
   it(`Opening and closing menu by Enter`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -88,15 +61,10 @@ describe(`Toggling visibility menu of PlacesSorting`, () => {
   });
 
   it(`Opening and closing menu by Space`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -117,15 +85,10 @@ describe(`Toggling visibility menu of PlacesSorting`, () => {
     document.addEventListener = jest.fn((event, callback) => {
       map[event] = callback;
     });
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -141,7 +104,10 @@ describe(`Toggling visibility menu of PlacesSorting`, () => {
     // то для вызова событий, прекрепленных к document метод simulate заменен
     // на вызов заглушки addEventListener
     // https://github.com/enzymejs/enzyme/issues/426
-    map.keydown(mockEscKeyEvent);
+    act(() => {
+      map.keydown(mockEscKeyEvent);
+    });
+    wrapper.update();
     expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
       .toBe(false);
   });
@@ -151,15 +117,10 @@ describe(`Toggling visibility menu of PlacesSorting`, () => {
     document.addEventListener = jest.fn((event, callback) => {
       map[event] = callback;
     });
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -170,11 +131,17 @@ describe(`Toggling visibility menu of PlacesSorting`, () => {
     expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
       .toBe(true);
 
-    map.mousedown(Object.assign({}, mockEvent, {target: {closest: () => true}}));
+    act(() => {
+      map.mousedown(Object.assign({}, mockEvent, {target: {closest: () => true}}));
+    });
+    wrapper.update();
     expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
       .toBe(true);
 
-    map.mousedown(Object.assign({}, mockEvent, {target: {closest: () => false}}));
+    act(() => {
+      map.mousedown(Object.assign({}, mockEvent, {target: {closest: () => false}}));
+    });
+    wrapper.update();
     expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
       .toBe(false);
   });
@@ -182,19 +149,18 @@ describe(`Toggling visibility menu of PlacesSorting`, () => {
 
 describe(`Selecting new SortType`, () => {
   it(`Select new SortType by click`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const handleSortTypeSelect = jest.fn();
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={handleSortTypeSelect}
-          isMenuOpened={true}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
+    expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
+      .toBe(false);
+
+    wrapper.find(`.${TOGGLE_MENU_BUTTON_CLASS}`).simulate(`click`);
     expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
       .toBe(true);
 
@@ -207,9 +173,6 @@ describe(`Selecting new SortType`, () => {
   });
 
   it(`Changing SortType after click on menu item`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const handleSortTypeSelect = (newSortType) => {
       wrapper.setProps({activeSort: newSortType});
     };
@@ -217,11 +180,13 @@ describe(`Selecting new SortType`, () => {
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={handleSortTypeSelect}
-          isMenuOpened={true}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
+    expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
+      .toBe(false);
+
+    wrapper.find(`.${TOGGLE_MENU_BUTTON_CLASS}`).simulate(`click`);
     expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
       .toBe(true);
 
@@ -234,9 +199,6 @@ describe(`Selecting new SortType`, () => {
   });
 
   it(`Changing SortType after press Enter on menu item`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const handleSortTypeSelect = (newSortType) => {
       wrapper.setProps({activeSort: newSortType});
     };
@@ -244,11 +206,13 @@ describe(`Selecting new SortType`, () => {
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={handleSortTypeSelect}
-          isMenuOpened={true}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
+    expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
+      .toBe(false);
+
+    wrapper.find(`.${TOGGLE_MENU_BUTTON_CLASS}`).simulate(`click`);
     expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
       .toBe(true);
 
@@ -261,9 +225,6 @@ describe(`Selecting new SortType`, () => {
   });
 
   it(`Changing SortType after press Space on menu item`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const handleSortTypeSelect = (newSortType) => {
       wrapper.setProps({activeSort: newSortType});
     };
@@ -271,11 +232,13 @@ describe(`Selecting new SortType`, () => {
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={handleSortTypeSelect}
-          isMenuOpened={true}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
+    expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
+      .toBe(false);
+
+    wrapper.find(`.${TOGGLE_MENU_BUTTON_CLASS}`).simulate(`click`);
     expect(wrapper.find(`.${MENU_CLASS}`).hasClass(MENU_OPENED_CLASS))
       .toBe(true);
 
@@ -290,15 +253,10 @@ describe(`Selecting new SortType`, () => {
 
 describe(`Checking focus`, () => {
   it(`Checking focus element after open menu`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -324,15 +282,10 @@ describe(`Checking focus`, () => {
   });
 
   it(`Focus on next SortType by arrow down`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -355,15 +308,10 @@ describe(`Checking focus`, () => {
   });
 
   it(`Focus on previous SortType by arrow up`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -386,15 +334,10 @@ describe(`Checking focus`, () => {
   });
 
   it(`Focus on next SortType by Tab`, () => {
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -421,15 +364,10 @@ describe(`Checking focus`, () => {
     document.addEventListener = jest.fn((event, callback) => {
       map[event] = callback;
     });
-    const handleMenuButtonToggle = (isOpen) => {
-      wrapper.setProps({isMenuOpened: isOpen});
-    };
     const wrapper = mount(
         <PlacesSorting
           activeSort={SortType.DEFAULT.value}
           onActiveSortChange={mockFunction}
-          isMenuOpened={false}
-          onMenuVisibilityChange={handleMenuButtonToggle}
         />
     );
 
@@ -449,7 +387,10 @@ describe(`Checking focus`, () => {
 
     currentFocusItem.simulate(`keydown`, {key: Key.SHIFT});
     currentFocusItem.simulate(`keydown`, {key: Key.TAB});
-    map.keyup(Object.assign({}, mockEvent, {key: Key.SHIFT}));
+    act(() => {
+      map.keyup(Object.assign({}, mockEvent, {key: Key.SHIFT}));
+    });
+    wrapper.update();
 
     expect(currentFocusItem.instance().focus).toHaveBeenCalledTimes(1);
     expect(previousFocusItem.instance().focus).toHaveBeenCalledTimes(1);

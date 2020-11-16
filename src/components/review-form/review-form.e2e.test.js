@@ -16,7 +16,7 @@ it(`Checking correction of submit data in ReviewForm`, () => {
       />
   );
 
-  const textAreaField = wrapper.instance()._reviewRef.current;
+  const textAreaField = wrapper.find(`.reviews__textarea`).instance();
   const ratingFields = wrapper.find(`.form__rating-input`);
   const sumbitButton = wrapper.find(`.reviews__submit`);
 
