@@ -14,36 +14,18 @@ const CARD_STYLE = {
   info: `favorites__card-info`,
 };
 
-describe(`Render correctly component OfferCard`, () => {
-  it(`Render OfferCard`, () => {
-    const component = renderer.create(
-        <Provider store={mockStore}>
-          <MemoryRouter>
-            <OfferCard
-              offer={mockOffers[0]}
-              onActiveCardChange={mockFunction}
-              cardStyle={{}}
-            />
-          </MemoryRouter>
-        </Provider>
-    ).toJSON();
+it(`Render correctly component OfferCard`, () => {
+  const component = renderer.create(
+      <Provider store={mockStore}>
+        <MemoryRouter>
+          <OfferCard
+            offer={mockOffers[0]}
+            onActiveCardChange={mockFunction}
+            cardStyle={CARD_STYLE}
+          />
+        </MemoryRouter>
+      </Provider>
+  ).toJSON();
 
-    expect(component).toMatchSnapshot();
-  });
-
-  it(`Render OfferCard with cardStyle`, () => {
-    const component = renderer.create(
-        <Provider store={mockStore}>
-          <MemoryRouter>
-            <OfferCard
-              offer={mockOffers[0]}
-              onActiveCardChange={mockFunction}
-              cardStyle={CARD_STYLE}
-            />
-          </MemoryRouter>
-        </Provider>
-    ).toJSON();
-
-    expect(component).toMatchSnapshot();
-  });
+  expect(component).toMatchSnapshot();
 });

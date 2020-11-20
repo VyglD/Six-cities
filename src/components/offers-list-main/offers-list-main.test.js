@@ -9,6 +9,9 @@ import {mockStore} from "../../mocks/mock-store";
 const CARD_STYLE = {
   article: `cities__place-card`,
   imgWrapper: `cities__image-wrapper`,
+  imgWidth: 260,
+  imgHeight: 200,
+  info: ``,
 };
 
 describe(`Render correctly component OffersList`, () => {

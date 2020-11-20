@@ -6,6 +6,14 @@ import {mockOffers, mockOffersFavoriteIds} from "../../mocks/mock-data";
 
 configure({adapter: new Adapter()});
 
+const FAVORITE_BTN_STYLE = {
+  btnClassName: `property__bookmark-button`,
+  btnActiveClassName: `property__bookmark-button--active`,
+  iconClassName: `property__bookmark-icon`,
+  iconWidth: 31,
+  iconHeight: 33,
+};
+
 describe(`Click on component calls callback`, () => {
   it(`Click calls addFavorite`, () => {
     const handleClickForAdd = jest.fn();
@@ -17,6 +25,7 @@ describe(`Click on component calls callback`, () => {
           favoriteIds={mockOffersFavoriteIds}
           addFavorite={handleClickForAdd}
           deleteFavorite={handleClickForDelete}
+          favoriteBtnStyle={FAVORITE_BTN_STYLE}
         />
     );
 
@@ -35,6 +44,7 @@ describe(`Click on component calls callback`, () => {
           favoriteIds={mockOffersFavoriteIds}
           addFavorite={handleClickForAdd}
           deleteFavorite={handleClickForDelete}
+          favoriteBtnStyle={FAVORITE_BTN_STYLE}
         />
     );
 
