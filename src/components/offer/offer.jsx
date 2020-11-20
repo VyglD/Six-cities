@@ -6,8 +6,14 @@ import Stars from "../stars/stars";
 import ReviewsList from "../reviews-list/reviews-list";
 import ReviewForm from "../review-form/review-form";
 import MapContainer from "../map-container/map-container";
-import OffersListNear from "../offers-list-near/offers-list-near";
-import {MAX_NEAR_OFFERS, MAX_OFFER_PHOTO} from "../../const";
+import OffersList from "../offers-list/offers-list";
+import {
+  MAX_NEAR_OFFERS,
+  MAX_OFFER_PHOTO,
+  MAX_REVIEWS,
+  OffersListProps,
+  FavoriteBtnStyle,
+} from "../../const";
 import {
   offersType,
   boolType,
@@ -16,14 +22,6 @@ import {
 } from "../../types";
 
 const STARS_CLASS = `property__stars`;
-
-const FAVORITE_BTN_STYLE = {
-  btnClassName: `property__bookmark-button`,
-  btnActiveClassName: `property__bookmark-button--active`,
-  iconClassName: `property__bookmark-icon`,
-  iconWidth: 31,
-  iconHeight: 33,
-};
 
 const Offer = (props) => {
   const {
@@ -90,7 +88,7 @@ const Offer = (props) => {
                   {chosenOffer.title}
                 </h1>
                 <FavoriteButton
-                  favoriteBtnStyle={FAVORITE_BTN_STYLE}
+                  favoriteBtnStyle={FavoriteBtnStyle.OFFER}
                   offer={chosenOffer}
                 />
               </div>
@@ -158,10 +156,12 @@ const Offer = (props) => {
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
+                  Reviews &middot; <span className="reviews__amount">
+                    {Math.min(reviews.length, MAX_REVIEWS)}
+                  </span>
                 </h2>
                 <ReviewsList
-                  reviews={reviews}
+                  reviews={reviews.slice(0, MAX_REVIEWS)}
                 />
                 {
                   isLogin && (
@@ -184,8 +184,10 @@ const Offer = (props) => {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersListNear
+            <OffersList
               offers={nearOffers.slice(0, MAX_NEAR_OFFERS)}
+              className={OffersListProps.NEAR.containerClass}
+              cardStyle={OffersListProps.NEAR.cardStyle}
             />
           </section>
         </div>

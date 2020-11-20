@@ -2,14 +2,14 @@
 
 exports[`Render correctly component FavoriteButton Render FavoriteButton 1`] = `
 <button
-  className="button place-card__bookmark-button "
+  className="button property__bookmark-button "
   onClick={[Function]}
   type="button"
 >
   <svg
-    className="place-card__bookmark-icon"
-    height={19}
-    width={18}
+    className="property__bookmark-icon"
+    height={33}
+    width={31}
   >
     <use
       xlinkHref="#icon-bookmark"
@@ -24,29 +24,6 @@ exports[`Render correctly component FavoriteButton Render FavoriteButton 1`] = `
 `;
 
 exports[`Render correctly component FavoriteButton Render FavoriteButton of favorite offer 1`] = `
-<button
-  className="button place-card__bookmark-button place-card__bookmark-button--active"
-  onClick={[Function]}
-  type="button"
->
-  <svg
-    className="place-card__bookmark-icon"
-    height={19}
-    width={18}
-  >
-    <use
-      xlinkHref="#icon-bookmark"
-    />
-  </svg>
-  <span
-    className="visually-hidden"
-  >
-    To bookmarks
-  </span>
-</button>
-`;
-
-exports[`Render correctly component FavoriteButton Render FavoriteButton with custom button style 1`] = `
 <button
   className="button property__bookmark-button property__bookmark-button--active"
   onClick={[Function]}

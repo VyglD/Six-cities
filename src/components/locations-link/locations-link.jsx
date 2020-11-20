@@ -18,6 +18,10 @@ const LocationsLink = (props) => {
   );
 };
 
+LocationsLink.defaultProps = {
+  customClass: ``,
+};
+
 LocationsLink.propTypes = {
   city: cityNameType,
   activeCity: cityNameType,
@@ -25,8 +29,5 @@ LocationsLink.propTypes = {
   customClass: notRequiredStringType,
 };
 
-LocationsLink.defaultProps = {
-  customClass: ``,
-};
 
 export default LocationsLink;

@@ -5,7 +5,7 @@ exports[`Render correctly component OffersList 1`] = `
   className="class"
 >
   <article
-    className="place-card "
+    className="place-card near-places__card"
     onBlur={[Function]}
     onFocus={[Function]}
     onMouseEnter={[Function]}
@@ -19,7 +19,7 @@ exports[`Render correctly component OffersList 1`] = `
       </span>
     </div>
     <div
-      className="place-card__image-wrapper "
+      className="place-card__image-wrapper near-places__image-wrapper"
     >
       <a
         href="/offer/1"
@@ -114,7 +114,7 @@ exports[`Render correctly component OffersList 1`] = `
     </div>
   </article>
   <article
-    className="place-card "
+    className="place-card near-places__card"
     onBlur={[Function]}
     onFocus={[Function]}
     onMouseEnter={[Function]}
@@ -122,7 +122,7 @@ exports[`Render correctly component OffersList 1`] = `
   >
     
     <div
-      className="place-card__image-wrapper "
+      className="place-card__image-wrapper near-places__image-wrapper"
     >
       <a
         href="/offer/2"
@@ -216,7 +216,7 @@ exports[`Render correctly component OffersList 1`] = `
     </div>
   </article>
   <article
-    className="place-card "
+    className="place-card near-places__card"
     onBlur={[Function]}
     onFocus={[Function]}
     onMouseEnter={[Function]}
@@ -230,7 +230,7 @@ exports[`Render correctly component OffersList 1`] = `
       </span>
     </div>
     <div
-      className="place-card__image-wrapper "
+      className="place-card__image-wrapper near-places__image-wrapper"
     >
       <a
         href="/offer/3"
@@ -325,7 +325,7 @@ exports[`Render correctly component OffersList 1`] = `
     </div>
   </article>
   <article
-    className="place-card "
+    className="place-card near-places__card"
     onBlur={[Function]}
     onFocus={[Function]}
     onMouseEnter={[Function]}
@@ -339,7 +339,7 @@ exports[`Render correctly component OffersList 1`] = `
       </span>
     </div>
     <div
-      className="place-card__image-wrapper "
+      className="place-card__image-wrapper near-places__image-wrapper"
     >
       <a
         href="/offer/4"

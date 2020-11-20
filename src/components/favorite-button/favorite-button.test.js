@@ -23,6 +23,7 @@ describe(`Render correctly component FavoriteButton`, () => {
           favoriteIds={mockOffersFavoriteIds}
           addFavorite={mockFunction}
           deleteFavorite={mockFunction}
+          favoriteBtnStyle={FAVORITE_BTN_STYLE}
         />
     ).toJSON();
 
@@ -30,19 +31,6 @@ describe(`Render correctly component FavoriteButton`, () => {
   });
 
   it(`Render FavoriteButton of favorite offer`, () => {
-    const component = renderer.create(
-        <FavoriteButton
-          offer={mockOffers[0]}
-          favoriteIds={mockOffersFavoriteIds}
-          addFavorite={mockFunction}
-          deleteFavorite={mockFunction}
-        />
-    ).toJSON();
-
-    expect(component).toMatchSnapshot();
-  });
-
-  it(`Render FavoriteButton with custom button style`, () => {
     const component = renderer.create(
         <FavoriteButton
           offer={mockOffers[0]}
