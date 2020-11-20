@@ -6,8 +6,13 @@ import Stars from "../stars/stars";
 import ReviewsList from "../reviews-list/reviews-list";
 import ReviewForm from "../review-form/review-form";
 import MapContainer from "../map-container/map-container";
-import OffersListNear from "../offers-list-near/offers-list-near";
-import {MAX_NEAR_OFFERS, MAX_OFFER_PHOTO, MAX_REVIEWS} from "../../const";
+import OffersList from "../offers-list/offers-list";
+import {
+  MAX_NEAR_OFFERS,
+  MAX_OFFER_PHOTO,
+  MAX_REVIEWS,
+  OffersListProps
+} from "../../const";
 import {
   offersType,
   boolType,
@@ -186,8 +191,10 @@ const Offer = (props) => {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersListNear
+            <OffersList
               offers={nearOffers.slice(0, MAX_NEAR_OFFERS)}
+              className={OffersListProps.NEAR.containerClass}
+              cardStyle={OffersListProps.NEAR.cardStyle}
             />
           </section>
         </div>

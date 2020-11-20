@@ -68,6 +68,39 @@ const SortType = {
   },
 };
 
+const OffersListProps = {
+  MAIN: {
+    containerClass: `cities__places-list places__list tabs__content`,
+    cardStyle: {
+      article: `cities__place-card`,
+      imgWrapper: `cities__image-wrapper`,
+      imgWidth: 260,
+      imgHeight: 200,
+      info: ``,
+    }
+  },
+  NEAR: {
+    containerClass: `near-places__list places__list`,
+    cardStyle: {
+      article: `near-places__card`,
+      imgWrapper: `near-places__image-wrapper`,
+      imgWidth: 260,
+      imgHeight: 200,
+      info: ``,
+    }
+  },
+  FAVORITE: {
+    containerClass: `favorites__places`,
+    cardStyle: {
+      article: `favorites__card`,
+      imgWrapper: `favorites__image-wrapper`,
+      imgWidth: 150,
+      imgHeight: 110,
+      info: `favorites__card-info`,
+    }
+  }
+};
+
 export {
   MAX_RATE,
   RATE_COEFFICIENT,
@@ -81,4 +114,5 @@ export {
   Path,
   APIRoute,
   SortType,
+  OffersListProps,
 };

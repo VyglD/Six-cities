@@ -19,11 +19,11 @@ const OfferCard = (props) => {
   } = props;
 
   const {
-    article = ``,
-    imgWrapper = ``,
-    imgWidth = 260,
-    imgHeight = 200,
-    info = ``,
+    article,
+    imgWrapper,
+    imgWidth,
+    imgHeight,
+    info,
   } = cardStyle;
 
   const linkHref = `${Path.OFFER}/${offer.id}`;

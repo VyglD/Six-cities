@@ -1,10 +1,10 @@
 import React from "react";
 import {connect} from "react-redux";
 import LocationsLink from "../locations-link/locations-link";
-import OffersListFavorite from "../offers-list-favorite/offers-list-favorite";
+import OffersList from "../offers-list/offers-list";
 import ActionCreator from "../../store/root-actions";
 import {getFavoriteOffersByCities} from "../../store/selectors";
-import {Path} from "../../const";
+import {Path, OffersListProps} from "../../const";
 import {
   mapType,
   functionType,
@@ -38,8 +38,10 @@ const FavoritesCities = (props) => {
                 />
               </div>
             </div>
-            <OffersListFavorite
+            <OffersList
               offers={offers}
+              className={OffersListProps.FAVORITE.containerClass}
+              cardStyle={OffersListProps.FAVORITE.cardStyle}
             />
           </li>
         ))
