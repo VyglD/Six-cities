@@ -7,7 +7,7 @@ import ReviewsList from "../reviews-list/reviews-list";
 import ReviewForm from "../review-form/review-form";
 import MapContainer from "../map-container/map-container";
 import OffersListNear from "../offers-list-near/offers-list-near";
-import {MAX_NEAR_OFFERS, MAX_OFFER_PHOTO} from "../../const";
+import {MAX_NEAR_OFFERS, MAX_OFFER_PHOTO, MAX_REVIEWS} from "../../const";
 import {
   offersType,
   boolType,
@@ -158,10 +158,12 @@ const Offer = (props) => {
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
+                  Reviews &middot; <span className="reviews__amount">
+                    {Math.min(reviews.length, MAX_REVIEWS)}
+                  </span>
                 </h2>
                 <ReviewsList
-                  reviews={reviews}
+                  reviews={reviews.slice(0, MAX_REVIEWS)}
                 />
                 {
                   isLogin && (
