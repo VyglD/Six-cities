@@ -9,10 +9,12 @@ import {
 import {SortType, Key} from "../../const";
 import {functionType, sortType} from "../../types";
 
-const CONTAINER_CLASS = `places__options`;
-const BUTTON_CLASS = `places__sorting-type`;
-const FOCUS_CLASS = `places__option--focus`;
-const OPEN_CLASS = `places__options--opened`;
+const CustomClass = {
+  CONTAINER: `places__options`,
+  BUTTON: `places__sorting-type`,
+  FOCUS: `places__option--focus`,
+  OPEN: `places__options--opened`,
+};
 
 const PlacesSorting = (props) => {
   const {activeSort, onActiveSortChange} = props;
@@ -25,7 +27,7 @@ const PlacesSorting = (props) => {
       () => {
         if (isMenuOpened) {
           Array.from(menuRef.current.children)
-            .find((item) => item.classList.contains(FOCUS_CLASS))
+            .find((item) => item.classList.contains(CustomClass.FOCUS))
             .focus();
         }
       },
@@ -84,8 +86,8 @@ const PlacesSorting = (props) => {
   const handleCloseClick = React.useCallback(
       (evt) => {
         if (
-          !evt.target.closest(`.${BUTTON_CLASS}`)
-          && !evt.target.closest(`.${CONTAINER_CLASS}`)
+          !evt.target.closest(`.${CustomClass.BUTTON}`)
+          && !evt.target.closest(`.${CustomClass.CONTAINER}`)
         ) {
           setMenuVisibility(false);
         }
@@ -155,7 +157,7 @@ const PlacesSorting = (props) => {
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span
-        className={BUTTON_CLASS}
+        className={CustomClass.BUTTON}
         tabIndex="0"
         onClick={handleSortPanelClick}
         onKeyDown={handleSortPanelKeyDown}
@@ -168,7 +170,7 @@ const PlacesSorting = (props) => {
       <ul
         ref={menuRef}
         className={
-          `places__options places__options--custom ${isMenuOpened ? OPEN_CLASS : ``}`
+          `places__options places__options--custom ${isMenuOpened ? CustomClass.OPEN : ``}`
         }
       >
         {
@@ -176,7 +178,7 @@ const PlacesSorting = (props) => {
             return (
               <li
                 key={title}
-                className={`places__option ${activeSort === value ? FOCUS_CLASS : ``}`}
+                className={`places__option ${activeSort === value ? CustomClass.FOCUS : ``}`}
                 tabIndex="0"
                 onClick={handleSortTypeClick}
                 onKeyDown={handleSortTypeKeyDown}
