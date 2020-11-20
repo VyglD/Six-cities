@@ -10,18 +10,20 @@ import {
 
 const FavoriteButton = (props) => {
   const {
-    favoriteBtnStyle: {
-      btnClassName = `place-card__bookmark-button`,
-      btnActiveClassName = `place-card__bookmark-button--active`,
-      iconClassName = `place-card__bookmark-icon`,
-      iconWidth = 18,
-      iconHeight = 19,
-    } = {},
+    favoriteBtnStyle,
     favoriteIds,
     offer,
     deleteFavorite,
     addFavorite,
   } = props;
+
+  const {
+    btnClassName,
+    btnActiveClassName,
+    iconClassName,
+    iconWidth,
+    iconHeight,
+  } = favoriteBtnStyle;
 
   const isFavorite = favoriteIds.includes(offer.id);
 

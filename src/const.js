@@ -101,6 +101,23 @@ const OffersListProps = {
   }
 };
 
+const FavoriteBtnStyle = {
+  CARD: {
+    btnClassName: `place-card__bookmark-button`,
+    btnActiveClassName: `place-card__bookmark-button--active`,
+    iconClassName: `place-card__bookmark-icon`,
+    iconWidth: 18,
+    iconHeight: 19,
+  },
+  OFFER: {
+    btnClassName: `property__bookmark-button`,
+    btnActiveClassName: `property__bookmark-button--active`,
+    iconClassName: `property__bookmark-icon`,
+    iconWidth: 31,
+    iconHeight: 33,
+  }
+};
+
 export {
   MAX_RATE,
   RATE_COEFFICIENT,
@@ -115,4 +132,5 @@ export {
   APIRoute,
   SortType,
   OffersListProps,
+  FavoriteBtnStyle,
 };

@@ -11,7 +11,8 @@ import {
   MAX_NEAR_OFFERS,
   MAX_OFFER_PHOTO,
   MAX_REVIEWS,
-  OffersListProps
+  OffersListProps,
+  FavoriteBtnStyle,
 } from "../../const";
 import {
   offersType,
@@ -21,14 +22,6 @@ import {
 } from "../../types";
 
 const STARS_CLASS = `property__stars`;
-
-const FAVORITE_BTN_STYLE = {
-  btnClassName: `property__bookmark-button`,
-  btnActiveClassName: `property__bookmark-button--active`,
-  iconClassName: `property__bookmark-icon`,
-  iconWidth: 31,
-  iconHeight: 33,
-};
 
 const Offer = (props) => {
   const {
@@ -95,7 +88,7 @@ const Offer = (props) => {
                   {chosenOffer.title}
                 </h1>
                 <FavoriteButton
-                  favoriteBtnStyle={FAVORITE_BTN_STYLE}
+                  favoriteBtnStyle={FavoriteBtnStyle.OFFER}
                   offer={chosenOffer}
                 />
               </div>

@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import FavoriteButton from "../favorite-button/favorite-button";
 import Stars from "../stars/stars";
-import {Path} from "../../const";
+import {Path, FavoriteBtnStyle} from "../../const";
 import {
   offerType,
   notRequiredFunctionType,
@@ -64,6 +64,7 @@ const OfferCard = (props) => {
           </div>
           <FavoriteButton
             offer={offer}
+            favoriteBtnStyle={FavoriteBtnStyle.CARD}
           />
         </div>
         <div className="place-card__rating rating">
