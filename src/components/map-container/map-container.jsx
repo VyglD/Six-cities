@@ -21,13 +21,13 @@ const getCoords = (coordStore) => {
 
 const IconPattern = leaflet.Icon.extend({
   options: {
-    iconUrl: `/img/pin.svg`,
+    iconUrl: `img/pin.svg`,
     iconSize: [PIN_SIZE, PIN_SIZE]
   }
 });
 
 const iconMarker = new IconPattern();
-const iconMarkerActive = new IconPattern({iconUrl: `/img/pin-active.svg`});
+const iconMarkerActive = new IconPattern({iconUrl: `img/pin-active.svg`});
 
 const MapContainer = (props) => {
   const {activeCity, citiesInfo, offers, activeOffer} = props;

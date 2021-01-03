@@ -18,14 +18,14 @@ exports[`Render correctly component Favorites Render Favorites 1`] = `
         >
           <a
             className="header__logo-link"
-            href="/"
+            href="/projects/six-cities/"
             onClick={[Function]}
           >
             <img
               alt="6 cities logo"
               className="header__logo"
               height="41"
-              src="/img/logo.svg"
+              src="img/logo.svg"
               width="81"
             />
           </a>
@@ -41,7 +41,7 @@ exports[`Render correctly component Favorites Render Favorites 1`] = `
             >
               <a
                 className="header__nav-link header__nav-link--profile"
-                href="/login"
+                href="/projects/six-cities/login"
                 onClick={[Function]}
               >
                 <div
@@ -119,7 +119,7 @@ exports[`Render correctly component Favorites Render Favorites 1`] = `
                   className="place-card__image-wrapper favorites__image-wrapper"
                 >
                   <a
-                    href="/offer/1"
+                    href="/projects/six-cities/offer/1"
                     onClick={[Function]}
                   >
                     <img
@@ -197,7 +197,7 @@ exports[`Render correctly component Favorites Render Favorites 1`] = `
                     className="place-card__name"
                   >
                     <a
-                      href="/offer/1"
+                      href="/projects/six-cities/offer/1"
                       onClick={[Function]}
                     >
                       Title of first server offer
@@ -222,7 +222,7 @@ exports[`Render correctly component Favorites Render Favorites 1`] = `
                   className="place-card__image-wrapper favorites__image-wrapper"
                 >
                   <a
-                    href="/offer/2"
+                    href="/projects/six-cities/offer/2"
                     onClick={[Function]}
                   >
                     <img
@@ -299,7 +299,7 @@ exports[`Render correctly component Favorites Render Favorites 1`] = `
                     className="place-card__name"
                   >
                     <a
-                      href="/offer/2"
+                      href="/projects/six-cities/offer/2"
                       onClick={[Function]}
                     >
                       Title of cheapest offer
@@ -323,7 +323,7 @@ exports[`Render correctly component Favorites Render Favorites 1`] = `
   >
     <a
       className="footer__logo-link"
-      href="/"
+      href="/projects/six-cities/"
       onClick={[Function]}
     >
       <img
@@ -356,14 +356,14 @@ exports[`Render correctly component Favorites Render Favorites without favorites
         >
           <a
             className="header__logo-link"
-            href="/"
+            href="/projects/six-cities/"
             onClick={[Function]}
           >
             <img
               alt="6 cities logo"
               className="header__logo"
               height="41"
-              src="/img/logo.svg"
+              src="img/logo.svg"
               width="81"
             />
           </a>
@@ -379,7 +379,7 @@ exports[`Render correctly component Favorites Render Favorites without favorites
             >
               <a
                 className="header__nav-link header__nav-link--profile"
-                href="/login"
+                href="/projects/six-cities/login"
                 onClick={[Function]}
               >
                 <div
@@ -457,7 +457,7 @@ exports[`Render correctly component Favorites Render Favorites without favorites
                   className="place-card__image-wrapper favorites__image-wrapper"
                 >
                   <a
-                    href="/offer/1"
+                    href="/projects/six-cities/offer/1"
                     onClick={[Function]}
                   >
                     <img
@@ -535,7 +535,7 @@ exports[`Render correctly component Favorites Render Favorites without favorites
                     className="place-card__name"
                   >
                     <a
-                      href="/offer/1"
+                      href="/projects/six-cities/offer/1"
                       onClick={[Function]}
                     >
                       Title of first server offer
@@ -560,7 +560,7 @@ exports[`Render correctly component Favorites Render Favorites without favorites
                   className="place-card__image-wrapper favorites__image-wrapper"
                 >
                   <a
-                    href="/offer/2"
+                    href="/projects/six-cities/offer/2"
                     onClick={[Function]}
                   >
                     <img
@@ -637,7 +637,7 @@ exports[`Render correctly component Favorites Render Favorites without favorites
                     className="place-card__name"
                   >
                     <a
-                      href="/offer/2"
+                      href="/projects/six-cities/offer/2"
                       onClick={[Function]}
                     >
                       Title of cheapest offer
@@ -661,7 +661,7 @@ exports[`Render correctly component Favorites Render Favorites without favorites
   >
     <a
       className="footer__logo-link"
-      href="/"
+      href="/projects/six-cities/"
       onClick={[Function]}
     >
       <img

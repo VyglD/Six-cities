@@ -18,14 +18,14 @@ exports[`Render correctly component Offer Render Offer 1`] = `
         >
           <a
             className="header__logo-link"
-            href="/"
+            href="/projects/six-cities/"
             onClick={[Function]}
           >
             <img
               alt="6 cities logo"
               className="header__logo"
               height="41"
-              src="/img/logo.svg"
+              src="img/logo.svg"
               width="81"
             />
           </a>
@@ -41,7 +41,7 @@ exports[`Render correctly component Offer Render Offer 1`] = `
             >
               <a
                 className="header__nav-link header__nav-link--profile"
-                href="/login"
+                href="/projects/six-cities/login"
                 onClick={[Function]}
               >
                 <div
@@ -245,7 +245,7 @@ exports[`Render correctly component Offer Render Offer 1`] = `
                   alt="Host avatar"
                   className="property__avatar user__avatar"
                   height="74"
-                  src="/img/avatar-angelina.jpg"
+                  src="img/avatar-angelina.jpg"
                   width="74"
                 />
               </div>
@@ -335,14 +335,14 @@ exports[`Render correctly component Offer Render Offer without login 1`] = `
         >
           <a
             className="header__logo-link"
-            href="/"
+            href="/projects/six-cities/"
             onClick={[Function]}
           >
             <img
               alt="6 cities logo"
               className="header__logo"
               height="41"
-              src="/img/logo.svg"
+              src="img/logo.svg"
               width="81"
             />
           </a>
@@ -358,7 +358,7 @@ exports[`Render correctly component Offer Render Offer without login 1`] = `
             >
               <a
                 className="header__nav-link header__nav-link--profile"
-                href="/login"
+                href="/projects/six-cities/login"
                 onClick={[Function]}
               >
                 <div
@@ -562,7 +562,7 @@ exports[`Render correctly component Offer Render Offer without login 1`] = `
                   alt="Host avatar"
                   className="property__avatar user__avatar"
                   height="74"
-                  src="/img/avatar-angelina.jpg"
+                  src="img/avatar-angelina.jpg"
                   width="74"
                 />
               </div>

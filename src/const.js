@@ -33,11 +33,13 @@ const CITIES = [
   `Dusseldorf`
 ];
 
+const BASE = `/projects/six-cities/`;
+
 const Path = {
-  MAIN: `/`,
-  LOGIN: `/login`,
-  FAVORITES: `/favorites`,
-  OFFER: `/offer`,
+  MAIN: BASE,
+  LOGIN: `${BASE}login`,
+  FAVORITES: `${BASE}favorites`,
+  OFFER: `${BASE}offer`,
   OFFER_ID: `offerId`
 };
 

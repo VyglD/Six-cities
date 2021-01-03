@@ -22,7 +22,7 @@ exports[`Render correctly component OffersList 1`] = `
       className="place-card__image-wrapper near-places__image-wrapper"
     >
       <a
-        href="/offer/1"
+        href="/projects/six-cities/offer/1"
         onClick={[Function]}
       >
         <img
@@ -100,7 +100,7 @@ exports[`Render correctly component OffersList 1`] = `
         className="place-card__name"
       >
         <a
-          href="/offer/1"
+          href="/projects/six-cities/offer/1"
           onClick={[Function]}
         >
           Title of first server offer
@@ -125,7 +125,7 @@ exports[`Render correctly component OffersList 1`] = `
       className="place-card__image-wrapper near-places__image-wrapper"
     >
       <a
-        href="/offer/2"
+        href="/projects/six-cities/offer/2"
         onClick={[Function]}
       >
         <img
@@ -202,7 +202,7 @@ exports[`Render correctly component OffersList 1`] = `
         className="place-card__name"
       >
         <a
-          href="/offer/2"
+          href="/projects/six-cities/offer/2"
           onClick={[Function]}
         >
           Title of cheapest offer
@@ -233,7 +233,7 @@ exports[`Render correctly component OffersList 1`] = `
       className="place-card__image-wrapper near-places__image-wrapper"
     >
       <a
-        href="/offer/3"
+        href="/projects/six-cities/offer/3"
         onClick={[Function]}
       >
         <img
@@ -311,7 +311,7 @@ exports[`Render correctly component OffersList 1`] = `
         className="place-card__name"
       >
         <a
-          href="/offer/3"
+          href="/projects/six-cities/offer/3"
           onClick={[Function]}
         >
           Title of most expensive offer
@@ -342,7 +342,7 @@ exports[`Render correctly component OffersList 1`] = `
       className="place-card__image-wrapper near-places__image-wrapper"
     >
       <a
-        href="/offer/4"
+        href="/projects/six-cities/offer/4"
         onClick={[Function]}
       >
         <img
@@ -420,7 +420,7 @@ exports[`Render correctly component OffersList 1`] = `
         className="place-card__name"
       >
         <a
-          href="/offer/4"
+          href="/projects/six-cities/offer/4"
           onClick={[Function]}
         >
           Title of top rated offer

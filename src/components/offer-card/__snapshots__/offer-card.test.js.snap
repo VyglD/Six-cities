@@ -19,7 +19,7 @@ exports[`Render correctly component OfferCard 1`] = `
     className="place-card__image-wrapper favorites__image-wrapper"
   >
     <a
-      href="/offer/1"
+      href="/projects/six-cities/offer/1"
       onClick={[Function]}
     >
       <img
@@ -97,7 +97,7 @@ exports[`Render correctly component OfferCard 1`] = `
       className="place-card__name"
     >
       <a
-        href="/offer/1"
+        href="/projects/six-cities/offer/1"
         onClick={[Function]}
       >
         Title of first server offer

@@ -15,14 +15,14 @@ exports[`Render correctly component Header Render Header 1`] = `
       >
         <a
           className="header__logo-link"
-          href="/"
+          href="/projects/six-cities/"
           onClick={[Function]}
         >
           <img
             alt="6 cities logo"
             className="header__logo"
             height="41"
-            src="/img/logo.svg"
+            src="img/logo.svg"
             width="81"
           />
         </a>
@@ -38,7 +38,7 @@ exports[`Render correctly component Header Render Header 1`] = `
           >
             <a
               className="header__nav-link header__nav-link--profile"
-              href="/login"
+              href="/projects/six-cities/login"
               onClick={[Function]}
             >
               <div
@@ -73,14 +73,14 @@ exports[`Render correctly component Header Render Header with email 1`] = `
       >
         <a
           className="header__logo-link"
-          href="/"
+          href="/projects/six-cities/"
           onClick={[Function]}
         >
           <img
             alt="6 cities logo"
             className="header__logo"
             height="41"
-            src="/img/logo.svg"
+            src="img/logo.svg"
             width="81"
           />
         </a>
@@ -96,7 +96,7 @@ exports[`Render correctly component Header Render Header with email 1`] = `
           >
             <a
               className="header__nav-link header__nav-link--profile"
-              href="/favorites"
+              href="/projects/six-cities/favorites"
               onClick={[Function]}
             >
               <div

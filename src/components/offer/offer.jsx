@@ -140,7 +140,7 @@ const Offer = (props) => {
                   }>
                     <img
                       className="property__avatar user__avatar"
-                      src={`/${chosenOffer.owner.avatar}`}
+                      src={`${chosenOffer.owner.avatar}`}
                       width="74"
                       height="74"
                       alt="Host avatar"
